@@ -1,0 +1,24 @@
+[user]
+    name = Marco Chomut
+    email = marco.chomut@gmail.com
+[github]
+    user = Pewpewarrows
+    token = 5cb38dda861b853aac204a08c6cd305c
+[color]
+    ui = auto
+    diff = auto
+    status = auto
+    branch = auto
+    interactive = auto
+[core]
+    pager = less -R
+[alias]
+    st = status
+    ci = commit
+    ca = commit -a -m
+    co = checkout
+    br = branch
+    hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+    type = cat-file -t
+    dump = cat-file -p
+    wtf = !git-wtf
