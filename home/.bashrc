@@ -149,7 +149,7 @@ if [ "$__distro" = "Darwin" ]; then
     alias ,u="brew update"
     alias ,r="brew uninstall"
 
-    alias updatedb="/usr/libexec/locate.updatedb"
+    alias updatedb="sudo /usr/libexec/locate.updatedb"
 else
     alias ,="aptitude"
     alias ,i="aptitude install"
@@ -253,17 +253,21 @@ fi
 # Application-specific modifications
 #-------------------------
 
-# For psycopg2 to install correctly
-export PATH=$PATH:/Library/PostgreSQL/9.0/bin/
-
 # Virtualenvwrapper
 export WORKON_HOME=~/.virtualenvs
 source /usr/local/bin/virtualenvwrapper.sh
 export PIP_VIRTUALENV_BASE=$WORKON_HOME
 
-# MacPorts Installer addition on 2011-04-08_at_10:51:06: adding an appropriate PATH variable for use with MacPorts.
-export PATH=/opt/local/bin:/opt/local/sbin:$PATH
-# Finished adapting your PATH environment variable for use with MacPorts.
+if [ "$__distro" = "Darwin" ]; then
+    # For psycopg2 to install correctly
+    export PATH=$PATH:/Library/PostgreSQL/9.0/bin/
+
+    # MacPorts Installer addition on 2011-04-08_at_10:51:06: adding an appropriate PATH variable for use with MacPorts.
+    export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+    # Finished adapting your PATH environment variable for use with MacPorts.
+
+    export PATH=$PATH:~/.gem/ruby/1.8/bin
+fi
 
 if [ -f ~/Projects/Forks/django/extras/django_bash_completion ]; then
     . ~/Projects/Forks/django/extras/django_bash_completion
