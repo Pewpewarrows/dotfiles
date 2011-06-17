@@ -189,6 +189,7 @@ let NERDTreeIgnore = ['\.pyc$','\.swp$']
 " SnipMate
 autocmd FileType python set ft=python.django
 autocmd FileType html set ft=htmldjango.html
+autocmd FileType htmldjango set ft=htmldjango.html
 
 " Surround
 " let g:surround_{char2nr("b")} = "{% block\1 \r..*\r &\1%}\r{% endblock %}"
