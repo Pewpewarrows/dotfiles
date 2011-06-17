@@ -3,8 +3,8 @@ set nocompatible
 
 " Pathogen autoloads everything under ~/.vim/bundle
 filetype off
-" call pathogen#helptags()
-" call pathogen#runtime_append_all_bundles()
+call pathogen#helptags()
+call pathogen#runtime_append_all_bundles()
 filetype plugin indent on
 
 let mapleader=","
