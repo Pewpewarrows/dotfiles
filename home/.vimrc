@@ -172,16 +172,23 @@ cmap w!! w !sudo tee % > /dev/null
 " let g:ackprg="ack-grep -H --nocolor --nogroup --column"
 
 " CommandT
-" let g:CommandTMatchWindowAtTop = 1
-" map <leader>f :CommandT<CR>
+let g:CommandTMatchWindowAtTop = 1
+map <leader>f :CommandT<CR>
+
+" EasyMotion
+let g:EasyMotion_leader_key = '<Leader>m'
 
 " NERDComment
-" map <C-\> :call NERDComment(0, 'toggle')<CR>
-" vmap <C-\> :call NERDComment(1, 'toggle')<CR>
+map <C-\> :call NERDComment(0, 'toggle')<CR>
+vmap <C-\> :call NERDComment(1, 'toggle')<CR>
 
 " NERDTree
-" map <F3> :NERDTreeToggle<CR>
-" let NERDTreeIgnore = ['\.pyc$','\.swp$']
+map <F3> :NERDTreeToggle<CR>
+let NERDTreeIgnore = ['\.pyc$','\.swp$']
+
+" SnipMate
+autocmd FileType python set ft=python.django
+autocmd FileType html set ft=htmldjango.html
 
 " Surround
 " let g:surround_{char2nr("b")} = "{% block\1 \r..*\r &\1%}\r{% endblock %}"
