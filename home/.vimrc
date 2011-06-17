@@ -170,6 +170,7 @@ cmap w!! w !sudo tee % > /dev/null
 
 " Ack-Grep
 " let g:ackprg="ack-grep -H --nocolor --nogroup --column"
+nnoremap <leader>a :Ack
 
 " CommandT
 let g:CommandTMatchWindowAtTop = 1
