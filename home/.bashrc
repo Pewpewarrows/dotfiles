@@ -106,7 +106,7 @@ update_prompt() {
     export BASEPROMPT="$(custom_lastcommandfailed)${BLUE}\u ${GRAY}@ ${RED}\h ${GRAY}in ${GREEN}\w${GRAY}$(custom_vcprompt)${VIRTUAL_ENV_BASE}$(custom_backgroundjobs)${WHITE}"
     export PS1="
 ${BASEPROMPT}
-$ "
+$ ${GRAY}"
 }
 PROMPT_COMMAND=update_prompt
 
@@ -134,7 +134,7 @@ alias du="du -hc"
 alias grep="grep $GREP_OPTIONS"
 alias mkdir="mkdir -p" # make intermediate directories if they don't exist
 # TODO: ps
-`which -s htop` && alias top="htop"
+# `which -s htop` && alias top="htop"
 
 # Custom aliases
 alias myip="curl icanhazip.com"
@@ -255,7 +255,9 @@ fi
 
 # Virtualenvwrapper
 export WORKON_HOME=~/.virtualenvs
-source /usr/local/bin/virtualenvwrapper.sh
+if [ "$__distro" = "Darwin" ]; then
+    source /usr/local/bin/virtualenvwrapper.sh
+fi
 export PIP_VIRTUALENV_BASE=$WORKON_HOME
 
 if [ "$__distro" = "Darwin" ]; then

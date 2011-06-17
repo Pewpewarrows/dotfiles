@@ -19,3 +19,9 @@
 [submodule "home/.vim/bundle/fugitive"]
 	path = home/.vim/bundle/fugitive
 	url = https://github.com/tpope/vim-fugitive.git
+[submodule "home/.vim/bundle/surround"]
+	path = home/.vim/bundle/surround
+	url = https://github.com/tpope/vim-surround.git
+[submodule "home/.vim/bundle/pyflakes"]
+	path = home/.vim/bundle/pyflakes
+	url = https://github.com/kevinw/pyflakes-vim.git
