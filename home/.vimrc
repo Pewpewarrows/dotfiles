@@ -7,6 +7,8 @@ call pathogen#helptags()
 call pathogen#runtime_append_all_bundles()
 filetype plugin indent on
 
+let os = substitute(system('uname'), "\n", "", "")
+
 let mapleader=","
 nnoremap ; :
 
@@ -68,7 +70,11 @@ set title
 
 if has("gui_running")
     set guioptions-=T
-    set guifont=Monaco:h13
+    if os == "Darwin"
+        set guifont=Monaco:h13
+    else
+        set guifont=Inconsolata\ 11
+    endif
 endif
 
 " Editing Behavior
@@ -169,7 +175,6 @@ cmap w!! w !sudo tee % > /dev/null
 """"""""""""""
 
 " Ack-Grep
-let os = substitute(system('uname'), "\n", "", "")
 if os == "Darwin"
     let g:ackprg="ack -H --nocolor --nogroup --column"
 else
