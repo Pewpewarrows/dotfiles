@@ -169,7 +169,11 @@ cmap w!! w !sudo tee % > /dev/null
 """"""""""""""
 
 " Ack-Grep
-" let g:ackprg="ack-grep -H --nocolor --nogroup --column"
+if os == "Darwin"
+    let g:ackprg="ack -H --nocolor --nogroup --column"
+else
+    let g:ackprg="ack-grep -H --nocolor --nogroup --column"
+endif
 nnoremap <leader>a :Ack
 
 " CommandT
