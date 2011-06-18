@@ -169,6 +169,7 @@ cmap w!! w !sudo tee % > /dev/null
 """"""""""""""
 
 " Ack-Grep
+let os = substitute(system('uname'), "\n", "", "")
 if os == "Darwin"
     let g:ackprg="ack -H --nocolor --nogroup --column"
 else
