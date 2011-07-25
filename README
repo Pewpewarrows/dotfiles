@@ -1,0 +1,9 @@
+
+For Command-T:
+    cd ~/.vim/bundle/command-t/
+    rake make
+
+For Several vim Plugins:
+    cd ~/.homesick/repos/dotfiles/
+    git submodule update --init --recursive
+

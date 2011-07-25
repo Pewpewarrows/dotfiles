@@ -25,3 +25,6 @@
 [submodule "home/.vim/bundle/pyflakes"]
 	path = home/.vim/bundle/pyflakes
 	url = https://github.com/kevinw/pyflakes-vim.git
+[submodule "home/.vim/bundle/syntastic"]
+	path = home/.vim/bundle/syntastic
+	url = https://github.com/scrooloose/syntastic.git
