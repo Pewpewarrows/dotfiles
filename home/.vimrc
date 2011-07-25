@@ -130,7 +130,9 @@ nnoremap <S-l> :tabnext<CR>
 map tn :tabnew<CR>
 map td :tabclose<CR>
 
-" TODO: Folding
+" Folding
+set foldmethod=indent
+set foldnestmax=2
 
 " Remember EVERYTHING...
 set history=1000
@@ -180,7 +182,7 @@ else
     let g:ackprg="ack-grep -H --nocolor --nogroup --column"
 endif
 " ... there is an intentional space at the end of this line:
-nnoremap <leader>a :Ack 
+nnoremap <leader>a :Ack<space>
 
 " CommandT
 let g:CommandTMatchWindowAtTop = 1
