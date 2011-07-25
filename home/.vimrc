@@ -209,6 +209,10 @@ autocmd FileType htmldjango set ft=htmldjango.html
 " let g:surround_{char2nr("c")} = "{% comment\1 \r..*\r &\1%}\r{% endcomment %}"
 " let g:surround_{char2nr("f")} = "{% for\1 \r..*\r &\1%}\r{% endfor %}"
 
+" Syntastic
+let g:syntastic_enable_signs=1
+let g:syntastic_auto_loc_list=1
+
 " TagList
 " let Tlist_Use_Right_Window = 1
 " let Tlist_Show_One_File = 1
