@@ -28,3 +28,6 @@
 [submodule "home/.vim/bundle/syntastic"]
 	path = home/.vim/bundle/syntastic
 	url = https://github.com/scrooloose/syntastic.git
+[submodule "home/.vim/bundle/autocomplpop"]
+	path = home/.vim/bundle/autocomplpop
+	url = https://github.com/vim-scripts/AutoComplPop.git
