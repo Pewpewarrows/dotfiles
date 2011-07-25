@@ -81,8 +81,7 @@ endif
 set backspace=indent,eol,start  " backspace over everything in insert mode
 set wrap
 set textwidth=80
-" TODO: more intelligent line-wrapping
-set formatoptions=qrn1    " better line-wrapping, see :help fo-table
+set formatoptions=qrnl1tc    " better line-wrapping, see :help fo-table
 if v:version >= 730
     set colorcolumn=85
 endif
@@ -131,7 +130,9 @@ nnoremap <S-l> :tabnext<CR>
 map tn :tabnew<CR>
 map td :tabclose<CR>
 
-" TODO: Folding
+" Folding
+set foldmethod=indent
+set foldnestmax=2
 
 " Remember EVERYTHING...
 set history=1000
@@ -180,7 +181,8 @@ if os == "Darwin"
 else
     let g:ackprg="ack-grep -H --nocolor --nogroup --column"
 endif
-nnoremap <leader>a :Ack
+" ... there is an intentional space at the end of this line:
+nnoremap <leader>a :Ack<space>
 
 " CommandT
 let g:CommandTMatchWindowAtTop = 1
