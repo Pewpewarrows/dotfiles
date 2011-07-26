@@ -171,6 +171,9 @@ nmap <leader>P "+P
 " For when you forget to sudo...
 cmap w!! w !sudo tee % > /dev/null
 
+" FileType improvements
+autocmd BufNewFile,BufRead *.json set ft=javascript
+
 """"""""""""""
 " EXTENSIONS "
 """"""""""""""
