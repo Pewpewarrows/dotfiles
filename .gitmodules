@@ -31,3 +31,6 @@
 [submodule "home/.vim/bundle/autocomplpop"]
 	path = home/.vim/bundle/autocomplpop
 	url = https://github.com/vim-scripts/AutoComplPop.git
+[submodule "home/.vim/bundle/delimitMate"]
+	path = home/.vim/bundle/delimitMate
+	url = https://github.com/Raimondi/delimitMate.git
