@@ -71,7 +71,7 @@ set title
 if has("gui_running")
     set guioptions-=T
     if os == "Darwin"
-        set guifont=Monaco:h13
+        set guifont=Monaco:h12
     else
         set guifont=Inconsolata\ 11
     endif
