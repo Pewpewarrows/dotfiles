@@ -271,6 +271,9 @@ if [ "$__distro" = "Darwin" ]; then
     export PATH=$PATH:~/.gem/ruby/1.8/bin
 fi
 
+# Homebrew
+export PATH=/usr/local/bin:$PATH
+
 if [ -f ~/Projects/Forks/django/extras/django_bash_completion ]; then
     . ~/Projects/Forks/django/extras/django_bash_completion
 fi
