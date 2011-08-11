@@ -18,7 +18,8 @@ nmap <silent> <leader>sv :so $MYVIMRC<CR>
 
 " Indentation
 set autoindent
-set smartindent
+" NO. NEVER SET SMARTINDENT. DEPRECATED AND SHITTY.
+" set smartindent
 
 " Tabs to 4 spaces, always
 set tabstop=4

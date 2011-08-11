@@ -41,7 +41,7 @@ export TERM=xterm-256color
 
 # ls and grep default options
 LS_OPTIONS="-hF"
-GREP_OPTIONS="-r -E" # TODO: include on linux: --color=always
+GREP_OPTIONS="-E" # TODO: include on linux: --color=always
 export CLICOLOR=1
 
 if [ "$__distro" == "Darwin" ]; then
@@ -56,6 +56,7 @@ export LS_OPTIONS GREP_OPTIONS
 # Prompt
 #-------------------------
 
+RESET_COLOR="\[\033[0m\]"
 GREEN="\[\033[1;32m\]"
 CYAN="\[\033[0;36m\]"
 GRAY="\[\033[0;37m\]"
@@ -106,7 +107,7 @@ update_prompt() {
     export BASEPROMPT="$(custom_lastcommandfailed)${BLUE}\u ${GRAY}@ ${RED}\h ${GRAY}in ${GREEN}\w${GRAY}$(custom_vcprompt)${VIRTUAL_ENV_BASE}$(custom_backgroundjobs)${WHITE}"
     export PS1="
 ${BASEPROMPT}
-$ "
+$ ${RESET_COLOR}"
 }
 PROMPT_COMMAND=update_prompt
 
