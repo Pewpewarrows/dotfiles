@@ -135,7 +135,7 @@ map td :tabclose<CR>
 set foldmethod=indent
 set foldnestmax=2
 set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo
-nnoremap <space> za
+nnoremap <space> zA
 
 " Remember EVERYTHING...
 set history=1000
