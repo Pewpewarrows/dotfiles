@@ -134,6 +134,8 @@ map td :tabclose<CR>
 " Folding
 set foldmethod=indent
 set foldnestmax=2
+set foldopen=all
+nnoremap <space> za
 
 " Remember EVERYTHING...
 set history=1000
