@@ -62,6 +62,7 @@ if &t_Co >= 256 || has("gui_running")
 endif
 
 set listchars=tab:▸\ ,trail:·,extends:#,nbsp:·,eol:¬
+set showbreak=↪
 set nolist  " don't show invisible characters by default, only for some files
 :noremap <leader>i :set list!<CR> " Toggle invisible chars
 
@@ -80,6 +81,7 @@ endif
 
 " Editing Behavior
 set backspace=indent,eol,start  " backspace over everything in insert mode
+set fileformats="unix,dos,mac"
 set wrap
 set textwidth=80
 set formatoptions=qrnl1tc    " better line-wrapping, see :help fo-table
