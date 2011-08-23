@@ -44,9 +44,9 @@ set number  " line numbers in the gutter
 set mouse=a " mouse interactivity
 set showmatch   " show matching parenths
 set scrolloff=4 " gives the buffer some padding when scrolling
-if v:version >= 730
-    set relativenumber  " relative line #s in the gutter instead of absolute
-endif
+" if v:version >= 703
+    " set relativenumber  " relative line #s in the gutter instead of absolute
+" endif
 set nomodeline  " never commonly used, has security vulnerabilities
 set laststatus=2    " always displays the status line for consistency
 set statusline=%<\ %f\ %m%r%y%h
@@ -89,7 +89,7 @@ set fileformats="unix,dos,mac"
 set wrap
 set textwidth=80
 set formatoptions=qrnl1tc    " better line-wrapping, see :help fo-table
-if v:version >= 730
+if v:version >= 703
     set colorcolumn=85
 endif
 set autoread
@@ -117,7 +117,7 @@ set pastetoggle=<F2>
 " Don't pollute the current working directory with this nonsense
 set backupdir=~/.vim/tmp/backup,/tmp
 set directory=~/.vim/tmp/swap,/tmp
-if v:version >= 730
+if v:version >= 703
     set undofile
     set undodir=~/.vim/tmp/undo,/tmp
 endif
