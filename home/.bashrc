@@ -279,4 +279,8 @@ if [ -f ~/Projects/Forks/django/extras/django_bash_completion ]; then
     . ~/Projects/Forks/django/extras/django_bash_completion
 fi
 
+if [ -f `brew --prefix`/etc/autojump ]; then
+    . `brew --prefix`/etc/autojump
+fi
+
 alias git="hub"
