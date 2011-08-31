@@ -21,6 +21,9 @@ esac
 if [ -d "$HOME/bin" ]; then
     PATH="$HOME/bin:$PATH"
 fi
+
+PATH="/usr/local/bin:/usr/sbin:/sbin:/usr/local/sbin:$PATH"
+
 export PATH
 
 # Viewing & Editing Text
@@ -51,6 +54,12 @@ else
     LS_OPTIONS="$LS_OPTIONS --color=auto --group-directories-first"
 fi
 export LS_OPTIONS GREP_OPTIONS
+
+# Bash improvements
+shopt -s cdspell nocaseglob
+complete -cf sudo
+complete -cf which
+complete -cf man
 
 #-------------------------
 # Prompt
@@ -272,9 +281,6 @@ if [ "$__distro" = "Darwin" ]; then
 
     export PATH=$PATH:~/.gem/ruby/1.8/bin
 fi
-
-# Homebrew
-export PATH=/usr/local/bin:$PATH
 
 if [ -f ~/Projects/Forks/django/extras/django_bash_completion ]; then
     . ~/Projects/Forks/django/extras/django_bash_completion
