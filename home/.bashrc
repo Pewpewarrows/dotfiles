@@ -150,6 +150,8 @@ alias mkdir="mkdir -p" # make intermediate directories if they don't exist
 # Custom aliases
 alias myip="curl icanhazip.com"
 alias reload=". ~/.bash_profile"
+alias hist="history | grep"
+alias f="find . -name"
 
 if [ "$__distro" = "Darwin" ]; then
     alias ,="brew"

@@ -182,6 +182,7 @@ cmap w!! w !sudo tee % > /dev/null
 
 " FileType improvements
 autocmd BufNewFile,BufRead *.json set ft=javascript
+autocmd BufNewFile,BufRead {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru} set ft=ruby
 
 " OmniCompletion
 autocmd FileType python set omnifunc=pythoncomplete#Complete
@@ -208,6 +209,10 @@ nnoremap <leader>a :Ack<space>
 " CommandT
 let g:CommandTMatchWindowAtTop = 1
 map <leader>f :CommandT<CR>
+
+" DelimitMate
+let g:delimitMate_expand_cr = 1
+let g:delimitMate_excluded_regions = "Comments,String"
 
 " EasyMotion
 let g:EasyMotion_leader_key = '<Leader>m'
