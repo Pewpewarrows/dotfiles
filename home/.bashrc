@@ -266,6 +266,10 @@ fi
 # Application-specific modifications
 #-------------------------
 
+if [ "$__distro" = "Darwin" ]; then
+    export ARCHFLAGS='-arch i386 -arch x86_64'
+fi
+
 # Virtualenvwrapper
 export WORKON_HOME=~/.virtualenvs
 if [ "$__distro" = "Darwin" ]; then
