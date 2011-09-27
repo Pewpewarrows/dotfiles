@@ -240,6 +240,7 @@ autocmd FileType htmldjango set ft=htmldjango.html
 " Syntastic
 let g:syntastic_enable_signs=1
 " let g:syntastic_auto_loc_list=1
+let g:syntastic_disabled_filetypes = ['html']
 
 " TagList
 " let Tlist_Use_Right_Window = 1
