@@ -297,3 +297,6 @@ if [ -f `brew --prefix`/etc/autojump ]; then
 fi
 
 alias git="hub"
+
+# rbenv
+eval "$(rbenv init -)"
