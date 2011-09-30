@@ -90,7 +90,7 @@ set wrap
 set textwidth=80
 set formatoptions=qrnl1tc    " better line-wrapping, see :help fo-table
 if v:version >= 703
-    set colorcolumn=85
+    set colorcolumn=80
 endif
 set autoread
 
