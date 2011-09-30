@@ -299,4 +299,5 @@ fi
 alias git="hub"
 
 # rbenv
+export PATH=$PATH:~/.rbenv/bin
 eval "$(rbenv init -)"
