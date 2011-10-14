@@ -275,6 +275,7 @@ export WORKON_HOME=~/.virtualenvs
 if [ "$__distro" = "Darwin" ]; then
     source /usr/local/bin/virtualenvwrapper.sh
 fi
+export PIP_RESPECT_VIRTUALENV=true
 export PIP_VIRTUALENV_BASE=$WORKON_HOME
 
 if [ "$__distro" = "Darwin" ]; then
