@@ -287,6 +287,9 @@ if [ "$__distro" = "Darwin" ]; then
     # Finished adapting your PATH environment variable for use with MacPorts.
 
     export PATH=$PATH:~/.gem/ruby/1.8/bin
+
+    # Homebrew's python
+    export PATH=/usr/local/share/python:$PATH
 fi
 
 if [ -f ~/Projects/Forks/django/extras/django_bash_completion ]; then
