@@ -136,6 +136,7 @@ nnoremap <S-h> :tabprevious<CR>
 nnoremap <S-l> :tabnext<CR>
 map tn :tabnew<CR>
 map td :tabclose<CR>
+" TODO: :bd for buffer unloading instead of tab closing
 
 " Folding
 set foldmethod=indent
@@ -156,8 +157,10 @@ vnoremap <F1> <ESC>
 nnoremap j gj
 nnoremap k gk
 
-" Shortcut to yank to end of line
+" Rather have these as shortcuts to more common whole-line functions than to the
+" end-of-line, which can still be accomplished with y$ and d$
 map Y yy
+map D dd
 
 " Re-select text
 nnoremap <leader>v V`]
@@ -209,6 +212,7 @@ nnoremap <leader>a :Ack<space>
 " CommandT
 let g:CommandTMatchWindowAtTop = 1
 map <leader>f :CommandT<CR>
+" TODO: :CommandTFlush
 
 " DelimitMate
 let g:delimitMate_expand_cr = 1

@@ -1,0 +1,7 @@
+[ui]
+username=Marco Chomut <marco.chomut@gmail.com>
+ignore=~/.hgignore_global
+[extensions]
+hgext.bookmarks=
+hggit=
+purge=
