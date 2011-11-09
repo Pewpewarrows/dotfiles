@@ -31,3 +31,9 @@
 [submodule "home/.vim/bundle/delimitMate"]
 	path = home/.vim/bundle/delimitMate
 	url = https://github.com/Raimondi/delimitMate.git
+[submodule "home/.vim/bundle/quickfixstatus"]
+	path = home/.vim/bundle/quickfixstatus
+	url = https://github.com/dannyob/quickfixstatus.git
+[submodule "home/.vim/bundle/tagbar"]
+	path = home/.vim/bundle/tagbar
+	url = https://github.com/majutsushi/tagbar.git
