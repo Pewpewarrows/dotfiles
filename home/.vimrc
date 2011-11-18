@@ -196,6 +196,9 @@ autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
 autocmd FileType php set omnifunc=phpcomplete#CompletePHP
 autocmd FileType c set omnifunc=ccomplete#Complete
 
+" Hightlight VCS conflict markers
+match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+
 """"""""""""""
 " EXTENSIONS "
 """"""""""""""
@@ -227,6 +230,7 @@ vmap <C-\> :call NERDComment(1, 'toggle')<CR>
 
 " NERDTree
 map <F3> :NERDTreeToggle<CR>
+let NERDTreeDirArrows=1
 let NERDTreeIgnore = ['\.pyc$','\.swp$']
 
 " SnipMate
@@ -246,10 +250,8 @@ let g:syntastic_enable_signs=1
 " let g:syntastic_auto_loc_list=1
 let g:syntastic_disabled_filetypes = ['html']
 
-" TagList
-" let Tlist_Use_Right_Window = 1
-" let Tlist_Show_One_File = 1
-" map <F4> :TlistToggle<CR>
+" TagBar
+noremap <F4> :TagbarToggle<CR>
 
 """""""""""""""""
 " HOST-SPECIFIC "
