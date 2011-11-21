@@ -68,7 +68,7 @@ endif
 set listchars=tab:▸\ ,trail:·,extends:#,nbsp:·,eol:¬
 set showbreak=↪
 set nolist  " don't show invisible characters by default, only for some files
-:noremap <leader>i :set list!<CR> " Toggle invisible chars
+noremap <leader>i :set list!<CR> " Toggle invisible chars
 
 set title
 " set titleold="Terminal"
@@ -136,7 +136,7 @@ nnoremap <S-h> :tabprevious<CR>
 nnoremap <S-l> :tabnext<CR>
 map tn :tabnew<CR>
 map td :tabclose<CR>
-" TODO: :bd for buffer unloading instead of tab closing
+set nohidden " When I close a tab, close the associated buffer
 
 " Folding
 set foldmethod=indent
@@ -174,11 +174,8 @@ nmap Q gqap
 nmap <silent> <leader>d "_d
 vmap <silent> <leader>d "_d
 
-" Yank/paste to the OS clipboard with ,y and ,p
-nmap <leader>y "+y
-nmap <leader>Y "+yy
-nmap <leader>p "+p
-nmap <leader>P "+P
+" Use the OS clipboard for all yank/paste operations
+set clipboard+=unnamed
 
 " For when you forget to sudo...
 cmap w!! w !sudo tee % > /dev/null
