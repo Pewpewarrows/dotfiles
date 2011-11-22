@@ -174,6 +174,9 @@ nmap Q gqap
 nmap <silent> <leader>d "_d
 vmap <silent> <leader>d "_d
 
+" Forward-delete in insert mode
+inoremap <C-d> <Del>
+
 " Use the OS clipboard for all yank/paste operations
 set clipboard+=unnamed
 
@@ -216,7 +219,8 @@ map <leader>f :CommandT<CR>
 
 " DelimitMate
 let g:delimitMate_expand_cr = 1
-let g:delimitMate_excluded_regions = "Comments,String"
+let g:delimitMate_balace_matchpairs = 1
+" autocmd FileType css let b:delimitMate_matchpairs = "::;"
 
 " EasyMotion
 let g:EasyMotion_leader_key = '<Leader>m'
@@ -257,3 +261,17 @@ noremap <F4> :TagbarToggle<CR>
 if filereadable(expand("~/.vimrc.local"))
     source ~/.vimrc.local
 endif
+
+" TODO
+" - Split selection into multiple lines based on criteria
+" - Re-format file (faster than g=)
+" - Auto-select whole inner scope (an intelligent vi{)
+" - Navigating through changelist/jumplist
+" - Refactoring with tools like rope
+" - Comment header snippets
+" gv - reselect last visual block
+" :help changelist
+" :help text-objects
+" :help format-comments
+" :help formatoptions
+" :help fo-table
