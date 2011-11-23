@@ -35,6 +35,7 @@ export VISUAL=$EDITOR
 export HISTSIZE=9001
 export HISTFILESIZE=9001
 export HISTFILE="$HOME/.bash_history_${HOSTNAME}"
+shopt -s histappend
 if [ "$UID" != 0 ]; then
     export HISTCONTROL="ignoreboth"   # ignores duplicate lines next to each other and lines with a leading space
     export HISTIGNORE="[bf]g:exit:logout"
