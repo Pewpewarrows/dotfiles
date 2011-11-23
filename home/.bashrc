@@ -32,8 +32,8 @@ export EDITOR="vim"
 export VISUAL=$EDITOR
 
 # Bash History
-export HISTSIZE=5000
-export HISTFILESIZE=5000
+export HISTSIZE=9001
+export HISTFILESIZE=9001
 export HISTFILE="$HOME/.bash_history_${HOSTNAME}"
 if [ "$UID" != 0 ]; then
     export HISTCONTROL="ignoreboth"   # ignores duplicate lines next to each other and lines with a leading space
@@ -112,6 +112,9 @@ custom_vcprompt() {
 }
 
 update_prompt() {
+    history -a
+    history -c
+    history -r
     custom_virtualenv
     #export BASEPROMPT="$(custom_lastcommandfailed)${BLUE}\u ${GRAY}@ ${RED}\h ${GRAY}in ${GREEN}\w${GRAY}$(custom_vcprompt)${VIRTUAL_ENV_BASE}$(custom_backgroundjobs)${WHITE}"
     export BASEPROMPT="$(custom_lastcommandfailed)${BLUE}\u ${GRAY}@ ${RED}\h ${GRAY}in ${GREEN}\w${GRAY}$(custom_vcprompt)${VIRTUAL_ENV_BASE}${WHITE}"
