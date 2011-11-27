@@ -199,6 +199,9 @@ autocmd FileType c set omnifunc=ccomplete#Complete
 " Hightlight VCS conflict markers
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
+" Tags
+set tags=./tags;/
+
 """"""""""""""
 " EXTENSIONS "
 """"""""""""""
