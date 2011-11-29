@@ -178,7 +178,8 @@ vmap <silent> <leader>d "_d
 inoremap <C-d> <Del>
 
 " Use the OS clipboard for all yank/paste operations
-set clipboard+=unnamed
+" TODO: Make this actually work...
+"set clipboard+=unnamed
 
 " For when you forget to sudo...
 cmap w!! w !sudo tee % > /dev/null
