@@ -101,7 +101,7 @@ set incsearch
 set gdefault    " search/replace is globally done on a line by default
 
 " Clears the current search
-map <leader><space> :noh<cr>
+map <silent> <leader><space> :noh<cr>
 
 " Use Perl-style regex syntax, not vim's butchered version
 nnoremap / /\v
@@ -137,6 +137,9 @@ nnoremap <S-l> :tabnext<CR>
 map tn :tabnew<CR>
 map td :tabclose<CR>
 set nohidden " When I close a tab, close the associated buffer
+
+" Quick way to jump back to previous file
+nnoremap <silent> Z <C-^>
 
 " Folding
 set foldmethod=indent
