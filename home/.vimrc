@@ -100,6 +100,10 @@ set hlsearch
 set incsearch
 set gdefault    " search/replace is globally done on a line by default
 
+" Ctrl-C is almost a perfect <ESC> replacement, except for InsertLeave
+" autocommands. This remapping fixes that.
+imap <C-c> <ESC>
+
 " Clears the current search
 map <silent> <leader><space> :noh<cr>
 
