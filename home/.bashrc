@@ -6,6 +6,7 @@ fi
 
 # Determine which OS we're running on
 # TODO: distinguish better between specific Linux flavors (like Arch or Fedora)
+# TODO: use $OSTYPE instead of `uname` ?
 __distro=Linux
 case `uname` in
     Darwin)
@@ -156,6 +157,17 @@ alias myip="curl icanhazip.com"
 alias reload=". ~/.bash_profile"
 alias hist="history | grep"
 alias f="find . -name"
+
+case "$__distro" in
+    cygstart)
+        alias open="cmd /c start"
+    ;;
+    Linux)
+        alias open="gnome-open" # Use xdg-open instead?
+    ;;
+esac
+
+alias server="open http://localhost:8000 && python -m SimpleHTTPServer"
 
 if [ "$__distro" = "Darwin" ]; then
     alias ,="brew"
