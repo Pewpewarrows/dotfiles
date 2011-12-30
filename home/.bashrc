@@ -167,7 +167,11 @@ case "$__distro" in
     ;;
 esac
 
-alias server="open http://localhost:8000 && python -m SimpleHTTPServer"
+server() {
+    port=${1:-8000}
+    [[ "$SSH_TTY" ]] || ( { open "http://localhost:${port}"; } & )
+    python -m SimpleHTTPServer $port
+}
 
 if [ "$__distro" = "Darwin" ]; then
     alias ,="brew"
