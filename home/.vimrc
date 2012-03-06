@@ -257,9 +257,11 @@ autocmd FileType htmldjango set ft=htmldjango.html
 " let g:surround_{char2nr("f")} = "{% for\1 \r..*\r &\1%}\r{% endfor %}"
 
 " Syntastic
-let g:syntastic_enable_signs=1
+let g:syntastic_check_on_open=1
 " let g:syntastic_auto_loc_list=1
 let g:syntastic_disabled_filetypes = ['html']
+map <leader>E :Errors<CR>
+map <leader>C :SyntasticCheck<CR>
 
 " TagBar
 noremap <F4> :TagbarToggle<CR>
