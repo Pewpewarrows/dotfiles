@@ -22,5 +22,6 @@
     dump = cat-file -p
     wtf = !git-wtf
     diff = diff --word-diff
+    unstage = reset HEAD
 [merge]
     conflictstyle = diff3
