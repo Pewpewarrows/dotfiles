@@ -157,6 +157,7 @@ alias myip="curl icanhazip.com"
 alias reload=". ~/.bash_profile"
 alias hist="history | grep"
 alias f="find . -name"
+alias dcommit-preview="git svn dcommit --dry-run | grep '^diff-tree' | cut -b 11- | git diff-tree --stdin -p -v | less"
 
 case "$__distro" in
     cygstart)
