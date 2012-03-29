@@ -326,3 +326,6 @@ alias git="hub"
 # rbenv
 export PATH=$PATH:~/.rbenv/bin
 eval "$(rbenv init -)"
+
+# pythonbrew
+[[ -s $HOME/.pythonbrew/etc/bashrc ]] && source $HOME/.pythonbrew/etc/bashrc
