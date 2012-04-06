@@ -11,6 +11,7 @@
     interactive = auto
 [core]
     pager = less -R
+    excludesfile = /Users/Marco/.gitignore_global
 [alias]
     st = status
     ci = commit
