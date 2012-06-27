@@ -1,22 +1,38 @@
 {
-	// TODO: "tab_size": 2 for Ruby
 	"auto_complete_commit_on_tab": true,
 	"color_scheme": "Packages/Color Scheme - Default/Monokai.tmTheme",
 	"default_line_ending": "unix",
 	"draw_minimap_border": true,
 	"ensure_newline_at_eof_on_save": true,
 	"fallback_encoding": "UTF-8",
+    "find_selected_text": true,
 	"font_face": "Monaco",
+	"font_options": [
+        "subpixel_antialias"
+    ],
 	"font_size": 12,
+	"git_command": "/usr/local/git/bin/git",
 	"highlight_line": true,
+	"ignored_packages": [
+	],
 	"indent_subsequent_lines": false,
 	"match_brackets_angle": true,
-	"rulers":
-	[
+	"pep8_ignore": [
+		"E501",
+		"E302"
+	],
+	"rulers": [
 		80
 	],
 	"scroll_past_end": true,
+	"sublimelinter_gutter_marks": true,
 	"tab_completion": true,
 	"translate_tabs_to_spaces": true,
-	"trim_trailing_white_space_on_save": true
+	"trim_trailing_white_space_on_save": true,
+	"vintage_ctrl_keys": true,
+	"vintage_start_in_command_mode": true,
+	"vintage_use_clipboard": true,
+	"word_wrap": true,
+    "highlight_modified_tabs": true,
+    "bold_folder_labels": true
 }
