@@ -26,3 +26,5 @@
     unstage = reset HEAD
 [merge]
     conflictstyle = diff3
+[credential]
+    helper = osxkeychain
