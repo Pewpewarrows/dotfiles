@@ -1,8 +1,6 @@
 [user]
     name = Marco Chomut
     email = marco.chomut@gmail.com
-[github]
-    user = Pewpewarrows
 [color]
     ui = auto
     diff = auto
@@ -12,8 +10,18 @@
 [core]
     pager = less -R
     excludesfile = /Users/Marco/.gitignore_global
+[merge]
+    conflictstyle = diff3
+    # tool = opendiff
+[credential]
+    helper = osxkeychain
+[help]
+    autocorrect = 1
+[rerere]
+    enabled = 1
 [alias]
-    st = status
+    st = status -sb
+    stage = add -u
     ci = commit
     ca = commit -a -m
     co = checkout
@@ -22,9 +30,13 @@
     type = cat-file -t
     dump = cat-file -p
     wtf = !git-wtf
-    diff = diff --word-diff --ignore-space-at-eol
-    unstage = reset HEAD
-[merge]
-    conflictstyle = diff3
-[credential]
-    helper = osxkeychain
+    d = diff --color-words --ignore-space-at-eol --ignore-space-change
+    dc = diff --cached
+    stats = diff --stat
+    unstage = reset HEAD --
+    amend = commit --amend -c HEAD --
+    undo = reset --soft HEAD^ --
+    count = shortlog -sn
+    credit = commit --amend --author "$1 <$2>" -c HEAD --
+[github]
+    user = Pewpewarrows
