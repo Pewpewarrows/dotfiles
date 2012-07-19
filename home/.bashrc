@@ -43,6 +43,7 @@ if [ "$UID" != 0 ]; then
 fi
 
 export TERM=xterm-256color
+export INPUTRC=~/.inputrc
 
 # ls and grep default options
 LS_OPTIONS="-hF"
@@ -332,3 +333,6 @@ eval "$(rbenv init -)"
 
 # tmuxinator
 [[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator
+
+# For vi-mode in zsh:
+# bindkey -v

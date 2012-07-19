@@ -1,0 +1,3 @@
+# To reload this file: Ctrl-x Ctrl-r
+set editing-mode vi
+set keymap vi
