@@ -1,3 +1,11 @@
 # To reload this file: Ctrl-x Ctrl-r
 set editing-mode vi
-set keymap vi
+
+$if mode=vi
+    set keymap vi
+
+    set keymap vi-command
+
+    set keymap vi-insert
+    "\C-c": vi-movement-mode
+$endif
