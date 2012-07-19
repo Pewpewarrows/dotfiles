@@ -3,6 +3,7 @@ set editing-mode vi
 
 $if mode=vi
     set keymap vi-command
+    "\C-x\C-r": re-read-init-file
 
     set keymap vi-insert
     "\C-l": clear-screen
