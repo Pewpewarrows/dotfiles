@@ -40,3 +40,5 @@
     credit = commit --amend --author "$1 <$2>" -c HEAD --
 [github]
     user = Pewpewarrows
+# TODO: push.default current or tracking
+# TODO: include.path = .gitconfig.local
