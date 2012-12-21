@@ -1,44 +1,67 @@
 [user]
     name = Marco Chomut
     email = marco.chomut@gmail.com
+
 [color]
     ui = auto
     diff = auto
     status = auto
     branch = auto
     interactive = auto
+
 [core]
     pager = less -R
-    excludesfile = /Users/Marco/.gitignore_global
+    # excludesfile = /Users/Marco/.gitignore_global
+
 [merge]
     conflictstyle = diff3
-    # tool = opendiff
+    tool = vimdiff
+
 [credential]
     helper = osxkeychain
+
 [help]
     autocorrect = 1
+
 [rerere]
     enabled = 1
+
 [alias]
     st = status -sb
+    wtf = !git-wtf
+    # div = divergence
+
+    aa = add --all
     stage = add -u
+    unstage = reset HEAD --
+
+    d = diff --ignore-space-at-eol --ignore-space-change
+    dc = d --cached
+    stats = diff --stat
+
     ci = commit
     ca = commit -a -m
-    co = checkout
+    amend = commit --amend -c HEAD --
+    credit = commit --amend --author "$1 <$2>" -c HEAD --
+
     br = branch
-    hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+    co = checkout
+
+    fa = fetch --all
+    pullff = pull --ff-only
+    noff = merge --no-ff
+
+    undo = reset --soft HEAD^ --
+
+    count = shortlog -sn
+    hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short --all
+    tagcommit = !sh -c 'git rev-list $0 | head -n 1'
+
     type = cat-file -t
     dump = cat-file -p
-    wtf = !git-wtf
-    d = diff --color-words --ignore-space-at-eol --ignore-space-change
-    dc = diff --cached
-    stats = diff --stat
-    unstage = reset HEAD --
-    amend = commit --amend -c HEAD --
-    undo = reset --soft HEAD^ --
-    count = shortlog -sn
-    credit = commit --amend --author "$1 <$2>" -c HEAD --
+
 [github]
     user = Pewpewarrows
+
 # TODO: push.default current or tracking
 # TODO: include.path = .gitconfig.local
