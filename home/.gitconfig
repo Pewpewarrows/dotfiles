@@ -26,6 +26,9 @@
 [rerere]
     enabled = 1
 
+[push]
+    default = current
+
 [alias]
     st = status -sb
     wtf = !git-wtf
