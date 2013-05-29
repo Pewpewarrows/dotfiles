@@ -49,12 +49,14 @@
 
     fa = fetch --all
     pullff = pull --ff-only
+    down = pullff
     noff = merge --no-ff
 
-    undo = reset --soft HEAD^ --
+    undo = reset --soft HEAD~1 --
 
     count = shortlog -sn
-    hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short --all
+    # hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short --all
+    hist = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
     tagcommit = !sh -c 'git rev-list $0 | head -n 1'
 
     type = cat-file -t
