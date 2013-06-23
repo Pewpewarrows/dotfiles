@@ -65,6 +65,8 @@
     type = cat-file -t
     dump = cat-file -p
 
+    serve = daemon --reuseaddr --base-path=. --export-all --verbose
+
 [github]
     user = Pewpewarrows
 

@@ -61,6 +61,7 @@ export LS_OPTIONS GREP_OPTIONS
 
 # Bash improvements
 shopt -s cdspell nocaseglob
+shopt -s histverify
 complete -cf sudo
 complete -cf which
 complete -cf man
