@@ -39,7 +39,7 @@
     unstage = reset HEAD --
 
     d = diff --ignore-space-at-eol --ignore-space-change
-    dc = d --cached
+    dc = !git d --cached
     stats = diff --stat
 
     ci = commit
@@ -50,9 +50,9 @@
     br = branch
     co = checkout
 
-    fa = fetch --all
+    f = fetch --all --prune
     pullff = pull --ff-only
-    down = pullff
+    down = !git pullff
     noff = merge --no-ff
 
     undo = reset --soft HEAD~1 --

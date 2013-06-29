@@ -201,6 +201,9 @@ fi
 alias gimme=",i"
 alias donotwant=",r"
 
+# Development aliases
+alias fv="fab vagrant"
+
 # Custom functions
 
 # This makes pushd behave like cd when no argument is passed, so we can alias to cd
@@ -314,6 +317,10 @@ if [ "$__distro" = "Darwin" ]; then
 
     # Homebrew's python
     export PATH=/usr/local/share/python:$PATH
+
+    if [ -f $(brew --prefix)/etc/bash_completion ]; then
+        . $(brew --prefix)/etc/bash_completion
+    fi
 fi
 
 if [ -f ~/Projects/Forks/django/extras/django_bash_completion ]; then
