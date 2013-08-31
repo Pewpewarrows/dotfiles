@@ -315,9 +315,6 @@ if [ "$__distro" = "Darwin" ]; then
 
     export PATH=$PATH:~/.gem/ruby/1.8/bin
 
-    # Homebrew's python
-    export PATH=/usr/local/share/python:$PATH
-
     if [ -f $(brew --prefix)/etc/bash_completion ]; then
         . $(brew --prefix)/etc/bash_completion
     fi
