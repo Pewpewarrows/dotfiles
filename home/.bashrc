@@ -340,5 +340,8 @@ eval "$(rbenv init -)"
 # tmuxinator
 [[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator
 
+# nvm
+[[ -s ~/.nvm/nvm.sh ]] && . ~/.nvm/nvm.sh # This loads NVM
+
 # For vi-mode in zsh:
 # bindkey -v
