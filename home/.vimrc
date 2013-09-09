@@ -281,6 +281,7 @@ endif
 " - Navigating through changelist/jumplist
 " - Refactoring with tools like rope
 " - Comment header snippets
+" - Paragraph / comment / block of text wrapping (cmd-opt-Q in ST)
 " gv - reselect last visual block
 " :help changelist
 " :help text-objects
