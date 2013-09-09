@@ -331,8 +331,10 @@ fi
 alias git="hub"
 
 # rbenv
-export PATH=~/.rbenv/bin:$PATH
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+if [[ -d $HOME/.rbenv ]]; then
+     export PATH="$HOME/.rbenv/bin:$PATH"
+     eval "$(rbenv init -)"
+fi
 
 # pythonbrew
 [[ -s $HOME/.pythonbrew/etc/bashrc ]] && source $HOME/.pythonbrew/etc/bashrc
