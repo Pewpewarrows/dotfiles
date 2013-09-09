@@ -313,7 +313,7 @@ if [ "$__distro" = "Darwin" ]; then
     export PATH=/opt/local/bin:/opt/local/sbin:$PATH
     # Finished adapting your PATH environment variable for use with MacPorts.
 
-    export PATH=$PATH:~/.gem/ruby/1.8/bin
+    # export PATH=$PATH:~/.gem/ruby/1.8/bin
 
     if [ -f $(brew --prefix)/etc/bash_completion ]; then
         . $(brew --prefix)/etc/bash_completion
@@ -331,8 +331,8 @@ fi
 alias git="hub"
 
 # rbenv
-export PATH=$PATH:~/.rbenv/bin
-eval "$(rbenv init -)"
+export PATH=~/.rbenv/bin:$PATH
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # pythonbrew
 [[ -s $HOME/.pythonbrew/etc/bashrc ]] && source $HOME/.pythonbrew/etc/bashrc
