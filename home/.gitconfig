@@ -48,11 +48,13 @@
     credit = commit --amend --author "$1 <$2>" -c HEAD --
 
     br = branch
+    latest = for-each-ref --count=10 --sort=-committerdate --format='%(committerdate:short) %(refname:short)'
     co = checkout
 
     f = fetch --all --prune
     pullff = pull --ff-only
-    down = !git pullff
+    pullr = rebase -p
+    down = !git pullr
     up = push
     noff = merge --no-ff
     # push --tags
