@@ -203,6 +203,7 @@ alias donotwant=",r"
 
 # Development aliases
 alias fv="fab vagrant"
+alias be="bundle exec"
 
 # Custom functions
 
