@@ -44,7 +44,8 @@
 
     ci = commit
     ca = commit -a -m
-    amend = commit --amend -c HEAD --
+    # --reuse-message or --no-edit amend alias?
+    amend = commit --amend --reedit-message HEAD --
     credit = commit --amend --author "$1 <$2>" -c HEAD --
 
     br = branch
@@ -58,8 +59,6 @@
     up = push
     noff = merge --no-ff
     # push --tags
-    # TODO: "git pullr", which does "rebase -p <upstream_branch>", point "down" at it instead of "pullff"
-    #   git for-each-ref --format='%(upstream:short)' $(git symbolic-ref -q HEAD)
     # TODO: shortcut for "co develop, pullr, co feature/<foo>, rebase develop", but replaces last step with "merge develop" if branch has ever been pushed
     # TODO: shortcut for "stash, co develop, pullr", then: "co feature/<foo>, stash pop"
 
