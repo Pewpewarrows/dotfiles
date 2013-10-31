@@ -283,6 +283,8 @@ endif
 " - Comment header snippets
 " - Paragraph / comment / block of text wrapping (cmd-opt-Q in ST)
 " gv - reselect last visual block
+" q: - view command history, edit, and re-run
+" q/ - view search history, edit, and re-run
 " :help changelist
 " :help text-objects
 " :help format-comments

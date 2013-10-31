@@ -14,3 +14,7 @@ To remove a submodule you need to:
     Delete the relevant section from .git/config.
     Run git rm --cached path_to_submodule (no trailing slash).
     Commit and delete the now untracked submodule files.
+
+Additional ~/bin/ exes:
+    ln -s ~/Projects/Lib/android-sdk-macosx/tools/android ~/bin/android
+    ln -s /Applications/Sublime Text 2.app/Contents/SharedSupport/bin/subl ~/bin/subl

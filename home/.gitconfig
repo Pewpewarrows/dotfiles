@@ -10,6 +10,7 @@
     interactive = auto
 
 [core]
+    # http://stackoverflow.com/questions/136178/git-diff-handling-long-lines
     pager = less -R
     # excludesfile = /Users/Marco/.gitignore_global
 
