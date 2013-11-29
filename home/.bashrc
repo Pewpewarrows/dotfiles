@@ -346,5 +346,11 @@ fi
 # nvm
 [[ -s ~/.nvm/nvm.sh ]] && . ~/.nvm/nvm.sh # This loads NVM
 
+# golang
+if [[ -d $HOME/go ]]; then
+    export GOPATH="$HOME/go"
+    export PATH="$PATH:$GOPATH/bin"
+fi
+
 # For vi-mode in zsh:
 # bindkey -v
