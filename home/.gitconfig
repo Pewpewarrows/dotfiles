@@ -19,6 +19,7 @@
     tool = vimdiff
 
 [credential]
+    # TODO: change this based on OS
     helper = osxkeychain
 
 [help]

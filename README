@@ -18,3 +18,4 @@ To remove a submodule you need to:
 Additional ~/bin/ exes:
     ln -s ~/Projects/Lib/android-sdk-macosx/tools/android ~/bin/android
     ln -s /Applications/Sublime Text 2.app/Contents/SharedSupport/bin/subl ~/bin/subl
+    TODO: move reattach-to-user-namespace to brew, don't have custom build in ~/bin/
