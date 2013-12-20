@@ -309,7 +309,7 @@ export PIP_VIRTUALENV_BASE=$WORKON_HOME
 if [ "$__distro" = "Darwin" ]; then
     # For psycopg2 to install correctly
     export PATH=$PATH:/Library/PostgreSQL/9.0/bin
-    export PATH="/Applications/Postgres.app/Contents/MacOS/bin:$PATH"
+    export PATH="/Applications/Postgres93.app/Contents/MacOS/bin:$PATH"
 
     # MacPorts Installer addition on 2011-04-08_at_10:51:06: adding an appropriate PATH variable for use with MacPorts.
     export PATH=/opt/local/bin:/opt/local/sbin:$PATH
