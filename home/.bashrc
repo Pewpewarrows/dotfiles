@@ -338,8 +338,12 @@ if [[ -d $HOME/.rbenv ]]; then
      eval "$(rbenv init -)"
 fi
 
+# TODO: remove pybrew completely, is now deprecated and replaced with pyenv
 # pythonbrew
 [[ -s $HOME/.pythonbrew/etc/bashrc ]] && source $HOME/.pythonbrew/etc/bashrc
+
+# pyenv
+if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 
 # tmuxinator
 [[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator
