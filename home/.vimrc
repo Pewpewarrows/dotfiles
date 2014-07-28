@@ -282,6 +282,7 @@ endif
 " - Refactoring with tools like rope
 " - Comment header snippets
 " - Paragraph / comment / block of text wrapping (cmd-opt-Q in ST)
+" - Learn how to use this as a 3-way diff/merge tool
 " gv - reselect last visual block
 " q: - view command history, edit, and re-run
 " q/ - view search history, edit, and re-run
