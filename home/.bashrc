@@ -333,14 +333,7 @@ fi
 alias git="hub"
 
 # rbenv
-if [[ -d $HOME/.rbenv ]]; then
-     export PATH="$HOME/.rbenv/bin:$PATH"
-     eval "$(rbenv init -)"
-fi
-
-# TODO: remove pybrew completely, is now deprecated and replaced with pyenv
-# pythonbrew
-[[ -s $HOME/.pythonbrew/etc/bashrc ]] && source $HOME/.pythonbrew/etc/bashrc
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # pyenv
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
