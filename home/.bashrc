@@ -300,6 +300,7 @@ fi
 
 # Virtualenvwrapper
 export WORKON_HOME=~/.virtualenvs
+# TODO: PROJECT_HOME, and use pyenv global version to deduce virtualenvwrapper.sh location
 if [ "$__distro" = "Darwin" ]; then
     source /usr/local/bin/virtualenvwrapper.sh
 fi
