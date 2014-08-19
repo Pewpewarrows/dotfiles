@@ -1,1 +1,3 @@
 home/.vim/tmp/
+home/.virtualenvs/*
+!home/.virtualenvs/postactivate
