@@ -2,12 +2,27 @@
 set nocompatible
 
 " Pathogen autoloads everything under ~/.vim/bundle
-filetype off
-call pathogen#helptags()
-call pathogen#runtime_append_all_bundles()
-filetype plugin indent on
+" filetype off
+" call pathogen#helptags()
+" call pathogen#runtime_append_all_bundles()
 
-let os = substitute(system('uname'), "\n", "", "")
+if has('autocmd')
+    filetype plugin indent on
+endif
+
+if has('syntax') && !exists('g:syntax_on')
+    syntax enable  " vs on?
+endif
+
+silent function! OSX()
+    return has('macunix')
+endfunction
+silent function! LINUX()
+    return has('unix') && !has('macunix') && !has('win32unix')
+endfunction
+silent function! WINDOWS()
+    return  (has('win16') || has('win32') || has('win64'))
+endfunction
 
 let mapleader=","
 nnoremap ; :
@@ -28,6 +43,9 @@ set softtabstop=4
 set expandtab
 set smarttab
 
+set ttimeout
+set ttimeoutlen=100
+
 " Appearance
 set hidden  " hides buffers instead of closing them
 set termencoding=utf-8
@@ -38,17 +56,24 @@ set showcmd
 set visualbell  " don't beep at me!
 " set t_vb=
 set cursorline  " highlight the current line
-set ttyfast " fast terminal
-set ruler   " tells us the column/row we're on
+set ttyfast  " fast terminal
+set ruler  " tells us the column/row we're on
 set number  " line numbers in the gutter
-set mouse=a " mouse interactivity
-set showmatch   " show matching parenths
-set scrolloff=4 " gives the buffer some padding when scrolling
+set mouse=a  " mouse interactivity
+set showmatch  " show matching parenths
+" gives the buffer some padding when scrolling
+if !&scrolloff
+    set scrolloff=4  " vertically
+endif
+if !&sidescrolloff
+    set sidescrolloff=4  " horizontally
+endif
+set display+=lastline
 " if v:version >= 703
     " set relativenumber  " relative line #s in the gutter instead of absolute
 " endif
 set nomodeline  " never commonly used, has security vulnerabilities
-set laststatus=2    " always displays the status line for consistency
+set laststatus=2  " always displays the status line for consistency
 set statusline=%<\ %f\ %m%r%y%h
 set statusline+=\ %#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}%*
@@ -59,13 +84,12 @@ set wildmenu
 set wildmode=list:longest
 set wildignore=*.swp,*.bak,*.pyc,*.class
 
-syntax on
 set background=dark
-if &t_Co >= 256 || has("gui_running")
+if &t_Co >= 256 || has('gui_running')
     colorscheme molokai
 endif
 
-set listchars=tab:▸\ ,trail:·,extends:#,nbsp:·,eol:¬
+set listchars=nbsp:·,tab:▸\ ,trail:·,extends:»,precedes:«,eol:¬
 set showbreak=↪
 set nolist  " don't show invisible characters by default, only for some files
 noremap <leader>i :set list!<CR> " Toggle invisible chars
@@ -74,9 +98,9 @@ set title
 " set titleold="Terminal"
 " set titlestring=%F
 
-if has("gui_running")
+if has('gui_running')
     set guioptions-=T
-    if os == "Darwin"
+    if OSX()
         set guifont=Monaco:h12
     else
         set guifont=Inconsolata\ 11
@@ -88,7 +112,7 @@ set backspace=indent,eol,start  " backspace over everything in insert mode
 set fileformats="unix,dos,mac"
 set wrap
 set textwidth=80
-set formatoptions=qrnl1tc    " better line-wrapping, see :help fo-table
+set formatoptions=qrnl1tc  " better line-wrapping, see :help fo-table
 if v:version >= 703
     set colorcolumn=80
 endif
@@ -98,7 +122,7 @@ set ignorecase
 set smartcase
 set hlsearch
 set incsearch
-set gdefault    " search/replace is globally done on a line by default
+set gdefault  " search/replace is globally done on a line by default
 
 " Ctrl-C is almost a perfect <ESC> replacement, except for InsertLeave
 " autocommands. This remapping fixes that.
@@ -106,6 +130,7 @@ imap <C-c> <ESC>
 
 " Clears the current search
 map <silent> <leader><space> :noh<cr>
+nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
 
 " Use Perl-style regex syntax, not vim's butchered version
 nnoremap / /\v
@@ -140,7 +165,7 @@ nnoremap <S-h> :tabprevious<CR>
 nnoremap <S-l> :tabnext<CR>
 map tn :tabnew<CR>
 map td :tabclose<CR>
-set nohidden " When I close a tab, close the associated buffer
+set nohidden  " When I close a tab, close the associated buffer
 
 " Quick way to jump back to previous file
 nnoremap <silent> Z <C-^>
@@ -214,12 +239,12 @@ set tags=./tags;/
 """"""""""""""
 
 " Ack-Grep
-if os == "Darwin"
+if OSX()
     let g:ackprg="ack -H --nocolor --nogroup --column"
 else
     let g:ackprg="ack-grep -H --nocolor --nogroup --column"
 endif
-" ... there is an intentional space at the end of this line:
+" TODO: there should be an intentional space at the end of this line:
 nnoremap <leader>a :Ack<space>
 
 " CommandT
@@ -270,7 +295,7 @@ noremap <F4> :TagbarToggle<CR>
 " HOST-SPECIFIC "
 """""""""""""""""
 
-if filereadable(expand("~/.vimrc.local"))
+if filereadable(expand('~/.vimrc.local'))
     source ~/.vimrc.local
 endif
 
