@@ -1,50 +1,100 @@
-" Must be first to prevent unwanted side-effects
-set nocompatible
+" Modeline {
+" vim: set foldmarker={,} foldlevel=0 foldmethod=marker spell:
+" }
 
-" Pathogen autoloads everything under ~/.vim/bundle
-" filetype off
-" call pathogen#helptags()
-" call pathogen#runtime_append_all_bundles()
+" Preamble {
 
-if has('autocmd')
-    filetype plugin indent on
-endif
+    " Must be first to prevent unwanted side-effects
+    set nocompatible
 
-if has('syntax') && !exists('g:syntax_on')
-    syntax enable  " vs on?
-endif
+" }
 
-silent function! OSX()
-    return has('macunix')
-endfunction
-silent function! LINUX()
-    return has('unix') && !has('macunix') && !has('win32unix')
-endfunction
-silent function! WINDOWS()
-    return  (has('win16') || has('win32') || has('win64'))
-endfunction
+" Load Plugins {
 
-let mapleader=","
-nnoremap ; :
+    " Pathogen autoloads everything under ~/.vim/bundle
+    " filetype off
+    " call pathogen#helptags()
+    " call pathogen#runtime_append_all_bundles()
 
-" Quickly edit and reload the .vimrc file
-nmap <silent> <leader>ev :e $MYVIMRC<CR>
-nmap <silent> <leader>sv :so $MYVIMRC<CR>
+" }
 
-" Indentation
-set autoindent
-" NO. NEVER SET SMARTINDENT. DEPRECATED AND SHITTY.
-" set smartindent
+" Macros {
 
-" Tabs to 4 spaces, always
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
-set expandtab
-set smarttab
+    silent function! OSX()
+        return has('macunix')
+    endfunction
+    silent function! LINUX()
+        return has('unix') && !has('macunix') && !has('win32unix')
+    endfunction
+    silent function! WINDOWS()
+        return (has('win16') || has('win32') || has('win64'))
+    endfunction
 
-set ttimeout
-set ttimeoutlen=100
+" }
+
+" Behavior {
+
+    if has('autocmd')
+        filetype plugin indent on  " Detect filetypes
+    endif
+
+    " Indentation
+    " NOTE: Do not set smartindent, it's deprecated and generally terrible
+    set autoindent
+
+    " Tiemouts for exiting insert mode with something like "jj"
+    set ttimeout
+    set ttimeoutlen=100
+
+    " Search upwards for tags
+    if has('path_extra')
+        setglobal tags-=./tags tags^=./tags;
+    endif
+
+    " Have a better memory
+    set history=1000
+    set undolevels=1000
+    set tabpagemax=50
+
+" }
+
+" UI {
+
+    set background=dark  " Assume a dark color scheme
+
+    if has('syntax') && !exists('g:syntax_on')
+        " TODO: enable vs on
+        syntax enable  " Syntax highlighting
+    endif
+
+    if &t_Co >= 256 || has('gui_running')
+        colorscheme molokai
+    endif
+
+" }
+
+" Formatting {
+
+    " Tabs to 4 spaces by default
+    " TODO: can we adjust this based on filetype (Makefile, Ruby, etc)?
+    set tabstop=4
+    set shiftwidth=4
+    set softtabstop=4
+    set expandtab
+    set smarttab
+
+" }
+
+" Mappings {
+
+    let mapleader=","
+    nnoremap ; :
+
+    " Quickly edit and reload the .vimrc file
+    nmap <silent> <leader>ev :e $MYVIMRC<CR>
+    nmap <silent> <leader>sv :so $MYVIMRC<CR>
+
+" }
 
 " Appearance
 set hidden  " hides buffers instead of closing them
@@ -83,11 +133,6 @@ set statusline+=%=%-35.(%l\ of\ %L,\ %c%V%)\ %P
 set wildmenu
 set wildmode=list:longest
 set wildignore=*.swp,*.bak,*.pyc,*.class
-
-set background=dark
-if &t_Co >= 256 || has('gui_running')
-    colorscheme molokai
-endif
 
 set listchars=nbsp:·,tab:▸\ ,trail:·,extends:»,precedes:«,eol:¬
 set showbreak=↪
@@ -176,10 +221,6 @@ set foldnestmax=2
 set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo
 nnoremap <space> zA
 
-" Remember EVERYTHING...
-set history=1000
-set undolevels=1000
-
 " Stupid help menu right next to the ESC key...
 inoremap <F1> <ESC>
 nnoremap <F1> <ESC>
@@ -230,9 +271,6 @@ autocmd FileType c set omnifunc=ccomplete#Complete
 
 " Hightlight VCS conflict markers
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
-
-" Tags
-set tags=./tags;/
 
 """"""""""""""
 " EXTENSIONS "
