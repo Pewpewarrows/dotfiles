@@ -77,6 +77,7 @@
 
     " Tabs to 4 spaces by default
     " TODO: can we adjust this based on filetype (Makefile, Ruby, etc)?
+    " autocmd filetype make setlocal noexpandtab
     set tabstop=4
     set shiftwidth=4
     set softtabstop=4
@@ -126,7 +127,7 @@ set nomodeline  " never commonly used, has security vulnerabilities
 set laststatus=2  " always displays the status line for consistency
 set statusline=%<\ %f\ %m%r%y%h
 set statusline+=\ %#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}%*
+" set statusline+=%{SyntasticStatuslineFlag()}%*
 set statusline+=%=%-35.(%l\ of\ %L,\ %c%V%)\ %P
 
 " Better command-line completion
