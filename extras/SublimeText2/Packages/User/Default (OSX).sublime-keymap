@@ -2,5 +2,14 @@
     { "keys": ["ctrl+tab"], "command": "next_view" },
     { "keys": ["ctrl+shift+tab"], "command": "prev_view" },
     { "keys": ["super+shift+v"], "command": "paste" },
-    { "keys": ["super+v"], "command": "paste_and_indent" }
+    { "keys": ["super+v"], "command": "paste_and_indent" },
+    { "keys": ["ctrl+="], "command": "reindent" },
+    { "keys": ["ctrl+alt+shift+up"], "command": "select_lines", "args": {"forward": false} },
+    { "keys": ["ctrl+alt+shift+down"], "command": "select_lines", "args": {"forward": true} },
+    // { "keys": ["super+alt+f"], "command": "show_panel", "args": {"panel": "replace"} },
+    { "keys": ["ctrl+c"], "command": "exit_auto_complete_and_insert_mode", "context":
+        [
+            { "key": "auto_complete_visible", "operator": "equal", "operand": true }
+        ]
+    }
 ]

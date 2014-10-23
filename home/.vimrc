@@ -347,6 +347,8 @@ endif
 " - Comment header snippets
 " - Paragraph / comment / block of text wrapping (cmd-opt-Q in ST)
 " - Learn how to use this as a 3-way diff/merge tool
+" - Trailing whitespace stripping:
+"   http://vim.wikia.com/wiki/Remove_unwanted_spaces
 " gv - reselect last visual block
 " q: - view command history, edit, and re-run
 " q/ - view search history, edit, and re-run
