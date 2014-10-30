@@ -19,3 +19,5 @@ Additional ~/bin/ exes:
     ln -s ~/Projects/Lib/android-sdk-macosx/tools/android ~/bin/android
     ln -s /Applications/Sublime Text 2.app/Contents/SharedSupport/bin/subl ~/bin/subl
     TODO: move reattach-to-user-namespace to brew, don't have custom build in ~/bin/
+    TODO: get rid of symlinks in bin, change to bash scripts that can detect
+        system and which binary path to use?

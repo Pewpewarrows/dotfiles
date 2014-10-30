@@ -286,6 +286,8 @@ endif
 " TODO: there should be an intentional space at the end of this line:
 nnoremap <leader>a :Ack<space>
 
+" Autocomplpop
+
 " CommandT
 let g:CommandTMatchWindowAtTop = 1
 map <leader>f :CommandT<CR>
@@ -298,6 +300,8 @@ let g:delimitMate_balace_matchpairs = 1
 
 " EasyMotion
 let g:EasyMotion_leader_key = '<Leader>m'
+
+" Fugitive
 
 " NERDComment
 map <C-\> :call NERDComment(0, 'toggle')<CR>

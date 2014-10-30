@@ -205,6 +205,8 @@ alias donotwant=",r"
 alias fv="fab vagrant"
 alias be="bundle exec"
 
+alias non_mas_apps="for i in /Applications/*; do [ ! -d "${i}/Contents/_MASReceipt" ] && echo $i; done"
+
 # Custom functions
 
 # This makes pushd behave like cd when no argument is passed, so we can alias to cd
