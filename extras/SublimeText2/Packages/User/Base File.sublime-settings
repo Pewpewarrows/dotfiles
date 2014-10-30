@@ -1,0 +1,62 @@
+{
+    "pep8_ignore": [
+        "E501"
+    ],
+    "jshint_options": {
+        // GENERAL
+        "globals": {
+            "require": false,
+            "define": false
+        },
+
+        // ENFORCING
+        "eqeqeq": true,
+        "es3": true,
+        "forin": true,
+        "immed": true,
+        "indent": 4,
+        "latedef": true,
+        "newcap": true,
+        "noarg": true,
+        "noempty": true,
+        "nonew": true,
+        "quotmark": "single",
+        "undef": true,
+        "unused": "vars",
+        "strict": true,
+        "trailing": true,
+        // "maxparams": 3,
+        // "maxdepth": 2,
+        // "maxstatements": 4,
+        // "maxcomplexity": 10,
+        // "maxlen": 79
+
+        // RELAXING
+        "boss": false,
+        "debug": true, // TODO: should this always be the case?
+        "eqnull": false,
+        "evil": false,
+        "expr": false,
+        "funcscope": false,
+        "globalstrict": false,
+        "iterator": false,
+        "lastsemic": false,
+        "laxbreak": false,
+        "loopfunc": false,
+        "multistr": true,
+        "proto": false,
+        "scripturl": false,
+        "smarttabs": false,
+        "shadow": false,
+        "sub": false,
+        "supernew": false,
+        "validthis": false,
+
+        // ENVIRONMENTS
+        "browser": true,
+        "devel": false, // We don't want to ship with these in the code
+
+        // LEGACY
+        "onevar": false // TODO: Turn to true at some point?
+    }
+}
