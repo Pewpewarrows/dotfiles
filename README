@@ -1,3 +1,4 @@
+TODO: since the switch from homesick to vcsh, this file ends up in $HOME, so either remove it or rewrite it to be appropriate
 
 For Command-T:
     cd ~/.vim/bundle/command-t/
