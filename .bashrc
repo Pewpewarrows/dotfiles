@@ -1,3 +1,6 @@
+# Keep in mind that it's common to have this file be reloaded often, so any
+# operations in here should be idempotent (particularly environmental variable
+# additions).
 
 # If not running interactively: exit immediately.
 if [[ $- != *i* ]] || [ -z "$PS1" ]; then
@@ -18,14 +21,22 @@ esac
 # Environmental Variables
 #-------------------------
 
-# Path
-if [ -d "$HOME/bin" ]; then
-    PATH="$HOME/bin:$PATH"
-fi
-
-PATH="/usr/local/bin:/usr/sbin:/sbin:/usr/local/sbin:$PATH"
-
 export PATH
+
+path_prepend() {
+    if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
+        PATH="$1${PATH:+":$PATH"}"
+    fi
+}
+
+path_append() {
+    if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
+        PATH="${PATH:+"$PATH:"}$1"
+    fi
+}
+
+path_prepend "$HOME/bin"
+#PATH="/usr/local/bin:/usr/sbin:/sbin:/usr/local/sbin:$PATH"
 
 # Viewing & Editing Text
 export PAGER="less"
@@ -311,11 +322,11 @@ export PIP_VIRTUALENV_BASE=$WORKON_HOME
 
 if [ "$__distro" = "Darwin" ]; then
     # For psycopg2 to install correctly
-    export PATH=$PATH:/Library/PostgreSQL/9.0/bin
-    export PATH="$PATH:/Applications/Postgres.app/Contents/Versions/9.3/bin"
+    #export PATH=$PATH:/Library/PostgreSQL/9.0/bin
+    path_append "/Applications/Postgres.app/Contents/Versions/9.3/bin"
 
     # MacPorts Installer addition on 2011-04-08_at_10:51:06: adding an appropriate PATH variable for use with MacPorts.
-    export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+    #export PATH=/opt/local/bin:/opt/local/sbin:$PATH
     # Finished adapting your PATH environment variable for use with MacPorts.
 
     # export PATH=$PATH:~/.gem/ruby/1.8/bin
@@ -350,7 +361,7 @@ if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 # golang
 if [[ -d $HOME/go ]]; then
     export GOPATH="$HOME/go"
-    export PATH="$PATH:$GOPATH/bin"
+    path_append "$GOPATH/bin"
 fi
 
 # For vi-mode in zsh:
