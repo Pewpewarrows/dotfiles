@@ -54,7 +54,17 @@ if [ "$UID" != 0 ]; then
     export HISTIGNORE="[bf]g:exit:logout"
 fi
 
-export TERM=xterm-256color
+# Fix the background bleeding problem when using vim inside tmux
+# Additional reading:
+#   http://superuser.com/questions/399296/256-color-support-for-vim-background-in-tmux
+#   http://sunaku.github.io/vim-256color-bce.html
+#   http://www.reddit.com/r/vim/comments/1a29vk/fixing_vims_background_color_erase_for_256color/c8thqe7
+if [[ -z $TMUX ]]; then
+    export TERM=xterm-256color
+else
+    export TERM=screen-256color
+fi
+
 export INPUTRC=~/.inputrc
 
 # ls and grep default options
