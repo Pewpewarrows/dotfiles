@@ -16,6 +16,11 @@
     " call pathogen#helptags()
     " call pathogen#runtime_append_all_bundles()
 
+    " Need to run :PlugInstall on new machines, or for updates
+    call plug#begin()
+    Plug 'tpope/vim-fugitive'
+    call plug#end()
+
 " }
 
 " Macros {
