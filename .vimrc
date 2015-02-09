@@ -51,6 +51,10 @@
     Plug 'Shougo/neomru.vim'
     Plug 'Shougo/unite.vim'
     Plug 'Shougo/unite-outline'
+    " TODO: msbuild or xbuild required for --omnisharp-completer
+    " TODO: make install play nicely with pyenv & system python:
+    " https://github.com/Valloric/YouCompleteMe/issues/8
+    Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer'}
     call plug#end()
 
 " }
@@ -330,6 +334,10 @@ nnoremap <leader>b :Unite -buffer-name=buffer -auto-resize buffer<CR>
 nnoremap <leader>m :Unite -buffer-name=mru -auto-resize file_mru<CR>
 nnoremap <leader>o :Unite -buffer-name=outline -vertical outline<CR>
 
+" YouCompleteMe
+" TODO: investigate if can/should use pyenv shim here...
+let g:ycm_path_to_python_interpreter = '/usr/bin/python'
+
 """""""""""""""""
 " HOST-SPECIFIC "
 """""""""""""""""
@@ -339,6 +347,7 @@ if filereadable(expand('~/.vimrc.local'))
 endif
 
 " TODO
+" - Remove pathogen from autoload
 " - Split selection into multiple lines based on criteria
 " - Re-format file (faster than g=)
 " - Auto-select whole inner scope (an intelligent vi{)
