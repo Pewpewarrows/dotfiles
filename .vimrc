@@ -9,22 +9,6 @@
 
 " }
 
-" Load Plugins {
-
-    " Need to run :PlugInstall on new machines, or for updates
-    call plug#begin()
-    Plug 'tpope/vim-sensible'
-    Plug 'tpope/vim-sleuth'
-    Plug 'tpope/vim-fugitive'
-    Plug 'airblade/vim-gitgutter'
-    Plug 'wikitopian/hardmode'
-    Plug 'Lokaltog/vim-easymotion'
-    Plug 'ntpeters/vim-better-whitespace'
-    Plug 'rking/ag.vim'
-    call plug#end()
-
-" }
-
 " Macros {
 
     silent function! OSX()
@@ -36,6 +20,38 @@
     silent function! WINDOWS()
         return (has('win16') || has('win32') || has('win64'))
     endfunction
+
+" }
+
+" Load Plugins {
+
+    function! BuildVimProc(info)
+        if OSX()
+            !make -f make_mac.mak
+        elseif LINUX()
+            " TODO: unix
+            !make
+        elseif WINDOWS()
+            " TODO: cygwin
+            !tools\update-dll-mingw
+        endif
+    endfunction
+
+    " Need to run :PlugInstall on new machines, or for updates
+    call plug#begin()
+    Plug 'tpope/vim-sensible'
+    Plug 'tpope/vim-sleuth'
+    Plug 'tpope/vim-fugitive'
+    Plug 'airblade/vim-gitgutter'
+    Plug 'wikitopian/hardmode'
+    Plug 'Lokaltog/vim-easymotion'
+    Plug 'ntpeters/vim-better-whitespace'
+    Plug 'rking/ag.vim'
+    Plug 'Shougo/vimproc.vim', {'do': function('BuildVimProc')}
+    Plug 'Shougo/neomru.vim'
+    Plug 'Shougo/unite.vim'
+    Plug 'Shougo/unite-outline'
+    call plug#end()
 
 " }
 
@@ -255,11 +271,7 @@ nnoremap <leader>a :Ag<space>
 
 " Better Whitespace
 autocmd BufWritePre <buffer> StripWhitespace  " strip on save
-
-" CommandT
-let g:CommandTMatchWindowAtTop = 1
-map <leader>f :CommandT<CR>
-" TODO: :CommandTFlush
+let g:better_whitespace_filetypes_blacklist = ['unite']
 
 " DelimitMate
 let g:delimitMate_expand_cr = 1
@@ -277,11 +289,6 @@ let g:delimitMate_balace_matchpairs = 1
 " NERDComment
 map <C-\> :call NERDComment(0, 'toggle')<CR>
 vmap <C-\> :call NERDComment(1, 'toggle')<CR>
-
-" NERDTree
-map <F3> :NERDTreeToggle<CR>
-let NERDTreeDirArrows=1
-let NERDTreeIgnore = ['\.pyc$','\.swp$']
 
 " SnipMate
 autocmd FileType python set ft=python.django
@@ -304,6 +311,24 @@ map <leader>C :SyntasticCheck<CR>
 
 " TagBar
 noremap <F4> :TagbarToggle<CR>
+
+" Unite
+let g:unite_data_directory = '~/.vim/tmp/unite/'
+let g:unite_prompt = '➜ '
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#filters#sorter_default#use(['sorter_rank'])
+call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
+      \ 'ignore_pattern', join([
+      \ '\.git/',
+      \ 'tmp/',
+      \ 'node_modules/',
+      \ 'vendor/',
+      \ 'env/',
+      \ ], '\|'))
+nnoremap <C-p> :Unite -buffer-name=files -start-insert -auto-resize file file_rec/async<CR>
+nnoremap <leader>b :Unite -buffer-name=buffer -auto-resize buffer<CR>
+nnoremap <leader>m :Unite -buffer-name=mru -auto-resize file_mru<CR>
+nnoremap <leader>o :Unite -buffer-name=outline -vertical outline<CR>
 
 """""""""""""""""
 " HOST-SPECIFIC "
