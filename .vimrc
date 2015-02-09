@@ -11,13 +11,10 @@
 
 " Load Plugins {
 
-    " Pathogen autoloads everything under ~/.vim/bundle
-    " filetype off
-    " call pathogen#helptags()
-    " call pathogen#runtime_append_all_bundles()
-
     " Need to run :PlugInstall on new machines, or for updates
     call plug#begin()
+    Plug 'tpope/vim-sensible'
+    Plug 'tpope/vim-sleuth'
     Plug 'tpope/vim-fugitive'
     call plug#end()
 
@@ -39,38 +36,14 @@
 
 " Behavior {
 
-    if has('autocmd')
-        filetype plugin indent on  " Detect filetypes
-    endif
-
-    " Indentation
-    " NOTE: Do not set smartindent, it's deprecated and generally terrible
-    set autoindent
-
-    " Tiemouts for exiting insert mode with something like "jj"
-    set ttimeout
-    set ttimeoutlen=100
-
-    " Search upwards for tags
-    if has('path_extra')
-        setglobal tags-=./tags tags^=./tags;
-    endif
-
     " Have a better memory
-    set history=1000
     set undolevels=1000
-    set tabpagemax=50
 
 " }
 
 " UI {
 
     set background=dark  " Assume a dark color scheme
-
-    if has('syntax') && !exists('g:syntax_on')
-        " TODO: enable vs on
-        syntax enable  " Syntax highlighting
-    endif
 
     if &t_Co >= 256 || has('gui_running')
         colorscheme molokai
@@ -81,13 +54,14 @@
 " Formatting {
 
     " Tabs to 4 spaces by default
-    " TODO: can we adjust this based on filetype (Makefile, Ruby, etc)?
-    " autocmd filetype make setlocal noexpandtab
     set tabstop=4
     set shiftwidth=4
     set softtabstop=4
     set expandtab
-    set smarttab
+
+    " TODO: is sleuth good enough for detecting filetype indentation?
+    " http://stackoverflow.com/questions/158968/changing-vim-indentation-behavior-by-file-type
+    " autocmd filetype make setlocal noexpandtab
 
 " }
 
@@ -105,38 +79,28 @@
 " Appearance
 set hidden  " hides buffers instead of closing them
 set termencoding=utf-8
-set encoding=utf-8
 set lazyredraw  " don't update the display while executing macros
 set showmode
-set showcmd
 set visualbell  " don't beep at me!
 " set t_vb=
 set cursorline  " highlight the current line
 set ttyfast  " fast terminal
-set ruler  " tells us the column/row we're on
 set number  " line numbers in the gutter
 set mouse=a  " mouse interactivity
 set showmatch  " show matching parenths
 " gives the buffer some padding when scrolling
-if !&scrolloff
-    set scrolloff=4  " vertically
-endif
-if !&sidescrolloff
-    set sidescrolloff=4  " horizontally
-endif
-set display+=lastline
+set scrolloff=4  " vertically
+set sidescrolloff=4  " horizontally
 " if v:version >= 703
     " set relativenumber  " relative line #s in the gutter instead of absolute
 " endif
 set nomodeline  " never commonly used, has security vulnerabilities
-set laststatus=2  " always displays the status line for consistency
 set statusline=%<\ %f\ %m%r%y%h
 set statusline+=\ %#warningmsg#
 " set statusline+=%{SyntasticStatuslineFlag()}%*
 set statusline+=%=%-35.(%l\ of\ %L,\ %c%V%)\ %P
 
 " Better command-line completion
-set wildmenu
 set wildmode=list:longest
 set wildignore=*.swp,*.bak,*.pyc,*.class
 
@@ -159,20 +123,16 @@ if has('gui_running')
 endif
 
 " Editing Behavior
-set backspace=indent,eol,start  " backspace over everything in insert mode
-set fileformats="unix,dos,mac"
 set wrap
 set textwidth=80
 set formatoptions=qrnl1tc  " better line-wrapping, see :help fo-table
 if v:version >= 703
     set colorcolumn=80
 endif
-set autoread
 
 set ignorecase
 set smartcase
 set hlsearch
-set incsearch
 set gdefault  " search/replace is globally done on a line by default
 
 " Ctrl-C is almost a perfect <ESC> replacement, except for InsertLeave
@@ -181,7 +141,6 @@ imap <C-c> <ESC>
 
 " Clears the current search
 map <silent> <leader><space> :noh<cr>
-nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
 
 " Use Perl-style regex syntax, not vim's butchered version
 nnoremap / /\v
