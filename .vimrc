@@ -16,6 +16,11 @@
     Plug 'tpope/vim-sensible'
     Plug 'tpope/vim-sleuth'
     Plug 'tpope/vim-fugitive'
+    Plug 'airblade/vim-gitgutter'
+    Plug 'wikitopian/hardmode'
+    Plug 'Lokaltog/vim-easymotion'
+    Plug 'ntpeters/vim-better-whitespace'
+    Plug 'rking/ag.vim'
     call plug#end()
 
 " }
@@ -68,7 +73,8 @@
 " Mappings {
 
     let mapleader=","
-    nnoremap ; :
+    " TODO: while convenient, this conflicts with the "find next" functionality
+    " nnoremap ; :
 
     " Quickly edit and reload the .vimrc file
     nmap <silent> <leader>ev :e $MYVIMRC<CR>
@@ -126,8 +132,9 @@ endif
 set wrap
 set textwidth=80
 set formatoptions=qrnl1tc  " better line-wrapping, see :help fo-table
-if v:version >= 703
+if (exists('+colorcolumn'))
     set colorcolumn=80
+    " highlight ColorColumn ctermbg=9
 endif
 
 set ignorecase
@@ -241,16 +248,13 @@ match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 " EXTENSIONS "
 """"""""""""""
 
-" Ack-Grep
-if OSX()
-    let g:ackprg="ack -H --nocolor --nogroup --column"
-else
-    let g:ackprg="ack-grep -H --nocolor --nogroup --column"
-endif
-" TODO: there should be an intentional space at the end of this line:
-nnoremap <leader>a :Ack<space>
+" Ag
+nnoremap <leader>a :Ag<space>
 
 " Autocomplpop
+
+" Better Whitespace
+autocmd BufWritePre <buffer> StripWhitespace  " strip on save
 
 " CommandT
 let g:CommandTMatchWindowAtTop = 1
@@ -263,9 +267,12 @@ let g:delimitMate_balace_matchpairs = 1
 " autocmd FileType css let b:delimitMate_matchpairs = "::;"
 
 " EasyMotion
-let g:EasyMotion_leader_key = '<Leader>m'
 
 " Fugitive
+
+" HardMode
+" autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
+" to disable :call EasyMode()
 
 " NERDComment
 map <C-\> :call NERDComment(0, 'toggle')<CR>
@@ -315,8 +322,7 @@ endif
 " - Comment header snippets
 " - Paragraph / comment / block of text wrapping (cmd-opt-Q in ST)
 " - Learn how to use this as a 3-way diff/merge tool
-" - Trailing whitespace stripping:
-"   http://vim.wikia.com/wiki/Remove_unwanted_spaces
+" - GitGutter ]h [h <leader>hs <leader>hr
 " gv - reselect last visual block
 " q: - view command history, edit, and re-run
 " q/ - view search history, edit, and re-run
