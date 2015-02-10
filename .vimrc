@@ -56,6 +56,28 @@
     " https://github.com/Valloric/YouCompleteMe/issues/8
     Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer'}
     Plug 'scrooloose/syntastic'
+    Plug 'tpope/vim-vinegar'
+    " TODO: easy-align instead of tabular/table-mode?
+    Plug 'godlygeek/tabular'
+    Plug 'dhruvasagar/vim-table-mode'
+    Plug 'tpope/vim-abolish'
+    Plug 'terryma/vim-expand-region'
+    Plug 'tpope/vim-rsi'
+    Plug 'tpope/vim-endwise'
+    Plug 'tpope/vim-repeat'
+    Plug 'ap/vim-css-color'
+    Plug 'mattn/gist-vim'
+    Plug 'mattn/emmet-vim'
+    Plug 'SirVer/ultisnips'
+    Plug 'honza/vim-snippets'
+    Plug 'tpope/vim-surround'
+    Plug 'tpope/vim-commentary'
+    Plug 'Raimondi/delimitMate'
+    Plug 'jamessan/vim-gnupg'
+    Plug 'mbbill/undotree'
+    "Plug 'jeetsukumaran/vim-markology'
+    Plug 'bling/vim-airline'
+    " TODO: unimpaired, Indent Guides, molokai, multiple-cursors, tmux-nav, go
     call plug#end()
 
 " }
@@ -122,10 +144,10 @@ set sidescrolloff=4  " horizontally
     " set relativenumber  " relative line #s in the gutter instead of absolute
 " endif
 set nomodeline  " never commonly used, has security vulnerabilities
-set statusline=%<\ %f\ %m%r%y%h
-set statusline+=\ %#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}%*
-set statusline+=%=%-35.(%l\ of\ %L,\ %c%V%)\ %P
+"set statusline=%<\ %f\ %m%r%y%h
+"set statusline+=\ %#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}%*
+"set statusline+=%=%-35.(%l\ of\ %L,\ %c%V%)\ %P
 
 " Better command-line completion
 set wildmode=list:longest
@@ -191,19 +213,28 @@ endif
 set backup
 
 " Improved splits movement
-nnoremap <leader>w <C-w>v<C-w>l
-nnoremap <leader>W <C-w>s<C-w>j
+nnoremap <leader>\ <C-w>v<C-w>l
+nnoremap <leader>- <C-w>s<C-w>j
 noremap <C-h> <C-w>h
 noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
 noremap <C-l> <C-w>l
 
+nnoremap <leader>w :w<CR>
+" ? http://vim.wikia.com/wiki/Copy_or_change_search_hit
+
 " Improved tab movement
-nnoremap <S-h> :tabprevious<CR>
-nnoremap <S-l> :tabnext<CR>
+nnoremap <leader>h :tabprevious<CR>
+nnoremap <leader>l :tabnext<CR>
 map tn :tabnew<CR>
 map td :tabclose<CR>
-set nohidden  " When I close a tab, close the associated buffer
+
+" Improved buffer movement
+set hidden  " Allows for unsaved buffers to exist in the background
+nnoremap <S-h> :bprevious<CR>
+nnoremap <S-l> :bnext<CR>
+nnoremap <leader>t :enew<CR>
+nnoremap <leader>bq :bp <BAR> bd #<CR>
 
 " Quick way to jump back to previous file
 nnoremap <silent> Z <C-^>
@@ -265,14 +296,33 @@ autocmd BufNewFile,BufRead {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru} set
 " Hightlight VCS conflict markers
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
+" expands %% to current file's directory in command-line mode
+cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<CR>
+
+" [S]plit line (sister to [J]oin lines)
+" cc still substitutes the line like S would
+nnoremap S i<CR><Esc>^mwgk:silent! s/\v +$//<CR>:noh<CR>
+
+" visually select the last paste or change
+nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
+
+" switch to last buffer, like alt+tab. can also use <C-^>
+nnoremap <leader><tab> :b#<CR>
+
 """"""""""""""
 " EXTENSIONS "
 """"""""""""""
 
 " Ag
 nnoremap <leader>a :Ag<space>
+command Todo execute ":Ag \"TODO|FIXME|XXX|HACK|NOCOMMIT|NORELEASE\""
 
-" Autocomplpop
+" Airline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline_left_sep=''
+let g:airline_right_sep=''
 
 " Better Whitespace
 autocmd BufWritePre <buffer> StripWhitespace  " strip on save
@@ -291,14 +341,10 @@ let g:delimitMate_balace_matchpairs = 1
 " autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
 " to disable :call EasyMode()
 
-" NERDComment
-map <C-\> :call NERDComment(0, 'toggle')<CR>
-vmap <C-\> :call NERDComment(1, 'toggle')<CR>
-
 " SnipMate
-autocmd FileType python set ft=python.django
-autocmd FileType html set ft=htmldjango.html
-autocmd FileType htmldjango set ft=htmldjango.html
+"autocmd FileType python set ft=python.django
+"autocmd FileType html set ft=htmldjango.html
+"autocmd FileType htmldjango set ft=htmldjango.html
 
 " Surround
 " let g:surround_{char2nr("b")} = "{% block\1 \r..*\r &\1%}\r{% endblock %}"
@@ -315,14 +361,12 @@ let g:syntastic_disabled_filetypes = ['html']
 " NOTE: tmux and nvm don't play nicely, need to run the following:
 " nvm deactivate && nvm use v0.12.0
 " (can also place this in "pre_window:" in tmuxinator confs)
+" http://stackoverflow.com/questions/18221847/managing-multiple-node-js-versions-with-nvm-in-a-tmux-session
 let g:syntastic_javascript_checkers = ['jshint']  " Add 'flow' later
 let g:syntastic_python_checkers = ['python', 'flake8']
 let g:syntastic_sh_checkers = ['sh', 'shellcheck', 'checkbashisms']
 map <leader>E :Errors<CR>
 map <leader>C :SyntasticCheck<CR>
-
-" TagBar
-noremap <F4> :TagbarToggle<CR>
 
 " Unite
 let g:unite_data_directory = '~/.vim/tmp/unite/'
@@ -359,13 +403,21 @@ endif
 " - Split selection into multiple lines based on criteria
 " - Re-format file (faster than g=)
 " - Auto-select whole inner scope (an intelligent vi{)
-" - Navigating through changelist/jumplist
+" - Navigating through changelist/jumplist (<C-o> <C-i> g; g,)
 " - Refactoring with tools like rope
 " - Comment header snippets
 " - Paragraph / comment / block of text wrapping (cmd-opt-Q in ST)
 " - Learn how to use this as a 3-way diff/merge tool
 " - GitGutter ]h [h <leader>hs <leader>hr
+" - :TOhtml
+" - Zooming to particular splits, then getting them back again? (also in tmux)
+" - ctags / symbols
+" - project-wide find-and-replace / advanced refactoring
 " gv - reselect last visual block
+" gx - open URL under cursor in default browser, g:netrw_browsex_viewer
+" g_ - go to end of line WITHOUT newline, for yanking without break, etc
+" ciw instead of cw
+" `` to jump back to where you just came from
 " q: - view command history, edit, and re-run
 " q/ - view search history, edit, and re-run
 " :help changelist
