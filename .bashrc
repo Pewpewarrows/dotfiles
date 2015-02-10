@@ -366,7 +366,8 @@ if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 [[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator
 
 # nvm
-[[ -s ~/.nvm/nvm.sh ]] && . ~/.nvm/nvm.sh # This loads NVM
+export NVM_DIR=~/.nvm
+[[ -s $(brew --prefix nvm) ]] && source $(brew --prefix nvm)/nvm.sh
 
 # golang
 if [[ -d $HOME/go ]]; then
@@ -376,3 +377,6 @@ fi
 
 # For vi-mode in zsh:
 # bindkey -v
+
+# OPAM configuration
+. /Users/Marco/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
