@@ -315,7 +315,7 @@ nnoremap <leader><tab> :b#<CR>
 
 " Ag
 nnoremap <leader>a :Ag<space>
-command Todo execute ":Ag \"TODO|FIXME|XXX|HACK|NOCOMMIT|NORELEASE\""
+command! Todo execute ":Ag \"TODO|FIXME|XXX|HACK|NOCOMMIT|NORELEASE\""
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
@@ -413,6 +413,7 @@ endif
 " - Zooming to particular splits, then getting them back again? (also in tmux)
 " - ctags / symbols
 " - project-wide find-and-replace / advanced refactoring
+" - conflicting tmux key <C-o> and vim jumplist key
 " gv - reselect last visual block
 " gx - open URL under cursor in default browser, g:netrw_browsex_viewer
 " g_ - go to end of line WITHOUT newline, for yanking without break, etc
