@@ -55,6 +55,7 @@
     " TODO: make install play nicely with pyenv & system python:
     " https://github.com/Valloric/YouCompleteMe/issues/8
     Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer'}
+    Plug 'scrooloose/syntastic'
     call plug#end()
 
 " }
@@ -123,7 +124,7 @@ set sidescrolloff=4  " horizontally
 set nomodeline  " never commonly used, has security vulnerabilities
 set statusline=%<\ %f\ %m%r%y%h
 set statusline+=\ %#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}%*
+set statusline+=%{SyntasticStatuslineFlag()}%*
 set statusline+=%=%-35.(%l\ of\ %L,\ %c%V%)\ %P
 
 " Better command-line completion
@@ -253,13 +254,13 @@ autocmd BufNewFile,BufRead *.json set ft=javascript
 autocmd BufNewFile,BufRead {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru} set ft=ruby
 
 " OmniCompletion
-autocmd FileType python set omnifunc=pythoncomplete#Complete
-autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
-autocmd FileType php set omnifunc=phpcomplete#CompletePHP
-autocmd FileType c set omnifunc=ccomplete#Complete
+"autocmd FileType python set omnifunc=pythoncomplete#Complete
+"autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+"autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+"autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+"autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
+"autocmd FileType php set omnifunc=phpcomplete#CompletePHP
+"autocmd FileType c set omnifunc=ccomplete#Complete
 
 " Hightlight VCS conflict markers
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
@@ -307,9 +308,16 @@ autocmd FileType htmldjango set ft=htmldjango.html
 " let g:surround_{char2nr("f")} = "{% for\1 \r..*\r &\1%}\r{% endfor %}"
 
 " Syntastic
-let g:syntastic_check_on_open=1
-" let g:syntastic_auto_loc_list=1
+" TODO: re-enable the check_on_open option when it's faster and/or async
+" let g:syntastic_check_on_open=1
+let g:syntastic_aggregate_errors = 1
 let g:syntastic_disabled_filetypes = ['html']
+" NOTE: tmux and nvm don't play nicely, need to run the following:
+" nvm deactivate && nvm use v0.12.0
+" (can also place this in "pre_window:" in tmuxinator confs)
+let g:syntastic_javascript_checkers = ['jshint']  " Add 'flow' later
+let g:syntastic_python_checkers = ['python', 'flake8']
+let g:syntastic_sh_checkers = ['sh', 'shellcheck', 'checkbashisms']
 map <leader>E :Errors<CR>
 map <leader>C :SyntasticCheck<CR>
 
