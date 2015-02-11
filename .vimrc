@@ -368,6 +368,9 @@ let g:syntastic_sh_checkers = ['sh', 'shellcheck', 'checkbashisms']
 map <leader>E :Errors<CR>
 map <leader>C :SyntasticCheck<CR>
 
+" Ultisnips
+let g:UltiSnipsExpandTrigger = "<c-j>"
+
 " Unite
 let g:unite_data_directory = '~/.vim/tmp/unite/'
 let g:unite_prompt = '➜ '
