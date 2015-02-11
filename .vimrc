@@ -1,16 +1,13 @@
 " Modeline {
-" vim: set foldmarker={,} foldlevel=0 foldmethod=marker spell:
+" vim: set foldmarker={,} foldlevel=0 foldmethod=marker :
 " }
 
 " Preamble {
-
     " Must be first to prevent unwanted side-effects
     set nocompatible
-
 " }
 
 " Macros {
-
     silent function! OSX()
         return has('macunix')
     endfunction
@@ -20,7 +17,6 @@
     silent function! WINDOWS()
         return (has('win16') || has('win32') || has('win64'))
     endfunction
-
 " }
 
 " Load Plugins {
@@ -77,7 +73,10 @@
     Plug 'mbbill/undotree'
     "Plug 'jeetsukumaran/vim-markology'
     Plug 'bling/vim-airline'
-    " TODO: unimpaired, Indent Guides, molokai, multiple-cursors, tmux-nav, go
+    Plug 'terryma/vim-multiple-cursors'
+    Plug 'tomasr/molokai'  " TODO: look into vim-hybrid as an alternative
+    " TODO: unimpaired, Indent Guides, multiple-cursors, tmux-nav, go,
+    "       numbers, localvimrc, yankring, slime, scratch, rainbow parenths
     call plug#end()
 
 " }
@@ -116,7 +115,9 @@
 " Mappings {
 
     let mapleader=","
-    " TODO: while convenient, this conflicts with the "find next" functionality
+    " TODO: make this work, find better binding?
+    " Commands are more frequent than the "find next" functionality
+    " Remapping : back to ; appears to break many plugins
     " nnoremap ; :
 
     " Quickly edit and reload the .vimrc file
@@ -143,11 +144,21 @@ set sidescrolloff=4  " horizontally
 " if v:version >= 703
     " set relativenumber  " relative line #s in the gutter instead of absolute
 " endif
-set nomodeline  " never commonly used, has security vulnerabilities
+au FileType vim setl keywordprg=:help
+
+" If concerned about potential security vulnerabilities, uncomment
+" http://lists.alioth.debian.org/pipermail/pkg-vim-maintainers/2007-June/004020.html
+" set nomodeline
+
 "set statusline=%<\ %f\ %m%r%y%h
 "set statusline+=\ %#warningmsg#
 "set statusline+=%{SyntasticStatuslineFlag()}%*
 "set statusline+=%=%-35.(%l\ of\ %L,\ %c%V%)\ %P
+
+if version >= 700
+    set spl=en spell
+    set nospell
+endif
 
 " Better command-line completion
 set wildmode=list:longest
@@ -156,7 +167,8 @@ set wildignore=*.swp,*.bak,*.pyc,*.class
 set listchars=nbsp:·,tab:▸\ ,trail:·,extends:»,precedes:«,eol:¬
 set showbreak=↪
 set nolist  " don't show invisible characters by default, only for some files
-noremap <leader>i :set list!<CR> " Toggle invisible chars
+" Toggle invisible chars
+nnoremap <leader>i :set list!<CR>
 
 set title
 " set titleold="Terminal"
@@ -187,25 +199,30 @@ set gdefault  " search/replace is globally done on a line by default
 
 " Ctrl-C is almost a perfect <ESC> replacement, except for InsertLeave
 " autocommands. This remapping fixes that.
-imap <C-c> <ESC>
+inoremap <C-c> <Esc>
+inoremap jj <Esc>
 
 " Clears the current search
-map <silent> <leader><space> :noh<cr>
+nnoremap <silent> <leader><space> :noh<CR>
 
 " Use Perl-style regex syntax, not vim's butchered version
 nnoremap / /\v
 vnoremap / /\v
 
 " Center the line that the search result is on
-map N Nzz
-map n nzz
+nnoremap N Nzz
+nnoremap n nzz
 
 " Quickly paste contents without corrupting indentation
+" <C-r>+ to paste straight from the OS paste board?
 set pastetoggle=<F2>
 
-" Don't pollute the current working directory with this nonsense
-set backupdir=~/.vim/tmp/backup,/tmp
-set directory=~/.vim/tmp/swap,/tmp
+" Don't pollute the current working directory with this nonsense.
+" The double trailing forward slash at the end of the path tells it to use full
+" paths when storing files, so two files named "foo.txt" don't clobber each
+" other's backups or swaps.
+set backupdir=~/.vim/tmp/backup//,/tmp/vim/backup//
+set directory=~/.vim/tmp/swap//,/tmp/vim/swap//
 if v:version >= 703
     set undofile
     set undodir=~/.vim/tmp/undo,/tmp
@@ -215,10 +232,10 @@ set backup
 " Improved splits movement
 nnoremap <leader>\ <C-w>v<C-w>l
 nnoremap <leader>- <C-w>s<C-w>j
-noremap <C-h> <C-w>h
-noremap <C-j> <C-w>j
-noremap <C-k> <C-w>k
-noremap <C-l> <C-w>l
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 
 nnoremap <leader>w :w<CR>
 " ? http://vim.wikia.com/wiki/Copy_or_change_search_hit
@@ -226,8 +243,8 @@ nnoremap <leader>w :w<CR>
 " Improved tab movement
 nnoremap <leader>h :tabprevious<CR>
 nnoremap <leader>l :tabnext<CR>
-map tn :tabnew<CR>
-map td :tabclose<CR>
+nnoremap tn :tabnew<CR>
+nnoremap td :tabclose<CR>
 
 " Improved buffer movement
 set hidden  " Allows for unsaved buffers to exist in the background
@@ -256,20 +273,22 @@ nnoremap k gk
 
 " Rather have these as shortcuts to more common whole-line functions than to the
 " end-of-line, which can still be accomplished with y$ and d$
-map Y yy
-map D dd
+nnoremap Y yy
+nnoremap D dd
+
+nnoremap <leader>p o<Esc>p
 
 " Re-select text
 nnoremap <leader>v V`]
 
 " Paragraph text wrapping galore
 nnoremap <leader>q gqip
-vmap Q gq
-nmap Q gqap
+vnoremap Q gq
+nnoremap Q gqap
 
 " Delete lines without adding them to the yank stack
-nmap <silent> <leader>d "_d
-vmap <silent> <leader>d "_d
+nnoremap <silent> <leader>d "_d
+vnoremap <silent> <leader>d "_d
 
 " Forward-delete in insert mode
 inoremap <C-d> <Del>
@@ -321,6 +340,7 @@ command! Todo execute ":Ag \"TODO|FIXME|XXX|HACK|NOCOMMIT|NORELEASE\""
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
+" TODO: getting some weird artifacts of > and < as airline seps
 let g:airline_left_sep=''
 let g:airline_right_sep=''
 
@@ -340,6 +360,9 @@ let g:delimitMate_balace_matchpairs = 1
 " HardMode
 " autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
 " to disable :call EasyMode()
+
+" Netrw
+let g:netrw_altfile = 1  " don't let netrw occupy a buffer space
 
 " SnipMate
 "autocmd FileType python set ft=python.django
@@ -365,8 +388,8 @@ let g:syntastic_disabled_filetypes = ['html']
 let g:syntastic_javascript_checkers = ['jshint']  " Add 'flow' later
 let g:syntastic_python_checkers = ['python', 'flake8']
 let g:syntastic_sh_checkers = ['sh', 'shellcheck', 'checkbashisms']
-map <leader>E :Errors<CR>
-map <leader>C :SyntasticCheck<CR>
+nnoremap <leader>E :Errors<CR>
+nnoremap <leader>C :SyntasticCheck<CR>
 
 " Ultisnips
 let g:UltiSnipsExpandTrigger = "<c-j>"
@@ -384,7 +407,7 @@ call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
       \ 'vendor/',
       \ 'env/',
       \ ], '\|'))
-nnoremap <C-p> :Unite -buffer-name=files -start-insert -auto-resize file file_rec/async<CR>
+nnoremap <leader>f :Unite -buffer-name=files -start-insert -auto-resize file file_rec/async<CR>
 nnoremap <leader>b :Unite -buffer-name=buffer -auto-resize buffer<CR>
 nnoremap <leader>m :Unite -buffer-name=mru -auto-resize file_mru<CR>
 nnoremap <leader>o :Unite -buffer-name=outline -vertical outline<CR>
@@ -407,6 +430,7 @@ endif
 " - Re-format file (faster than g=)
 " - Auto-select whole inner scope (an intelligent vi{)
 " - Navigating through changelist/jumplist (<C-o> <C-i> g; g,)
+" - Navigating through tag stacks (<C-]> <C-T>)
 " - Refactoring with tools like rope
 " - Comment header snippets
 " - Paragraph / comment / block of text wrapping (cmd-opt-Q in ST)
@@ -417,6 +441,7 @@ endif
 " - ctags / symbols
 " - project-wide find-and-replace / advanced refactoring
 " - conflicting tmux key <C-o> and vim jumplist key
+" - mastering folds
 " gv - reselect last visual block
 " gx - open URL under cursor in default browser, g:netrw_browsex_viewer
 " g_ - go to end of line WITHOUT newline, for yanking without break, etc
@@ -424,6 +449,7 @@ endif
 " `` to jump back to where you just came from
 " q: - view command history, edit, and re-run
 " q/ - view search history, edit, and re-run
+" U - undo all changes on the line this far
 " :help changelist
 " :help text-objects
 " :help format-comments
