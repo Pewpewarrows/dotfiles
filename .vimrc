@@ -75,8 +75,9 @@
     Plug 'bling/vim-airline'
     Plug 'terryma/vim-multiple-cursors'
     Plug 'tomasr/molokai'  " TODO: look into vim-hybrid as an alternative
-    " TODO: unimpaired, Indent Guides, multiple-cursors, tmux-nav, go,
-    "       numbers, localvimrc, yankring, slime, scratch, rainbow parenths
+    Plug 'tpope/vim-unimpaired'
+    " TODO: Indent Guides, tmux-nav, go, numbers, localvimrc, yankring, slime,
+    "       scratch, rainbow parenths
     call plug#end()
 
 " }
@@ -106,23 +107,24 @@
     set softtabstop=4
     set expandtab
 
-    " TODO: is sleuth good enough for detecting filetype indentation?
-    " http://stackoverflow.com/questions/158968/changing-vim-indentation-behavior-by-file-type
-    " autocmd filetype make setlocal noexpandtab
-
 " }
 
 " Mappings {
 
     let mapleader=","
+    " let maplocalleader = "\\"
+
     " TODO: make this work, find better binding?
     " Commands are more frequent than the "find next" functionality
     " Remapping : back to ; appears to break many plugins
     " nnoremap ; :
 
     " Quickly edit and reload the .vimrc file
-    nmap <silent> <leader>ev :e $MYVIMRC<CR>
-    nmap <silent> <leader>sv :so $MYVIMRC<CR>
+    nnoremap <silent> <leader>ev :edit $MYVIMRC<CR>
+    nnoremap <silent> <leader>sv :source $MYVIMRC<CR>
+
+    " Uppercase the previous word entered
+    inoremap <leader>U <ESC>bveU
 
 " }
 
@@ -200,10 +202,14 @@ set gdefault  " search/replace is globally done on a line by default
 " Ctrl-C is almost a perfect <ESC> replacement, except for InsertLeave
 " autocommands. This remapping fixes that.
 inoremap <C-c> <Esc>
+" consider jk instead
 inoremap jj <Esc>
 
 " Clears the current search
-nnoremap <silent> <leader><space> :noh<CR>
+" Using :nohlsearch is the wrong solution, since it will get flipped back to
+" :hlsearch the next time vimrc is sourced.
+" nnoremap <silent> <leader><space> :nohlsearch<CR>
+nnoremap <silent> <leader><space> :let @/ = ""<CR>
 
 " Use Perl-style regex syntax, not vim's butchered version
 nnoremap / /\v
@@ -220,18 +226,20 @@ set pastetoggle=<F2>
 " Don't pollute the current working directory with this nonsense.
 " The double trailing forward slash at the end of the path tells it to use full
 " paths when storing files, so two files named "foo.txt" don't clobber each
-" other's backups or swaps.
-set backupdir=~/.vim/tmp/backup//,/tmp/vim/backup//
+" other's swaps or backups.
 set directory=~/.vim/tmp/swap//,/tmp/vim/swap//
-if v:version >= 703
-    set undofile
-    set undodir=~/.vim/tmp/undo,/tmp
-endif
 set backup
+set backupdir=~/.vim/tmp/backup//,/tmp/vim/backup//
+if has('persistent_undo')
+    set undofile
+    set undodir=~/.vim/tmp/undo//,/tmp/vim/undo//
+endif
 
 " Improved splits movement
 nnoremap <leader>\ <C-w>v<C-w>l
+nnoremap <leader><bar> <C-w>v<C-w>l
 nnoremap <leader>- <C-w>s<C-w>j
+nnoremap <leader>_ <C-w>s<C-w>j
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
@@ -300,17 +308,26 @@ set clipboard+=unnamed
 cmap w!! w !sudo tee % > /dev/null
 
 " FileType improvements
-autocmd BufNewFile,BufRead *.json set ft=javascript
-autocmd BufNewFile,BufRead {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru} set ft=ruby
+augroup filetype_improvements
+    autocmd!
+    autocmd BufNewFile,BufRead *.json setfiletype javascript
+    autocmd BufNewFile,BufRead {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru} setfiletype ruby
+    " TODO: is sleuth good enough for detecting filetype indentation?
+    " http://stackoverflow.com/questions/158968/changing-vim-indentation-behavior-by-file-type
+    " autocmd filetype make setlocal noexpandtab
+augroup END
 
 " OmniCompletion
-"autocmd FileType python set omnifunc=pythoncomplete#Complete
-"autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-"autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-"autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-"autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
-"autocmd FileType php set omnifunc=phpcomplete#CompletePHP
-"autocmd FileType c set omnifunc=ccomplete#Complete
+augroup omnicompletion
+    autocmd!
+    "autocmd FileType python set omnifunc=pythoncomplete#Complete
+    "autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+    "autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+    "autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+    "autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
+    "autocmd FileType php set omnifunc=phpcomplete#CompletePHP
+    "autocmd FileType c set omnifunc=ccomplete#Complete
+augroup END
 
 " Hightlight VCS conflict markers
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
@@ -345,29 +362,41 @@ let g:airline_left_sep=''
 let g:airline_right_sep=''
 
 " Better Whitespace
-autocmd BufWritePre <buffer> StripWhitespace  " strip on save
+augroup plug_better_whitespace
+    autocmd!
+    autocmd BufWritePre <buffer> StripWhitespace  " strip on save
+augroup END
 let g:better_whitespace_filetypes_blacklist = ['unite']
 
 " DelimitMate
 let g:delimitMate_expand_cr = 1
 let g:delimitMate_balace_matchpairs = 1
-" autocmd FileType css let b:delimitMate_matchpairs = "::;"
+augroup plug_delimitmate
+    autocmd!
+    " autocmd FileType css let b:delimitMate_matchpairs = "::;"
+augroup END
 
 " EasyMotion
 
 " Fugitive
 
 " HardMode
-" autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
-" to disable :call EasyMode()
+augroup plug_delimitmate
+    autocmd!
+    " autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
+    " to disable :call EasyMode()
+augroup END
 
 " Netrw
 let g:netrw_altfile = 1  " don't let netrw occupy a buffer space
 
 " SnipMate
-"autocmd FileType python set ft=python.django
-"autocmd FileType html set ft=htmldjango.html
-"autocmd FileType htmldjango set ft=htmldjango.html
+augroup plug_delimitmate
+    autocmd!
+    "autocmd FileType python set ft=python.django
+    "autocmd FileType html set ft=htmldjango.html
+    "autocmd FileType htmldjango set ft=htmldjango.html
+augroup END
 
 " Surround
 " let g:surround_{char2nr("b")} = "{% block\1 \r..*\r &\1%}\r{% endblock %}"
@@ -393,6 +422,9 @@ nnoremap <leader>C :SyntasticCheck<CR>
 
 " Ultisnips
 let g:UltiSnipsExpandTrigger = "<c-j>"
+
+" Undotree
+nnoremap <leader>u :UndotreeToggle<CR>
 
 " Unite
 let g:unite_data_directory = '~/.vim/tmp/unite/'
@@ -442,6 +474,8 @@ endif
 " - project-wide find-and-replace / advanced refactoring
 " - conflicting tmux key <C-o> and vim jumplist key
 " - mastering folds
+" - quickfix/context pane/split, :cc, :copen, :cclose
+" - abbreviations vs snippets
 " gv - reselect last visual block
 " gx - open URL under cursor in default browser, g:netrw_browsex_viewer
 " g_ - go to end of line WITHOUT newline, for yanking without break, etc
