@@ -187,7 +187,7 @@ endif
 
 " Editing Behavior
 set wrap
-set textwidth=80
+set textwidth=79
 set formatoptions=qrnl1tc  " better line-wrapping, see :help fo-table
 if (exists('+colorcolumn'))
     set colorcolumn=80
@@ -236,6 +236,8 @@ if has('persistent_undo')
 endif
 
 " Improved splits movement
+" set splitbelow
+" set splitright
 nnoremap <leader>\ <C-w>v<C-w>l
 nnoremap <leader><bar> <C-w>v<C-w>l
 nnoremap <leader>- <C-w>s<C-w>j
@@ -350,8 +352,9 @@ nnoremap <leader><tab> :b#<CR>
 """"""""""""""
 
 " Ag
-nnoremap <leader>a :Ag<space>
-command! Todo execute ":Ag \"TODO|FIXME|XXX|HACK|NOCOMMIT|NORELEASE\""
+nnoremap <leader>a :Ag!<space>
+command! Todo execute ":Ag! \"[T]ODO|[F]IXME|[X]XX|[H]ACK|[N]OCOMMIT|[N]ORELEASE\""
+nnoremap <leader>T :Todo<cr>
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
@@ -409,6 +412,8 @@ augroup END
 " TODO: re-enable the check_on_open option when it's faster and/or async
 " let g:syntastic_check_on_open=1
 let g:syntastic_aggregate_errors = 1
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
 let g:syntastic_disabled_filetypes = ['html']
 " NOTE: tmux and nvm don't play nicely, need to run the following:
 " nvm deactivate && nvm use v0.12.0
@@ -417,6 +422,7 @@ let g:syntastic_disabled_filetypes = ['html']
 let g:syntastic_javascript_checkers = ['jshint']  " Add 'flow' later
 let g:syntastic_python_checkers = ['python', 'flake8']
 let g:syntastic_sh_checkers = ['sh', 'shellcheck', 'checkbashisms']
+let g:syntastic_python_flake8_args = "--ignore=E501"
 nnoremap <leader>E :Errors<CR>
 nnoremap <leader>C :SyntasticCheck<CR>
 
