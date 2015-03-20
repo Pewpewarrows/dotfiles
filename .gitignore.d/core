@@ -1,3 +1,5 @@
-.vim/tmp/
-.virtualenvs/*
-!.virtualenvs/postactivate
+# .vim/tmp/
+# .virtualenvs/*
+# !.virtualenvs/postactivate
+
+/*

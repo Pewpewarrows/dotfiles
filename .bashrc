@@ -180,7 +180,8 @@ alias mkdir="mkdir -p" # make intermediate directories if they don't exist
 alias myip="curl icanhazip.com"
 alias reload=". ~/.bash_profile"
 alias hist="history | grep"
-alias f="find . -name"
+# This used to be aliased to "f", but fasd clobbers that...
+alias search="find . -name"
 alias dcommit-preview="git svn dcommit --dry-run | grep '^diff-tree' | cut -b 11- | git diff-tree --stdin -p -v | less"
 
 case "$__distro" in
@@ -226,7 +227,17 @@ alias donotwant=",r"
 alias fv="fab vagrant"
 alias be="bundle exec"
 
-alias non_mas_apps="for i in /Applications/*; do [ ! -d "${i}/Contents/_MASReceipt" ] && echo $i; done"
+# TODO: fix the original alias?
+# alias non_mas_apps="for i in /Applications/*; do [ ! -d "${i}/Contents/_MASReceipt" ] && echo $i; done"
+# TODO: no underscores allowed in bash function names? that can't be right...
+nonmasapps() {
+    for i in /Applications/*;
+      do [ ! -d "${i}/Contents/_MASReceipt" ] && echo $i;
+    done
+}
+alias non_mas_apps="nonmasapps"
+
+alias svn_git_authors="svn log --xml | grep author | sort -u | perl -pe 's/.*>(.*?)<.*/$1 = /'"
 
 # Custom functions
 
@@ -240,6 +251,33 @@ cdpushd() {
         fi
     fi
 }
+
+# Stops you (or a script) from accidentally doing a `git clean -dfx` on $HOME
+# TODO: finish writing this. needs to catch --git-dir and pass along to
+#       rev-parse, and figure out if I can make it work w/ vcsh.
+# git() {
+#     local top_level=$(command git rev-parse --show-toplevel 2>/dev/null)
+#     local clean=false
+
+#     echo "hi"
+
+#     for i in "$@"; do
+#         if [[ $i == "clean" ]]; then
+#             clean=true
+#             break
+#         fi
+#     done
+
+#     echo $clean
+#     echo [[ "${top_level}" == "${HOME}" ]]
+
+#     if [[ "${top_level}" == "${HOME}" ]] && [ "$clean" = true ]; then
+#         >&2 echo "Do NOT run git clean in this repository."
+#         return
+#     fi
+
+#     command git "$@"
+# }
 
 # Creates an archive from given directory
 mktar() { tar cvf  "${1%%/}.tar"     "${1%%/}/"; }
@@ -350,9 +388,10 @@ if [ -f ~/Projects/Forks/django/extras/django_bash_completion ]; then
     . ~/Projects/Forks/django/extras/django_bash_completion
 fi
 
-if [ -f `brew --prefix`/etc/autojump ]; then
-    . `brew --prefix`/etc/autojump
-fi
+# fasd
+if which fasd > /dev/null; then eval "$(fasd --init auto)"; fi
+alias v='f -e vim'
+alias o='f -e open'
 
 alias git="hub"
 

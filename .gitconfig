@@ -11,7 +11,8 @@
 
 [core]
     # http://stackoverflow.com/questions/136178/git-diff-handling-long-lines
-    pager = less -R
+    # For seeing color (via control chars), but not interpreting others:
+    pager = less --RAW-CONTROL-CHARS
     # excludesfile = /Users/Marco/.gitignore_global
 
 [merge]
@@ -32,7 +33,7 @@
     default = current
 
 [alias]
-    st = status -sb
+    st = status --short --branch
     wtf = !git-wtf
     # div = divergence
 

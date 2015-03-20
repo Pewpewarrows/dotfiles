@@ -69,15 +69,17 @@
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-commentary'
     Plug 'Raimondi/delimitMate'
-    Plug 'jamessan/vim-gnupg'
+    " Plug 'jamessan/vim-gnupg'
     Plug 'mbbill/undotree'
     "Plug 'jeetsukumaran/vim-markology'
     Plug 'bling/vim-airline'
     Plug 'terryma/vim-multiple-cursors'
     Plug 'tomasr/molokai'  " TODO: look into vim-hybrid as an alternative
     Plug 'tpope/vim-unimpaired'
+    Plug 'tpope/vim-obsession'
+    Plug 'dhruvasagar/vim-prosession'
     " TODO: Indent Guides, tmux-nav, go, numbers, localvimrc, yankring, slime,
-    "       scratch, rainbow parenths
+    "       scratch, rainbow parenths, vim-instant-markdown
     call plug#end()
 
 " }
@@ -125,6 +127,8 @@
 
     " Uppercase the previous word entered
     inoremap <leader>U <ESC>bveU
+
+    iabbrev <expr> dts strftime("%a %d %b %Y")
 
 " }
 
@@ -482,6 +486,8 @@ endif
 " - mastering folds
 " - quickfix/context pane/split, :cc, :copen, :cclose
 " - abbreviations vs snippets
+" <C-v> to do block visual mode, then I to enter a special insert mode that
+"       will replay the insert on every selection. A for append. $ for EOL.
 " gv - reselect last visual block
 " gx - open URL under cursor in default browser, g:netrw_browsex_viewer
 " g_ - go to end of line WITHOUT newline, for yanking without break, etc
