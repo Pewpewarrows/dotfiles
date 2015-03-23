@@ -467,7 +467,6 @@ if filereadable(expand('~/.vimrc.local'))
 endif
 
 " TODO
-" - Remove pathogen from autoload
 " - Split selection into multiple lines based on criteria
 " - Re-format file (faster than g=)
 " - Auto-select whole inner scope (an intelligent vi{)
