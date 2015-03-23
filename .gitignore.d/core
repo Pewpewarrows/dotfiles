@@ -1,5 +1,61 @@
+# For data as sensitive as the user's $HOME, treating gitignore as a whitelist
+# instead of a blacklist seems like the superior option.
+
+# (Pattern for partial directory inclusion):
+# !/.dirname
+# /.dirname/*
+# !/.dirname/filename
+
+/*
+
+!/.bash_completion.d/git-flow-completion.bash
+
+!/.bash_profile
+!/.bashrc
+
+!/.dotfiles-misc
+
+!/.gitconfig
+!/.gitignore.d
+/.gitignore.d/*
+!/.gitignore.d/core
+
+!/.hgrc
+
+!/.inputrc
+
+!/.pip
+/.pip/*
+!/.pip/pip.conf
+
+!/.tmux.conf
+
+!/.vim
+/.vim/*
+!/.vim/autoload
+/.vim/autoload/*
+!/.vim/autoload/plug.vim
+!/.vim/snippets
+/.vim/snippets/*
+!/.vim/snippets/django.snippets
+!/.vim/snippets/htmldjango.snippets
+!/.vim/tmp
+/.vim/tmp/*
+!/.vim/tmp/backup/.gitkeep
+!/.vim/tmp/swap/.gitkeep
+!/.vim/tmp/undo/.gitkeep
+!/.vimrc
+
+!/.zshrc
+
+!/README
+
+!/bin
+/bin/*
+!/bin/git-wtf
+!/bin/mvim
+
+# OLD IGNORES:
 # .vim/tmp/
 # .virtualenvs/*
 # !.virtualenvs/postactivate
-
-/*
