@@ -1,3 +1,5 @@
+# vcsh sets `git config core.excludesfile` to this file on init/clone
+
 # For data as sensitive as the user's $HOME, treating gitignore as a whitelist
 # instead of a blacklist seems like the superior option.
 
