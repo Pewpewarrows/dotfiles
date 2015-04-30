@@ -32,6 +32,8 @@
 
 !/.tmux.conf
 
+!/.urlview
+
 !/.vim
 /.vim/*
 !/.vim/autoload
@@ -56,6 +58,8 @@
 /bin/*
 !/bin/git-wtf
 !/bin/mvim
+
+!/Brewfile
 
 # OLD IGNORES:
 # .vim/tmp/
