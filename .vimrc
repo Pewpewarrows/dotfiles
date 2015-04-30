@@ -78,6 +78,7 @@
     Plug 'tpope/vim-unimpaired'
     Plug 'tpope/vim-obsession'
     Plug 'dhruvasagar/vim-prosession'
+    Plug 'solarnz/thrift.vim'
     " TODO: Indent Guides, tmux-nav, go, numbers, localvimrc, yankring, slime,
     "       scratch, rainbow parenths, vim-instant-markdown
     call plug#end()
@@ -476,6 +477,7 @@ endif
 " - Comment header snippets
 " - Paragraph / comment / block of text wrapping (cmd-opt-Q in ST)
 " - Learn how to use this as a 3-way diff/merge tool
+"   (vsplit, :e, :diffthis, ]c, [c, do, dp, <C-w>o, :diffoff, etc)
 " - GitGutter ]h [h <leader>hs <leader>hr
 " - :TOhtml
 " - Zooming to particular splits, then getting them back again? (also in tmux)

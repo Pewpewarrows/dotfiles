@@ -21,6 +21,8 @@ esac
 # Environmental Variables
 #-------------------------
 
+# DO NOT USE "~" IN PATH ADDITIONS. USE ${HOME} INSTEAD.
+
 export PATH
 
 path_prepend() {
@@ -42,6 +44,31 @@ path_prepend "$HOME/bin"
 export PAGER="less"
 export EDITOR="vim"
 export VISUAL=$EDITOR
+
+# Less Colors for Man Pages
+# export LESS_TERMCAP_mb=$'\E[01;31m'       # begin blinking
+# export LESS_TERMCAP_md=$'\E[01;38;5;74m'  # begin bold
+# export LESS_TERMCAP_me=$'\E[0m'           # end mode
+# export LESS_TERMCAP_se=$'\E[0m'           # end standout-mode
+# export LESS_TERMCAP_so=$'\E[38;5;246m'    # begin standout-mode - info box
+# export LESS_TERMCAP_ue=$'\E[0m'           # end underline
+# export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
+export LESS_TERMCAP_mb=$'\E[01;31m'       # begin blinking
+export LESS_TERMCAP_md=$'\E[01;38;5;74m'  # begin bold
+export LESS_TERMCAP_me=$'\E[0m'           # end mode
+export LESS_TERMCAP_se=$'\E[0m'           # end standout-mode
+export LESS_TERMCAP_so=$'\E[38;5;016m\E[48;5;220m'    # begin standout-mode - info box
+export LESS_TERMCAP_ue=$'\E[0m'           # end underline
+export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
+
+# http://www.cyberciti.biz/faq/linux-unix-colored-man-pages-with-less-command/
+# export LESS_TERMCAP_mb=$'\E[01;31m'       # begin blinking
+# export LESS_TERMCAP_md=$'\E[01;31m'  # begin bold
+# export LESS_TERMCAP_me=$'\E[0m'           # end mode
+# export LESS_TERMCAP_se=$'\E[0m'           # end standout-mode
+# export LESS_TERMCAP_so=$'\E[1;44;33m'    # begin standout-mode - info box
+# export LESS_TERMCAP_ue=$'\E[0m'           # end underline
+# export LESS_TERMCAP_us=$'\E[1;32m' # begin underline
 
 # Bash History
 export HISTSIZE=9001
@@ -371,7 +398,7 @@ export PIP_VIRTUALENV_BASE=$WORKON_HOME
 if [ "$__distro" = "Darwin" ]; then
     # For psycopg2 to install correctly
     #export PATH=$PATH:/Library/PostgreSQL/9.0/bin
-    path_append "~/Applications/Postgres.app/Contents/Versions/9.4/bin"
+    path_append "/Applications/Postgres.app/Contents/Versions/9.4/bin"
 
     # MacPorts Installer addition on 2011-04-08_at_10:51:06: adding an appropriate PATH variable for use with MacPorts.
     #export PATH=/opt/local/bin:/opt/local/sbin:$PATH
@@ -394,6 +421,10 @@ alias v='f -e vim'
 alias o='f -e open'
 
 alias git="hub"
+
+# brew-cask
+# TODO: figure out if I want the symlinks going here or default: ~/Applications
+# export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 
 # rbenv
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
@@ -419,3 +450,5 @@ fi
 
 # OPAM configuration
 . /Users/Marco/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
+
+# Reminder to use `help` for builtin command docs, `man` useless for them
