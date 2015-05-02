@@ -161,7 +161,9 @@ custom_virtualenv() {
 }
 
 custom_vcprompt() {
-    vcprompt -f " on ${BLUE}%n${WHITE}:%b${GREEN}%m%u"
+    if which vcprompt > /dev/null; then
+        vcprompt -f " on ${BLUE}%n${WHITE}:%b${GREEN}%m%u"
+    fi
 }
 
 update_prompt() {
@@ -420,7 +422,7 @@ if which fasd > /dev/null; then eval "$(fasd --init auto)"; fi
 alias v='f -e vim'
 alias o='f -e open'
 
-alias git="hub"
+if which hub > /dev/null; then alias git="hub"; fi
 
 # brew-cask
 # TODO: figure out if I want the symlinks going here or default: ~/Applications

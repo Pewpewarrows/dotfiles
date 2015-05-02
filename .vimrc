@@ -427,7 +427,7 @@ let g:syntastic_disabled_filetypes = ['html']
 let g:syntastic_javascript_checkers = ['jshint']  " Add 'flow' later
 let g:syntastic_python_checkers = ['python', 'flake8']
 let g:syntastic_sh_checkers = ['sh', 'shellcheck', 'checkbashisms']
-let g:syntastic_python_flake8_args = "--ignore=E501"
+" let g:syntastic_python_flake8_args = "--ignore=E501"
 nnoremap <leader>E :Errors<CR>
 nnoremap <leader>C :SyntasticCheck<CR>
 
