@@ -1,3 +1,5 @@
+# Run `brew bundle` to install these
+
 # Brews
 brew 'vcsh'
 brew 'vim'
@@ -28,6 +30,8 @@ brew 'urlview'
 brew 'cppcheck'
 brew 'llvm', args: ['with-clang', 'with-lld', 'with-lldb', 'with-rtti', 'with-all-targets', 'with-python']
 brew 'splint'
+brew 'docker'
+brew 'boot2docker'
 
 tap 'thoughtbot/formulae'
 brew 'liftoff'
@@ -77,3 +81,4 @@ cask 'bartender'
 # cask 'induction'
 cask 'loading'
 cask 'oclint'
+# cask 'kitematic'

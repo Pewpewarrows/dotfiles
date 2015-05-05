@@ -435,6 +435,10 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 # pyenv
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 
+# boot2docker
+# TODO: can't do this because of the "Writing [certs]" stdout?
+# if which boot2docker > /dev/null; then eval "$(boot2docker shellinit)"; fi
+
 # tmuxinator
 [[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator
 
