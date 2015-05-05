@@ -212,6 +212,7 @@ alias hist="history | grep"
 # This used to be aliased to "f", but fasd clobbers that...
 alias search="find . -name"
 alias dcommit-preview="git svn dcommit --dry-run | grep '^diff-tree' | cut -b 11- | git diff-tree --stdin -p -v | less"
+alias ports="lsof -i -P | grep -i 'listen'"
 
 case "$__distro" in
     cygstart)

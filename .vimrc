@@ -79,6 +79,7 @@
     Plug 'tpope/vim-obsession'
     Plug 'dhruvasagar/vim-prosession'
     Plug 'solarnz/thrift.vim'
+    Plug 'rhysd/vim-clang-format'
     " TODO: Indent Guides, tmux-nav, go, numbers, localvimrc, yankring, slime,
     "       scratch, rainbow parenths, vim-instant-markdown
     call plug#end()
@@ -376,6 +377,10 @@ augroup plug_better_whitespace
 augroup END
 let g:better_whitespace_filetypes_blacklist = ['unite']
 
+" Clang-Format
+autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
+autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
+
 " DelimitMate
 let g:delimitMate_expand_cr = 1
 let g:delimitMate_balace_matchpairs = 1
@@ -424,10 +429,17 @@ let g:syntastic_disabled_filetypes = ['html']
 " nvm deactivate && nvm use v0.12.0
 " (can also place this in "pre_window:" in tmuxinator confs)
 " http://stackoverflow.com/questions/18221847/managing-multiple-node-js-versions-with-nvm-in-a-tmux-session
+" TODO: make a brew formula for sparse and add it here
+"       https://sparse.wiki.kernel.org/index.php/Main_Page
+let g:syntastic_c_checkers = ['checkpatch', 'clang_check', 'clang_tidy', 'cppcheck', 'gcc', 'make', 'oclint', 'splint']
 let g:syntastic_javascript_checkers = ['jshint']  " Add 'flow' later
 let g:syntastic_python_checkers = ['python', 'flake8']
 let g:syntastic_sh_checkers = ['sh', 'shellcheck', 'checkbashisms']
 " let g:syntastic_python_flake8_args = "--ignore=E501"
+let g:syntastic_python_flake8_args = "--ignore=E501"
+let g:syntastic_c_checkpatch_args = '--ignore CODE_INDENT,LEADING_SPACE,C99_COMMENTS,OPEN_BRACE'
+let g:syntastic_c_clang_check_exec = '/usr/local/opt/llvm/bin/clang-check'
+let g:syntastic_c_clang_tidy_exec = '/usr/local/opt/llvm/bin/clang-tidy'
 nnoremap <leader>E :Errors<CR>
 nnoremap <leader>C :SyntasticCheck<CR>
 
@@ -458,6 +470,9 @@ nnoremap <leader>o :Unite -buffer-name=outline -vertical outline<CR>
 " YouCompleteMe
 " TODO: investigate if can/should use pyenv shim here...
 let g:ycm_path_to_python_interpreter = '/usr/bin/python'
+" TODO: do I still get all the rest of ycm's goodness for C-family if
+"       I disable its diangostics?
+let g:ycm_show_diagnostics_ui = 0
 
 """""""""""""""""
 " HOST-SPECIFIC "

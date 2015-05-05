@@ -25,6 +25,9 @@ brew 'checkbashisms'
 # brew 'mobile-shell'
 # brew 'gist'
 brew 'urlview'
+brew 'cppcheck'
+brew 'llvm', args: ['with-clang', 'with-lld', 'with-lldb', 'with-rtti', 'with-all-targets', 'with-python']
+brew 'splint'
 
 tap 'thoughtbot/formulae'
 brew 'liftoff'
@@ -72,3 +75,5 @@ cask 'bartender'
 #       the app's homepage. What's the status of Induction.app?
 #       https://github.com/caskroom/homebrew-cask/pull/8772
 # cask 'induction'
+cask 'loading'
+cask 'oclint'
