@@ -506,6 +506,7 @@ endif
 "       will replay the insert on every selection. A for append. $ for EOL.
 " gv - reselect last visual block
 " gx - open URL under cursor in default browser, g:netrw_browsex_viewer
+" gf - open file under cursor
 " g_ - go to end of line WITHOUT newline, for yanking without break, etc
 " ciw instead of cw
 " `` to jump back to where you just came from
