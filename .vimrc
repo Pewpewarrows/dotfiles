@@ -452,6 +452,13 @@ nnoremap <leader>u :UndotreeToggle<CR>
 " Unite
 let g:unite_data_directory = '~/.vim/tmp/unite/'
 let g:unite_prompt = '➜ '
+let g:unite_source_history_yank_enable = 1
+" let g:unite_source_file_rec_max_cache_files = 0
+if executable('ag')
+    let g:unite_source_grep_command = 'ag'
+    let g:unite_source_grep_default_opts = '--nocolor --nogroup --column --smart-case --line-numbers'
+    let g:unite_source_grep_recursive_opt = ''
+endif
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
 call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
@@ -462,10 +469,12 @@ call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
       \ 'vendor/',
       \ 'env/',
       \ ], '\|'))
-nnoremap <leader>f :Unite -buffer-name=files -start-insert -auto-resize file file_rec/async<CR>
+nnoremap <leader>f :Unite -buffer-name=files -start-insert -auto-resize file/async file_rec/async<CR>
 nnoremap <leader>b :Unite -buffer-name=buffer -auto-resize buffer<CR>
 nnoremap <leader>m :Unite -buffer-name=mru -auto-resize file_mru<CR>
 nnoremap <leader>o :Unite -buffer-name=outline -vertical outline<CR>
+nnoremap <leader>y :Unite -buffer-name=yank -auto-resize history/yank<CR>
+nnoremap <leader>g :Unite -buffer-name=ag -auto-resize grep<CR>
 
 " YouCompleteMe
 " TODO: investigate if can/should use pyenv shim here...

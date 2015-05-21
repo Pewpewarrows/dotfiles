@@ -2,7 +2,7 @@
 
 # Brews
 brew 'vcsh'
-brew 'vim'
+brew 'vim', args: ['with-lua'] # TODO: with-luajit instead?
 brew 'pyenv'
 brew 'rbenv'
 brew 'ruby-build'
