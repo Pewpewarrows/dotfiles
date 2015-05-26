@@ -394,7 +394,7 @@ augroup END
 " Fugitive
 
 " HardMode
-augroup plug_delimitmate
+augroup plug_hardmode
     autocmd!
     " autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
     " to disable :call EasyMode()
@@ -403,8 +403,24 @@ augroup END
 " Netrw
 let g:netrw_altfile = 1  " don't let netrw occupy a buffer space
 
+" See: https://github.com/tpope/vim-vinegar/issues/13
+function! QuitNetrw()
+  for i in range(1, bufnr($))
+    if buflisted(i)
+      if getbufvar(i, '&filetype') == "netrw"
+        silent exe 'bwipeout ' . i
+      endif
+    endif
+  endfor
+endfunction
+
+augroup plug_netrw
+    autocmd!
+    autocmd VimLeavePre * call QuitNetrw()
+augroup END
+
 " SnipMate
-augroup plug_delimitmate
+augroup plug_snipmate
     autocmd!
     "autocmd FileType python set ft=python.django
     "autocmd FileType html set ft=htmldjango.html
