@@ -74,12 +74,12 @@
     "Plug 'jeetsukumaran/vim-markology'
     Plug 'bling/vim-airline'
     Plug 'terryma/vim-multiple-cursors'
-    Plug 'tomasr/molokai'  " TODO: look into vim-hybrid as an alternative
     Plug 'tpope/vim-unimpaired'
     Plug 'tpope/vim-obsession'
     Plug 'dhruvasagar/vim-prosession'
     Plug 'solarnz/thrift.vim'
     Plug 'rhysd/vim-clang-format'
+    Plug 'w0ng/vim-hybrid'
     " TODO: Indent Guides, tmux-nav, go, numbers, localvimrc, yankring, slime,
     "       scratch, rainbow parenths, vim-instant-markdown
     call plug#end()
@@ -98,7 +98,7 @@
     set background=dark  " Assume a dark color scheme
 
     if &t_Co >= 256 || has('gui_running')
-        colorscheme molokai
+        colorscheme hybrid
     endif
 
 " }
