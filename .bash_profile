@@ -5,6 +5,9 @@ if [ -x /usr/libexec/path_helper ]; then
     source /etc/profile
 fi
 
+# Better ulimit defaults
+ulimit -n 65536 65536
+
 if [ -f ~/.bashrc ]; then
    source ~/.bashrc
 fi
