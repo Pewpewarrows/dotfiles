@@ -405,7 +405,7 @@ let g:netrw_altfile = 1  " don't let netrw occupy a buffer space
 
 " See: https://github.com/tpope/vim-vinegar/issues/13
 function! QuitNetrw()
-  for i in range(1, bufnr($))
+  for i in range(1, bufnr('$'))
     if buflisted(i)
       if getbufvar(i, '&filetype') == "netrw"
         silent exe 'bwipeout ' . i
