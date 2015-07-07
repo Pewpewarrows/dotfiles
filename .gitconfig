@@ -81,5 +81,7 @@
 [github]
     user = Pewpewarrows
 
+[include]
+    path = .gitconfig.local
+
 # TODO: push.default current or tracking
-# TODO: include.path = .gitconfig.local
