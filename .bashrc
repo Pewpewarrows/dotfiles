@@ -439,6 +439,9 @@ if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 # TODO: can't do this because of the "Writing [certs]" stdout?
 # if which boot2docker > /dev/null; then eval "$(boot2docker shellinit)"; fi
 
+# thefuck
+if which thefuck-alias > /dev/null; then eval "$(thefuck-alias)"; fi
+
 # tmuxinator
 [[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator
 

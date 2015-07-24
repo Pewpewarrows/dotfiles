@@ -32,6 +32,7 @@ brew 'llvm', args: ['with-clang', 'with-lld', 'with-lldb', 'with-rtti', 'with-al
 brew 'splint'
 brew 'docker'
 brew 'boot2docker'
+brew 'thefuck'
 
 tap 'thoughtbot/formulae'
 brew 'liftoff'
@@ -84,3 +85,4 @@ cask 'oclint'
 # cask 'kitematic'
 cask 'easysimbl'
 cask 'flash'
+cask 'spotify'

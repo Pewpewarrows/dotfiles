@@ -41,6 +41,8 @@
     stage = add -u
     unstage = reset HEAD --
 
+    edit = !vim `git ls-files -m`
+
     d = diff --ignore-space-at-eol --ignore-space-change
     dc = !git d --cached
     stats = diff --stat
