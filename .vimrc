@@ -81,7 +81,7 @@
     Plug 'rhysd/vim-clang-format'
     Plug 'w0ng/vim-hybrid'
     " TODO: Indent Guides, tmux-nav, go, numbers, localvimrc, yankring, slime,
-    "       scratch, rainbow parenths, vim-instant-markdown
+    "       scratch, rainbow parenths, vim-instant-markdown, lexical
     call plug#end()
 
 " }
@@ -323,6 +323,10 @@ augroup filetype_improvements
     " TODO: is sleuth good enough for detecting filetype indentation?
     " http://stackoverflow.com/questions/158968/changing-vim-indentation-behavior-by-file-type
     " autocmd filetype make setlocal noexpandtab
+    autocmd FileType gitcommit setlocal spell textwidth=72 colorcolumn=51,73
+    autocmd FileType mail setlocal spell
+    autocmd FileType markdown setlocal spell
+    " TODO: potentially `set compelte+=kspell` for prose filetypes
 augroup END
 
 " OmniCompletion
@@ -339,6 +343,7 @@ augroup END
 
 " Hightlight VCS conflict markers
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+" TODO: bind to quickly jump to next VCS conflict marker
 
 " expands %% to current file's directory in command-line mode
 cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<CR>
@@ -538,6 +543,8 @@ endif
 " q: - view command history, edit, and re-run
 " q/ - view search history, edit, and re-run
 " U - undo all changes on the line this far
+" zg - add word under cursor to spellfile
+" z= - choose a suggested word to replace with misspelled one under cursor
 " :help changelist
 " :help text-objects
 " :help format-comments
