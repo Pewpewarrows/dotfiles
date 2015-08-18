@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>limit.maxproc</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>launchctl</string>
+        <string>limit</string>
+        <string>maxproc</string>
+        <!-- TODO: For some reason it won't set the two values independently,
+             they must be the same. Ideally would want 1418 and 2128, respectively. -->
+        <string>2128</string>
+        <string>2128</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+</dict>
+</plist>
