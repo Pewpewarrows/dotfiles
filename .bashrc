@@ -96,7 +96,7 @@ export INPUTRC=~/.inputrc
 
 # ls and grep default options
 LS_OPTIONS="-hF"
-GREP_OPTIONS="-E" # TODO: include on linux: --color=always
+# GREP_OPTIONS="-E" # TODO: include on linux: --color=always
 export CLICOLOR=1
 
 if [ "$__distro" == "Darwin" ]; then
@@ -105,7 +105,7 @@ if [ "$__distro" == "Darwin" ]; then
 else
     LS_OPTIONS="$LS_OPTIONS --color=auto --group-directories-first"
 fi
-export LS_OPTIONS GREP_OPTIONS
+export LS_OPTIONS # GREP_OPTIONS
 
 # Bash improvements
 shopt -s cdspell nocaseglob
@@ -200,7 +200,7 @@ alias b="popd >/dev/null"
 # New defaults
 alias df="df -h"
 alias du="du -hc"
-alias grep="grep $GREP_OPTIONS"
+# alias grep="grep $GREP_OPTIONS"
 alias mkdir="mkdir -p" # make intermediate directories if they don't exist
 # TODO: ps
 # `which -s htop` && alias top="htop"
