@@ -1,0 +1,12 @@
+--recurse=yes
+--exclude=.git
+--exclude=.svn
+--exclude=.hg
+--exclude=vendor/*
+--exclude=node_modules/*
+--exclude=db/*
+--exclude=ENV/*
+--exclude=log/*
+--exclude=tmp/*
+--exclude=*.min.*
+--python-kinds=-iv

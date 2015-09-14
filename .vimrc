@@ -80,8 +80,10 @@
     Plug 'solarnz/thrift.vim'
     Plug 'rhysd/vim-clang-format'
     Plug 'w0ng/vim-hybrid'
+    Plug 'craigemery/vim-autotag'
+    Plug 'tsukkee/unite-tag'
     " TODO: Indent Guides, tmux-nav, go, numbers, localvimrc, yankring, slime,
-    "       scratch, rainbow parenths, vim-instant-markdown, lexical
+    "       scratch, rainbow parenths, vim-instant-markdown, lexical, riv?
     call plug#end()
 
 " }
@@ -266,7 +268,7 @@ nnoremap td :tabclose<CR>
 set hidden  " Allows for unsaved buffers to exist in the background
 nnoremap <S-h> :bprevious<CR>
 nnoremap <S-l> :bnext<CR>
-nnoremap <leader>t :enew<CR>
+nnoremap <leader>n :enew<CR>
 nnoremap <leader>bq :bp <BAR> bd #<CR>
 
 " Quick way to jump back to previous file
@@ -293,6 +295,8 @@ nnoremap Y yy
 nnoremap D dd
 
 nnoremap <leader>p o<Esc>p
+" from system clipboard
+" nnoremap <leader>P o<Esc>"*p
 
 " Re-select text
 nnoremap <leader>v V`]
@@ -424,14 +428,6 @@ augroup plug_netrw
     autocmd VimLeavePre * call QuitNetrw()
 augroup END
 
-" SnipMate
-augroup plug_snipmate
-    autocmd!
-    "autocmd FileType python set ft=python.django
-    "autocmd FileType html set ft=htmldjango.html
-    "autocmd FileType htmldjango set ft=htmldjango.html
-augroup END
-
 " Surround
 " let g:surround_{char2nr("b")} = "{% block\1 \r..*\r &\1%}\r{% endblock %}"
 " let g:surround_{char2nr("i")} = "{% if\1 \r..*\r &\1%}\r{% endif %}"
@@ -466,6 +462,13 @@ nnoremap <leader>C :SyntasticCheck<CR>
 
 " Ultisnips
 let g:UltiSnipsExpandTrigger = "<c-j>"
+let g:UltiSnipsSnippetsDir = '~/.vim/snippets/'
+augroup plug_ultisnips
+    autocmd!
+    autocmd FileType python set ft=python.django
+    autocmd FileType html set ft=htmldjango.html
+    autocmd FileType htmldjango set ft=htmldjango.html
+augroup END
 
 " Undotree
 nnoremap <leader>u :UndotreeToggle<CR>
@@ -496,6 +499,7 @@ nnoremap <leader>m :Unite -buffer-name=mru -auto-resize file_mru<CR>
 nnoremap <leader>o :Unite -buffer-name=outline -vertical outline<CR>
 nnoremap <leader>y :Unite -buffer-name=yank -auto-resize history/yank<CR>
 nnoremap <leader>g :Unite -buffer-name=ag -auto-resize grep<CR>
+nnoremap <leader>t :Unite -buffer-name=tags -start-insert -auto-resize tag<CR>
 
 " YouCompleteMe
 " TODO: investigate if can/should use pyenv shim here...
@@ -503,6 +507,7 @@ let g:ycm_path_to_python_interpreter = '/usr/bin/python'
 " TODO: do I still get all the rest of ycm's goodness for C-family if
 "       I disable its diangostics?
 let g:ycm_show_diagnostics_ui = 0
+let g:ycm_autoclose_preview_window_after_insertion = 1
 
 """""""""""""""""
 " HOST-SPECIFIC "
