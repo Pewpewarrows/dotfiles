@@ -13,7 +13,7 @@
     # http://stackoverflow.com/questions/136178/git-diff-handling-long-lines
     # For seeing color (via control chars), but not interpreting others:
     pager = less --RAW-CONTROL-CHARS
-    # excludesfile = /Users/Marco/.gitignore_global
+    # excludesfile defaults to $HOME/.config/git/ignore
 
 [merge]
     conflictstyle = diff3
