@@ -82,6 +82,7 @@
     Plug 'w0ng/vim-hybrid'
     Plug 'craigemery/vim-autotag'
     Plug 'tsukkee/unite-tag'
+    Plug 'xuhdev/vim-latex-live-preview'
     " TODO: Indent Guides, tmux-nav, go, numbers, localvimrc, yankring, slime,
     "       scratch, rainbow parenths, vim-instant-markdown, lexical, riv?
     call plug#end()
@@ -408,6 +409,13 @@ augroup plug_hardmode
     " autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
     " to disable :call EasyMode()
 augroup END
+
+" LaTeX Live Preview
+augroup plug_latex_live_preview
+    autocmd!
+    autocmd Filetype tex setl updatetime=1
+augroup END
+let g:livepreview_previewer = 'open -a Preview'
 
 " Netrw
 let g:netrw_altfile = 1  " don't let netrw occupy a buffer space
