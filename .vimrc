@@ -210,7 +210,8 @@ set gdefault  " search/replace is globally done on a line by default
 
 " Ctrl-C is almost a perfect <ESC> replacement, except for InsertLeave
 " autocommands. This remapping fixes that.
-inoremap <C-c> <Esc>
+" Stop using <C-c> to leave insert mode. Use jj or <C-[>.
+inoremap <C-c> <nop>
 " consider jk instead
 inoremap jj <Esc>
 

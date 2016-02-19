@@ -114,6 +114,10 @@ complete -cf sudo
 complete -cf which
 complete -cf man
 
+# Turn off flow control (C-s, C-q)
+# TODO: look into rebinding these to not completely lose this functionality
+stty -ixon -ixoff
+
 #-------------------------
 # Prompt
 #-------------------------
