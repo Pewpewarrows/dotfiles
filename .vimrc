@@ -83,6 +83,7 @@
     Plug 'craigemery/vim-autotag'
     Plug 'tsukkee/unite-tag'
     Plug 'xuhdev/vim-latex-live-preview'
+    " Plug 'gilligan/vim-lldb'
     " TODO: Indent Guides, tmux-nav, go, numbers, localvimrc, yankring, slime,
     "       scratch, rainbow parenths, vim-instant-markdown, lexical, riv?
     call plug#end()
@@ -93,6 +94,8 @@
 
     " Have a better memory
     set undolevels=1000
+
+    " set timeout timeoutlen=1000 ttimeoutlen=100
 
 " }
 
@@ -173,7 +176,7 @@ endif
 
 " Better command-line completion
 set wildmode=list:longest
-set wildignore=*.swp,*.bak,*.pyc,*.class
+set wildignore=*.swp,*.bak,*.pyc,*.class  " TODO: node_modules?
 
 set listchars=nbsp:·,tab:▸\ ,trail:·,extends:»,precedes:«,eol:¬
 set showbreak=↪
@@ -332,7 +335,10 @@ augroup filetype_improvements
     autocmd FileType gitcommit setlocal spell textwidth=72 colorcolumn=51,73
     autocmd FileType mail setlocal spell
     autocmd FileType markdown setlocal spell
-    " TODO: potentially `set compelte+=kspell` for prose filetypes
+    " TODO: potentially `set complete+=kspell` for prose filetypes
+    autocmd BufNewFile,BufRead *.c set filetype=c.doxygen
+    autocmd BufNewFile,BufRead *.h,*.cpp set filetype=cpp.doxygen
+    " TODO: detecting certain .conf files for dosini filetype?
 augroup END
 
 " OmniCompletion
@@ -369,6 +375,7 @@ nnoremap <leader><tab> :b#<CR>
 """"""""""""""
 
 " Ag
+let g:ag_prg="ag --vimgrep --ignore tags"
 nnoremap <leader>a :Ag!<space>
 command! Todo execute ":Ag! \"[T]ODO|[F]IXME|[X]XX|[H]ACK|[N]OCOMMIT|[N]ORELEASE\""
 nnoremap <leader>T :Todo<cr>
@@ -397,6 +404,11 @@ let g:delimitMate_expand_cr = 1
 let g:delimitMate_balace_matchpairs = 1
 augroup plug_delimitmate
     autocmd!
+    autocmd FileType python let b:delimitMate_nesting_quotes = ['"']
+    autocmd FileType markdown let b:delimitMate_nesting_quotes = ['`']
+    autocmd FileType python,markdown let b:delimitMate_expand_cr = 1
+    autocmd FileType python,markdown let b:delimitMate_expand_space = 1
+    autocmd FileType python,markdown let b:delimitMate_expand_inside_quotes = 1
     " autocmd FileType css let b:delimitMate_matchpairs = "::;"
 augroup END
 
@@ -457,7 +469,8 @@ let g:syntastic_disabled_filetypes = ['html']
 " http://stackoverflow.com/questions/18221847/managing-multiple-node-js-versions-with-nvm-in-a-tmux-session
 " TODO: make a brew formula for sparse and add it here
 "       https://sparse.wiki.kernel.org/index.php/Main_Page
-let g:syntastic_c_checkers = ['checkpatch', 'clang_check', 'clang_tidy', 'cppcheck', 'gcc', 'make', 'oclint', 'splint']
+" Other c checkers to situationally use: checkpatch
+let g:syntastic_c_checkers = ['clang_check', 'clang_tidy', 'cppcheck', 'gcc', 'make', 'oclint', 'splint']
 let g:syntastic_javascript_checkers = ['jshint']  " Add 'flow' later
 let g:syntastic_python_checkers = ['python', 'flake8']
 let g:syntastic_sh_checkers = ['sh', 'shellcheck', 'checkbashisms']
@@ -489,7 +502,7 @@ let g:unite_source_history_yank_enable = 1
 " let g:unite_source_file_rec_max_cache_files = 0
 if executable('ag')
     let g:unite_source_grep_command = 'ag'
-    let g:unite_source_grep_default_opts = '--nocolor --nogroup --column --smart-case --line-numbers'
+    let g:unite_source_grep_default_opts = '--vimgrep --ignore tags'
     let g:unite_source_grep_recursive_opt = ''
 endif
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
@@ -517,6 +530,7 @@ let g:ycm_path_to_python_interpreter = '/usr/bin/python'
 "       I disable its diangostics?
 let g:ycm_show_diagnostics_ui = 0
 let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_collect_identifiers_from_tags_files = 1
 
 """""""""""""""""
 " HOST-SPECIFIC "
@@ -546,6 +560,7 @@ endif
 " - mastering folds
 " - quickfix/context pane/split, :cc, :copen, :cclose
 " - abbreviations vs snippets
+" - Insert-mode maps (imap) for normal commands should use <C-o>, not <Esc>
 " <C-v> to do block visual mode, then I to enter a special insert mode that
 "       will replay the insert on every selection. A for append. $ for EOL.
 " gv - reselect last visual block

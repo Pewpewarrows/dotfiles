@@ -70,6 +70,9 @@ export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 # export LESS_TERMCAP_ue=$'\E[0m'           # end underline
 # export LESS_TERMCAP_us=$'\E[1;32m' # begin underline
 
+# TODO: less syntax highlighting:
+#       http://superuser.com/questions/71588/how-to-syntax-highlight-via-less/71593#71593
+
 # Bash History
 export HISTSIZE=9001
 export HISTFILESIZE=9001
@@ -110,6 +113,7 @@ export LS_OPTIONS # GREP_OPTIONS
 # Bash improvements
 shopt -s cdspell nocaseglob
 shopt -s histverify
+# shopt -s extglob
 complete -cf sudo
 complete -cf which
 complete -cf man
@@ -367,6 +371,12 @@ x() {
     esac
 }
 
+eg() {
+  MAN_KEEP_FORMATTING=1 man "$@" 2>/dev/null \
+    | sed --quiet --expression='/^E\(\x08.\)X\(\x08.\)\?A\(\x08.\)\?M\(\x08.\)\?P\(\x08.\)\?L\(\x08.\)\?E/{:a;p;n;/^[^ ]/q;ba}' \
+    | ${MANPAGER:-${PAGER:-pager -s}}
+}
+
 #-------------------------
 # Completions
 #-------------------------
@@ -412,10 +422,6 @@ if [ "$__distro" = "Darwin" ]; then
     # Finished adapting your PATH environment variable for use with MacPorts.
 
     # export PATH=$PATH:~/.gem/ruby/1.8/bin
-
-    if [ -f $(brew --prefix)/etc/bash_completion ]; then
-        . $(brew --prefix)/etc/bash_completion
-    fi
 fi
 
 if [ -f ~/Projects/Forks/django/extras/django_bash_completion ]; then
@@ -459,6 +465,11 @@ if [[ -d $HOME/go ]]; then
     path_append "$GOPATH/bin"
 fi
 
+# llvm
+if [[ -d `brew --prefix`/opt/llvm/bin ]]; then
+    path_append "`brew --prefix`/opt/llvm/bin"
+fi
+
 # For vi-mode in zsh:
 # bindkey -v
 
@@ -466,3 +477,5 @@ fi
 . /Users/Marco/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
 
 # Reminder to use `help` for builtin command docs, `man` useless for them
+
+# TODO: $MAILDIR env variable?
