@@ -3,6 +3,9 @@
 # For data as sensitive as the user's $HOME, treating gitignore as a whitelist
 # instead of a blacklist seems like the superior option.
 
+# To see a list of ignored files (to check for new potential inclusions):
+# $ vcsh core status --ignored
+
 # (Pattern for partial directory inclusion):
 # !/.dirname
 # /.dirname/*
@@ -14,6 +17,12 @@
 
 !/.bash_profile
 !/.bashrc
+
+!/.config
+/.config/*
+!/.config/git
+/.config/git/*
+!/.config/git/ignore
 
 !/.dotfiles-misc
 
@@ -58,6 +67,15 @@
 /bin/*
 !/bin/git-wtf
 !/bin/mvim
+!/bin/checkpatch.pl
+!/bin/git-svn-clone-externals
+!/bin/muttqt-sendmail
+!/bin/on_ac_power
+
+!/scripts
+/scripts/*
+!/scripts/prune_tmux_resurrect.sh
+!/scripts/safari.css
 
 !/Brewfile
 

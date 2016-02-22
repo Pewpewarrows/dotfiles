@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# TODO: do this without relying on bashism (process substitution)
+tee >(muttqt -f) | sendmail $*
