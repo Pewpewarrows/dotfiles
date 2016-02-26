@@ -47,10 +47,9 @@
     Plug 'Shougo/neomru.vim'
     Plug 'Shougo/unite.vim'
     Plug 'Shougo/unite-outline'
-    " TODO: msbuild or xbuild required for --omnisharp-completer
     " TODO: make install play nicely with pyenv & system python:
     " https://github.com/Valloric/YouCompleteMe/issues/8
-    Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer'}
+    Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer --omnisharp-completer --gocode-completer --tern-completer --racer-completer'}
     Plug 'scrooloose/syntastic'
     Plug 'tpope/vim-vinegar'
     " TODO: easy-align instead of tabular/table-mode?
@@ -103,7 +102,7 @@
 
     set background=dark  " Assume a dark color scheme
 
-    if &t_Co >= 256 || has('gui_running')
+    if (&t_Co >= 256 || has('gui_running')) && has#colorscheme('hybrid')
         colorscheme hybrid
     endif
 

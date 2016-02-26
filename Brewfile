@@ -1,48 +1,71 @@
 # Run `brew bundle` to install these
 
 # Brews
+
+# Dotfile Management
+brew 'mr'
 brew 'vcsh'
-brew 'vim', args: ['with-lua'] # TODO: with-luajit instead?
+
+# Development Tools
+brew 'checkbashisms'
+brew 'chisel'
+brew 'clang-format'
+brew 'cmake'
+brew 'cppcheck'
+brew 'cpputest'
+brew 'ctags'
+# TODO: move to gvm, it needs a homebrew recipe first though
+brew 'golang'
+brew 'llvm', args: ['with-clang', 'with-lld', 'with-lldb', 'with-rtti', 'with-all-targets', 'with-python']
+brew 'mono'
+brew 'multirust'
+brew 'nvm'
+brew 'opam'
 brew 'pyenv'
 brew 'rbenv'
 brew 'ruby-build'
+brew 'shellcheck'
+brew 'splint'
 brew 'tig'
-brew 'ack'
-brew 'ag'
-brew 'cmake'
-brew 'opam'
-brew 'nvm'
-brew 'tmux'
-brew 'reattach-to-user-namespace'
-brew 'tree'
+brew 'valgrind'
+brew 'vim', args: ['override-system-vi', 'with-lua', 'with-luajit']
 brew 'xcproj'
 brew 'xctool'
-brew 'clang-format'
+
+# Workflow Tools
+brew 'ack'
+brew 'ag'
+brew 'bash-completion'
+brew 'boot2docker'
+brew 'diff-so-fancy'
+brew 'docker'
 brew 'fasd'
+brew 'ffmpeg'
+brew 'getmail'
+brew 'gifsicle'
+brew 'hh'
 brew 'hub'
+brew 'notmuch'
+brew 'reattach-to-user-namespace'
+brew 'rename'
+brew 'thefuck'
+brew 'tmux'
+brew 'tree'
+brew 'urlview'
 brew 'vcprompt'
-brew 'shellcheck'
-brew 'checkbashisms'
+
+# For consideration
 # brew 'ghi'
 # brew 'mobile-shell'
 # brew 'gist'
-brew 'urlview'
-brew 'cppcheck'
-brew 'llvm', args: ['with-clang', 'with-lld', 'with-lldb', 'with-rtti', 'with-all-targets', 'with-python']
-brew 'splint'
-brew 'docker'
-brew 'boot2docker'
-brew 'thefuck'
-brew 'ctags'
-brew 'valgrind'
-brew 'chissel'
-brew 'bash-completion'
-brew 'cpputest'
-brew 'ffmpeg'
-brew 'gifsicle'
-# $ brew install --with-gpgme --with-sidebar-patch https://gist.githubusercontent.com/Pewpewarrows/b9f545306a00004d8009/raw/7e47a7660491f5dfbae31dc43001cc6eb9aac12b/mutt.rb
-# brew 'mutt'
-brew 'notmuch'
+# sdkman (would need a homebrew recipe)
+
+# Used to: $ brew install --with-gpgme --with-sidebar-patch https://gist.githubusercontent.com/Pewpewarrows/b9f545306a00004d8009/raw/7e47a7660491f5dfbae31dc43001cc6eb9aac12b/mutt.rb
+# Still need to (on locked down networks): $ brew edit sgeb/mutt/mutt
+#   mirror "https://bitbucket.org/mutt/mutt/downloads/mutt-1.5.24.tar.gz"
+# TODO: this sidebar patch is old...
+tap 'sgeb/mutt'
+brew 'sgeb/mutt/mutt', args: ['with-gpgme', 'with-sidebar-patch']
 
 tap 'homebrew/dupes'
 brew 'gdb'
@@ -55,60 +78,65 @@ brew 'contacts2'
 brew 'muttqt'
 
 # Casks
-brew 'caskroom/cask/brew-cask'
-cask 'dropbox'
+cask 'adium'
+cask 'amazon-cloud-drive'
+cask 'anki'
+cask 'appcleaner'
+cask 'bartender'
+cask 'beardedspice'
 cask 'bittorrent-sync'
+cask 'caffeine'
+cask 'clipmenu'
+cask 'daisydisk'
+cask 'disk-inventory-x'
+cask 'dropbox'
+cask 'flash'
+cask 'flux'
 cask 'google-drive'
-cask 'iterm2'
-cask 'vagrant'
+cask 'gpgtools'
+cask 'hipchat'
+cask 'licecap'
+cask 'loading'
+cask 'skype'
+cask 'slack'
+cask 'slate'
+cask 'spotify'
+cask 'stay'
+cask 'the-unarchiver'
+cask 'transmission'
+cask 'tunnelblick'
+cask 'vlc'
+cask 'ynab'
+
+# Development
+cask 'balsamiq-mockups'
 cask 'dash'
-cask 'battle-net'
-cask 'steam'
+cask 'github-desktop'
+cask 'iterm2'
+cask 'mactex'
+cask 'oclint'
+cask 'vagrant'
+cask 'virtualbox'
+cask 'vmware-fusion'
+
+# For consideration
+# cask 'moom'  # TODO: confirm that slate replaces this completely, then remove
 # TODO: Postgres.app has an internal check that its real directory is
 #       /Applications/Postgres.app/, so even an --appdir=/Applications symlink
 #       won't work for it. Would like to eventually fix this.
 # cask 'postgres'
-cask 'vmware-fusion'
-cask 'virtualbox'
-cask 'ynab'
-# cask 'moom'  # TODO: confirm that slate replaces this completely, then remove
-cask 'slate'
-cask 'balsamiq-mockups'
-cask 'hipchat'
-cask 'bartender'
-# cask 'flux'
 # cask 'alfred'
-# cask 'adium'
-# cask 'slack'
 # cask 'textexpander'
-# cask 'caffeine'
 # cask 'sequel-pro'
-# cask 'the-unarchiver'
-cask 'vlc'
 # TODO: Google Chrome from cask doesn't play nice with the 1Password extension?
 # cask 'google-chrome'
-# cask 'skype'
-# cask 'transmission'
 # cask 'cloudapp'
 # cask 'divvy'
-cask 'disk-inventory-x'
-# cask 'github'
 # TODO: The cask forumla was removed after the download link was removed from
 #       the app's homepage. What's the status of Induction.app?
 #       https://github.com/caskroom/homebrew-cask/pull/8772
 # cask 'induction'
-cask 'loading'
-cask 'oclint'
 # cask 'kitematic'
-cask 'easysimbl'
-cask 'flash'
-cask 'spotify'
-cask 'appcleaner'
-cask 'beardedspice'
-cask 'mojibar'
-cask 'mactex'
-cask 'daisydisk'
-cask 'anki'
-cask 'tunnelblick'
-cask 'licecap'
-cask 'gpgtools'
+# TODO: if still using safari extensions requiring simbl, install this
+# cask 'easysimbl'
+# cask 'mojibar'

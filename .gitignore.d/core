@@ -35,10 +35,6 @@
 
 !/.inputrc
 
-!/.pip
-/.pip/*
-!/.pip/pip.conf
-
 !/.tmux.conf
 
 !/.urlview
@@ -47,6 +43,7 @@
 /.vim/*
 !/.vim/autoload
 /.vim/autoload/*
+!/.vim/autoload/has.vim
 !/.vim/autoload/plug.vim
 !/.vim/snippets
 /.vim/snippets/*
@@ -78,6 +75,7 @@
 !/scripts/safari.css
 
 !/Brewfile
+!/Brewfile.personal
 
 # OLD IGNORES:
 # .vim/tmp/

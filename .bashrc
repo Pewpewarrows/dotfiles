@@ -25,18 +25,27 @@ esac
 
 export PATH
 
+path_remove() {
+    PATH=${PATH//":$1:"/:} # delete all instances in the middle
+    PATH=${PATH/%":$1"/} # delete any instance at the end
+    PATH=${PATH/#"$1:"/} # delete any instance at the beginning
+}
+
 path_prepend() {
-    if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
+    if [ -d "$1" ]; then
+        path_remove "$1"
         PATH="$1${PATH:+":$PATH"}"
     fi
 }
 
 path_append() {
-    if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
+    if [ -d "$1" ]; then
+        path_remove "$1"
         PATH="${PATH:+"$PATH:"}$1"
     fi
 }
 
+path_prepend "/usr/local/bin"  # homebrew packages come first
 path_prepend "$HOME/bin"
 #PATH="/usr/local/bin:/usr/sbin:/sbin:/usr/local/sbin:$PATH"
 
@@ -74,8 +83,8 @@ export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 #       http://superuser.com/questions/71588/how-to-syntax-highlight-via-less/71593#71593
 
 # Bash History
-export HISTSIZE=9001
 export HISTFILESIZE=9001
+export HISTSIZE=${HISTFILESIZE}
 # export HISTFILE="$HOME/.bash_history_${HOSTNAME}"
 export HISTFILE="$HOME/.bash_history"
 shopt -s histappend
@@ -175,9 +184,11 @@ custom_vcprompt() {
 }
 
 update_prompt() {
+    # hh --show-configuration wanted -a/-n flags, not -c/-r...
     history -a
-    history -c
-    history -r
+    # history -c
+    # history -r
+    history -n
     custom_virtualenv
     #export BASEPROMPT="$(custom_lastcommandfailed)${BLUE}\u ${GRAY}@ ${RED}\h ${GRAY}in ${GREEN}\w${GRAY}$(custom_vcprompt)${VIRTUAL_ENV_BASE}$(custom_backgroundjobs)${WHITE}"
     export BASEPROMPT="$(custom_lastcommandfailed)${BLUE}\u ${GRAY}@ ${RED}\h ${GRAY}in ${GREEN}\w${GRAY}$(custom_vcprompt)${VIRTUAL_ENV_BASE}${WHITE}"
@@ -235,6 +246,14 @@ server() {
     port=${1:-8000}
     [[ "$SSH_TTY" ]] || ( { open "http://localhost:${port}"; } & )
     python -m SimpleHTTPServer $port
+}
+
+clear_proxy() {
+    unset http_proxy
+    unset https_proxy
+    unset HTTP_PROXY
+    unset HTTPS_PROXY
+    unset no_proxy
 }
 
 if [ "$__distro" = "Darwin" ]; then
@@ -406,9 +425,10 @@ fi
 # Virtualenvwrapper
 export WORKON_HOME=~/.virtualenvs
 # TODO: PROJECT_HOME, and use pyenv global version to deduce virtualenvwrapper.sh location
-if [ "$__distro" = "Darwin" ]; then
-    source /usr/local/bin/virtualenvwrapper.sh
-fi
+# TODO: re-enable once I figure out what I want to do with virtualenv
+# if [ "$__distro" = "Darwin" ]; then
+    # source /usr/local/bin/virtualenvwrapper.sh
+# fi
 export PIP_RESPECT_VIRTUALENV=true
 export PIP_VIRTUALENV_BASE=$WORKON_HOME
 
@@ -450,7 +470,7 @@ if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 # if which boot2docker > /dev/null; then eval "$(boot2docker shellinit)"; fi
 
 # thefuck
-if which thefuck-alias > /dev/null; then eval "$(thefuck-alias)"; fi
+if which thefuck > /dev/null; then eval "$(thefuck --alias)"; fi
 
 # tmuxinator
 [[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator
@@ -474,8 +494,13 @@ fi
 # bindkey -v
 
 # OPAM configuration
-. /Users/Marco/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
+. ~/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
 
 # Reminder to use `help` for builtin command docs, `man` useless for them
 
 # TODO: $MAILDIR env variable?
+
+# hstr
+export HH_CONFIG=hicolor
+# if this is interactive shell, then bind hh to Ctrl-r
+if [[ $- =~ .*i.* ]]; then bind '"\C-r": "\e^ihh \n"'; fi
