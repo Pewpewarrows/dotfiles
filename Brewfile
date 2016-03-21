@@ -86,6 +86,7 @@ cask 'bartender'
 cask 'beardedspice'
 cask 'bittorrent-sync'
 cask 'caffeine'
+cask 'cheatsheet'
 cask 'clipmenu'
 cask 'daisydisk'
 cask 'disk-inventory-x'
@@ -99,7 +100,7 @@ cask 'licecap'
 cask 'loading'
 cask 'skype'
 cask 'slack'
-cask 'slate'
+cask 'slate'  # TODO: spectacle instead?
 cask 'spotify'
 cask 'stay'
 cask 'the-unarchiver'
@@ -119,8 +120,10 @@ cask 'vagrant'
 cask 'virtualbox'
 cask 'vmware-fusion'
 
+tap 'railwaycat/homebrew-emacsmacport'
+cask 'emacs-mac'
+
 # For consideration
-# cask 'moom'  # TODO: confirm that slate replaces this completely, then remove
 # TODO: Postgres.app has an internal check that its real directory is
 #       /Applications/Postgres.app/, so even an --appdir=/Applications symlink
 #       won't work for it. Would like to eventually fix this.
@@ -131,7 +134,6 @@ cask 'vmware-fusion'
 # TODO: Google Chrome from cask doesn't play nice with the 1Password extension?
 # cask 'google-chrome'
 # cask 'cloudapp'
-# cask 'divvy'
 # TODO: The cask forumla was removed after the download link was removed from
 #       the app's homepage. What's the status of Induction.app?
 #       https://github.com/caskroom/homebrew-cask/pull/8772
@@ -140,3 +142,19 @@ cask 'vmware-fusion'
 # TODO: if still using safari extensions requiring simbl, install this
 # cask 'easysimbl'
 # cask 'mojibar'
+# cask 'fantastical'
+# cask 'imageoptim'
+# cask 'istat-menus'
+# cask 'coyim'
+
+# For consideration, Quick Look Plugins
+# cask 'qlcolorcode'
+# cask 'qlstephen'
+# cask 'qlmarkdown'
+# cask 'quicklook-json'
+# cask 'qlprettypatch'
+# cask 'quicklook-csv'
+# cask 'betterzipql'
+# cask 'webpquicklook'
+# cask 'suspicious-package'
+# after installing these: $ qlmanage -r

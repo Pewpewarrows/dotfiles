@@ -504,3 +504,7 @@ fi
 export HH_CONFIG=hicolor
 # if this is interactive shell, then bind hh to Ctrl-r
 if [[ $- =~ .*i.* ]]; then bind '"\C-r": "\e^ihh \n"'; fi
+# cheat-sheet:
+#   <C-n>/<C-p>: can be used instead of UP/DOWN to nav the list
+#   <CR>/<C-j>: run selection (if none selected, first in list)
+#   <TAB>: copy selection to terminal prompt, allow editing before running
