@@ -76,6 +76,7 @@ brew 'wget'
 # brew 'gist'
 # sdkman (would need a homebrew recipe)
 # brew 'swig'  # Python M2Crypto library needs this
+brew 'graphviz'  # Python pygraphviz library needs this
 
 # Used to: $ brew install --with-gpgme --with-sidebar-patch https://gist.githubusercontent.com/Pewpewarrows/b9f545306a00004d8009/raw/7e47a7660491f5dfbae31dc43001cc6eb9aac12b/mutt.rb
 # Still need to (on locked down networks): $ brew edit sgeb/mutt/mutt
