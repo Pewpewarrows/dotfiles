@@ -39,6 +39,7 @@
     Plug 'tpope/vim-sleuth'
     Plug 'tpope/vim-fugitive'
     Plug 'airblade/vim-gitgutter'
+    " TODO: molasses or mediummode instead of hardmode?
     Plug 'wikitopian/hardmode'
     Plug 'Lokaltog/vim-easymotion'
     Plug 'ntpeters/vim-better-whitespace'
@@ -51,7 +52,8 @@
     " https://github.com/Valloric/YouCompleteMe/issues/8
     Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer --omnisharp-completer --gocode-completer --tern-completer --racer-completer'}
     Plug 'scrooloose/syntastic'
-    Plug 'tpope/vim-vinegar'
+    " Plug 'tpope/vim-vinegar'  " TODO: remove this after confirming dirvish is fine
+    Plug 'justinmk/vim-dirvish'
     " TODO: easy-align instead of tabular/table-mode?
     Plug 'godlygeek/tabular'
     Plug 'dhruvasagar/vim-table-mode'
@@ -64,6 +66,7 @@
     Plug 'mattn/webapi-vim'
     Plug 'mattn/gist-vim'
     Plug 'mattn/emmet-vim'
+    " TODO: Neosnippet?
     Plug 'SirVer/ultisnips'
     Plug 'honza/vim-snippets'
     Plug 'tpope/vim-surround'
@@ -71,7 +74,7 @@
     Plug 'Raimondi/delimitMate'
     " Plug 'jamessan/vim-gnupg'
     Plug 'mbbill/undotree'
-    "Plug 'jeetsukumaran/vim-markology'
+    Plug 'kshenoy/vim-signature'
     Plug 'bling/vim-airline'
     Plug 'terryma/vim-multiple-cursors'
     Plug 'tpope/vim-unimpaired'
@@ -79,13 +82,19 @@
     Plug 'dhruvasagar/vim-prosession'
     Plug 'solarnz/thrift.vim'
     Plug 'rhysd/vim-clang-format'
-    Plug 'w0ng/vim-hybrid'
     Plug 'craigemery/vim-autotag'
     Plug 'tsukkee/unite-tag'
     Plug 'xuhdev/vim-latex-live-preview'
     " Plug 'gilligan/vim-lldb'
+    Plug 'tpope/vim-dispatch'
+    Plug 'ARM9/arm-syntax-vim'
+    " TODO: choose between hybrid and tomorrow
+    Plug 'w0ng/vim-hybrid'
+    Plug 'chriskempson/tomorrow-theme', {'rtp': 'vim'}
+    Plug 'junegunn/vim-peekaboo'
     " TODO: Indent Guides, tmux-nav, go, numbers, localvimrc, yankring, slime,
-    "       scratch, rainbow parenths, vim-instant-markdown, lexical, riv?
+    "       scratch, rainbow parenths, vim-instant-markdown, lexical, riv?,
+    "       eunuch, butane?, seek?, incsearch, easytags?
     call plug#end()
 
 " }
@@ -97,6 +106,8 @@
 
     " set timeout timeoutlen=1000 ttimeoutlen=100
 
+    set nojoinspaces
+
 " }
 
 " UI {
@@ -105,6 +116,8 @@
 
     if (&t_Co >= 256 || has('gui_running')) && has#colorscheme('hybrid')
         colorscheme hybrid
+        " let g:hybrid_custom_term_colors = 1
+        " let g:hybrid_reduced_contrast = 1
     endif
 
 " }
@@ -121,13 +134,9 @@
 
 " Mappings {
 
+    " TODO: this breaks in-line find previous, that needs a new mapping
     let mapleader=","
     " let maplocalleader = "\\"
-
-    " TODO: make this work, find better binding?
-    " Commands are more frequent than the "find next" functionality
-    " Remapping : back to ; appears to break many plugins
-    " nnoremap ; :
 
     " Quickly edit and reload the .vimrc file
     nnoremap <silent> <leader>ev :edit $MYVIMRC<CR>
@@ -155,9 +164,9 @@ set showmatch  " show matching parenths
 " gives the buffer some padding when scrolling
 set scrolloff=4  " vertically
 set sidescrolloff=4  " horizontally
-" if v:version >= 703
-    " set relativenumber  " relative line #s in the gutter instead of absolute
-" endif
+if v:version >= 703
+    set relativenumber  " relative line #s in the gutter instead of absolute
+endif
 au FileType vim setl keywordprg=:help
 
 " If concerned about potential security vulnerabilities, uncomment
@@ -195,6 +204,10 @@ if has('gui_running')
     else
         set guifont=Inconsolata\ 11
     endif
+endif
+
+if has('mouse_sgr')
+    set ttymouse=sgr
 endif
 
 " Editing Behavior
@@ -266,17 +279,19 @@ nnoremap <leader>w :w<CR>
 " Improved tab movement
 nnoremap <leader>h :tabprevious<CR>
 nnoremap <leader>l :tabnext<CR>
-nnoremap tn :tabnew<CR>
-nnoremap td :tabclose<CR>
+nnoremap <leader>tn :tabnew<CR>
+nnoremap <leader>td :tabclose<CR>
 
 " Improved buffer movement
 set hidden  " Allows for unsaved buffers to exist in the background
 nnoremap <S-h> :bprevious<CR>
 nnoremap <S-l> :bnext<CR>
 nnoremap <leader>n :enew<CR>
-nnoremap <leader>bq :bp <BAR> bd #<CR>
+nnoremap <leader>bd :bp <BAR> bd #<CR>
+nnoremap <leader>bx :bd!<CR>
 
-" Quick way to jump back to previous file
+" Quickly switch to last buffer, like alt+tab. can also use <C-^>
+nnoremap <leader><tab> :b#<CR>
 nnoremap <silent> Z <C-^>
 
 " Folding
@@ -294,11 +309,17 @@ vnoremap <F1> <ESC>
 nnoremap j gj
 nnoremap k gk
 
+" nnoremap <UP> ddkP
+" nnoremap <DOWN> ddp
+" nnoremap <LEFT> <<
+" nnoremap <RIGHT> >>
+
 " Rather have these as shortcuts to more common whole-line functions than to the
 " end-of-line, which can still be accomplished with y$ and d$
 nnoremap Y yy
 nnoremap D dd
 
+" TODO: this might not be necessary with vim-unimpaired's [p and ]p
 nnoremap <leader>p o<Esc>p
 " from system clipboard
 " nnoremap <leader>P o<Esc>"*p
@@ -335,6 +356,7 @@ augroup filetype_improvements
     autocmd FileType gitcommit setlocal spell textwidth=72 colorcolumn=51,73
     autocmd FileType mail setlocal spell
     autocmd FileType markdown setlocal spell
+    autocmd FileType rst setlocal spell
     " TODO: potentially `set complete+=kspell` for prose filetypes
     autocmd BufNewFile,BufRead *.c set filetype=c.doxygen
     autocmd BufNewFile,BufRead *.h,*.cpp set filetype=cpp.doxygen
@@ -355,7 +377,6 @@ augroup END
 
 " Hightlight VCS conflict markers
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
-" TODO: bind to quickly jump to next VCS conflict marker
 
 " expands %% to current file's directory in command-line mode
 cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<CR>
@@ -366,9 +387,6 @@ nnoremap S i<CR><Esc>^mwgk:silent! s/\v +$//<CR>:noh<CR>
 
 " visually select the last paste or change
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
-
-" switch to last buffer, like alt+tab. can also use <C-^>
-nnoremap <leader><tab> :b#<CR>
 
 """"""""""""""
 " EXTENSIONS "
@@ -413,6 +431,8 @@ augroup plug_delimitmate
 augroup END
 
 " EasyMotion
+nmap s <Plug>(easymotion-s2)
+vmap s <Plug>(easymotion-s2)
 
 " Fugitive
 
@@ -465,6 +485,12 @@ augroup END
 " let g:surround_{char2nr("f")} = "{% for\1 \r..*\r &\1%}\r{% endfor %}"
 
 " Syntastic
+" TODO: re-enable active mode when large files with lots of errors don't slow
+"       vim down to a crawl
+let g:syntastic_mode_map = {
+    \ "mode": "passive",
+    \ "active_filetypes": [],
+    \ "passive_filetypes": [] }
 " TODO: re-enable the check_on_open option when it's faster and/or async
 " let g:syntastic_check_on_open=1
 let g:syntastic_aggregate_errors = 1
@@ -480,13 +506,15 @@ let g:syntastic_disabled_filetypes = ['html']
 " Other c checkers to situationally use: checkpatch
 let g:syntastic_c_checkers = ['clang_check', 'clang_tidy', 'cppcheck', 'gcc', 'make', 'oclint', 'splint']
 let g:syntastic_javascript_checkers = ['jshint']  " Add 'flow' later
-let g:syntastic_python_checkers = ['python', 'flake8']
+" TODO: maybe add pep257, pydocstyle
+let g:syntastic_python_checkers = ['python', 'flake8', 'pep257', 'pydocstyle']
 let g:syntastic_sh_checkers = ['sh', 'shellcheck', 'checkbashisms']
 " let g:syntastic_python_flake8_args = "--ignore=E501"
 let g:syntastic_python_flake8_args = "--ignore=E501"
 let g:syntastic_c_checkpatch_args = '--ignore CODE_INDENT,LEADING_SPACE,C99_COMMENTS,OPEN_BRACE'
 let g:syntastic_c_clang_check_exec = '/usr/local/opt/llvm/bin/clang-check'
 let g:syntastic_c_clang_tidy_exec = '/usr/local/opt/llvm/bin/clang-tidy'
+let g:syntastic_c_compiler_options = '-std=c11 -Wall -Wextra -Wformat=2 -pedantic -Wshadow -Wstrict-overflow -fno-strict-aliasing -Wpointer-arith'
 nnoremap <leader>E :Errors<CR>
 nnoremap <leader>C :SyntasticCheck<CR>
 
@@ -522,8 +550,10 @@ call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
       \ 'node_modules/',
       \ 'vendor/',
       \ 'env/',
+      \ '.eggs/',
       \ ], '\|'))
-nnoremap <leader>f :Unite -buffer-name=files -start-insert -auto-resize file/async file_rec/async<CR>
+nnoremap <leader>F :Unite -buffer-name=files -start-insert -auto-resize file/async<CR>
+nnoremap <leader>f :Unite -buffer-name=files -start-insert -auto-resize file_rec/async<CR>
 nnoremap <leader>b :Unite -buffer-name=buffer -auto-resize buffer<CR>
 nnoremap <leader>m :Unite -buffer-name=mru -auto-resize file_mru<CR>
 nnoremap <leader>o :Unite -buffer-name=outline -vertical outline<CR>
@@ -532,8 +562,15 @@ nnoremap <leader>g :Unite -buffer-name=ag -auto-resize grep<CR>
 nnoremap <leader>t :Unite -buffer-name=tags -start-insert -auto-resize tag<CR>
 
 " YouCompleteMe
-" TODO: investigate if can/should use pyenv shim here...
-let g:ycm_path_to_python_interpreter = '/usr/bin/python'
+" TODO: Investigate if can/should use pyenv shim here, or /usr/bin/python, or
+"       not set the variable at all. Right now not setting it makes YCM appear
+"       to work and play nice with pyenv.
+" let g:ycm_path_to_python_interpreter = '/usr/bin/python'
+" NOTE: If vim is launched from a shell with py3 as the default python
+"       interpreter (say, through pyenv) when YCM was compiled against a py2
+"       interpreter, the YCM server will fail to start. The following variable
+"       should be set to a full path (without shell expansions like "~"):
+" let g:ycm_server_python_interpreter = ''
 " TODO: do I still get all the rest of ycm's goodness for C-family if
 "       I disable its diangostics?
 let g:ycm_show_diagnostics_ui = 0
@@ -549,10 +586,12 @@ if filereadable(expand('~/.vimrc.local'))
 endif
 
 " TODO
-" - Split selection into multiple lines based on criteria
+" - Macro to split selection into multiple lines based on criteria
 " - Re-format file (faster than g=)
 " - Auto-select whole inner scope (an intelligent vi{)
-" - Navigating through changelist/jumplist (<C-o> <C-i> g; g,)
+" - mastering marks
+" - Navigating through changelist (g; g,) (:changes)
+" - Navigating through jumplist (<C-o> <C-i>) (:jumps)
 " - Navigating through tag stacks (<C-]> <C-T>)
 " - Refactoring with tools like rope
 " - Comment header snippets
@@ -564,14 +603,16 @@ endif
 " - Zooming to particular splits, then getting them back again? (also in tmux)
 " - ctags / symbols
 " - project-wide find-and-replace / advanced refactoring
-" - conflicting tmux key <C-o> and vim jumplist key
 " - mastering folds
 " - quickfix/context pane/split, :cc, :copen, :cclose
 " - abbreviations vs snippets
 " - Insert-mode maps (imap) for normal commands should use <C-o>, not <Esc>
+" - mastering movement without hjkl
+" - repetition (@: commands, @@ macros, & substitution, g& global substitution)
 " <C-v> to do block visual mode, then I to enter a special insert mode that
 "       will replay the insert on every selection. A for append. $ for EOL.
 " gv - reselect last visual block
+" gi - jump to last insert location
 " gx - open URL under cursor in default browser, g:netrw_browsex_viewer
 " gf - open file under cursor
 " g_ - go to end of line WITHOUT newline, for yanking without break, etc
@@ -579,7 +620,7 @@ endif
 " `` to jump back to where you just came from
 " q: - view command history, edit, and re-run
 " q/ - view search history, edit, and re-run
-" U - undo all changes on the line this far
+" U - undo all changes on the line thus far
 " zg - add word under cursor to spellfile
 " z= - choose a suggested word to replace with misspelled one under cursor
 " :help changelist
@@ -587,3 +628,9 @@ endif
 " :help format-comments
 " :help formatoptions
 " :help fo-table
+" - macros for inserting and editing various comment headers in several langs:
+"   http://vi.stackexchange.com/questions/415/adding-80-column-wide-comment-header-block-with-centered-text
+" - being able to peek quickly at the docs/source for a function, similar to
+"   how YCM has a GetDoc preview window, but on-demand instead of when typing
+" - Bind ":syntax sync fromstart" to a key: http://vim.wikia.com/wiki/Fix_syntax_highlighting
+" - Bind to toggle "set relativenumber" / "set norelativenumber"

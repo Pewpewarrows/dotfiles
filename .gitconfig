@@ -17,6 +17,7 @@
 
 [merge]
     conflictstyle = diff3
+    ff = false
     tool = vimdiff
 
 [credential]
@@ -24,10 +25,11 @@
     helper = osxkeychain
 
 [help]
-    autocorrect = 1
+    autocorrect = true
 
 [rerere]
-    enabled = 1
+    autoupdate = true
+    enabled = true
 
 [push]
     default = current
@@ -57,6 +59,7 @@
     latest = for-each-ref --count=10 --sort=-committerdate --format='%(committerdate:short) %(refname:short)'
     co = checkout
 
+    it = !git init && git commit -m "Hello world" --allow-empty
     f = fetch --all --prune
     pullff = pull --ff-only
     pullr = rebase -p

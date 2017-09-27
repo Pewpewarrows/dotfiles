@@ -232,6 +232,8 @@ alias hist="history | grep"
 alias search="find . -name"
 alias dcommit-preview="git svn dcommit --dry-run | grep '^diff-tree' | cut -b 11- | git diff-tree --stdin -p -v | less"
 alias ports="lsof -i -P | grep -i 'listen'"
+alias todo="ag --ignore-dir={build,ENV,tmp,vendor} \"[T]O[_ ]?DO|[F]IX[_ ]?ME|[X]XX|[H]ACK|[^(DE)|^_][B]UG|[R]EVIEW|[W]TF|[S]MELL|[B]ROKE|[N]OCOMMIT|[N]ORELEASE\""
+alias coverage-gaps="ag --ignore-dir={build,ENV,tmp,vendor} \"pragma\: no cover\""
 
 case "$__distro" in
     cygstart)
@@ -422,16 +424,6 @@ if [ "$__distro" = "Darwin" ]; then
     export ARCHFLAGS='-arch i386 -arch x86_64'
 fi
 
-# Virtualenvwrapper
-export WORKON_HOME=~/.virtualenvs
-# TODO: PROJECT_HOME, and use pyenv global version to deduce virtualenvwrapper.sh location
-# TODO: re-enable once I figure out what I want to do with virtualenv
-# if [ "$__distro" = "Darwin" ]; then
-    # source /usr/local/bin/virtualenvwrapper.sh
-# fi
-export PIP_RESPECT_VIRTUALENV=true
-export PIP_VIRTUALENV_BASE=$WORKON_HOME
-
 if [ "$__distro" = "Darwin" ]; then
     # For psycopg2 to install correctly
     #export PATH=$PATH:/Library/PostgreSQL/9.0/bin
@@ -465,6 +457,9 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 # pyenv
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 
+# pyenv-virtualenv
+if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
+
 # boot2docker
 # TODO: can't do this because of the "Writing [certs]" stdout?
 # if which boot2docker > /dev/null; then eval "$(boot2docker shellinit)"; fi
@@ -480,8 +475,8 @@ export NVM_DIR=~/.nvm
 [[ -s $(brew --prefix nvm) ]] && source $(brew --prefix nvm)/nvm.sh
 
 # golang
-if [[ -d $HOME/go ]]; then
-    export GOPATH="$HOME/go"
+if [[ -d $HOME/Private/Work/golang ]]; then
+    export GOPATH="$HOME/Private/Work/golang"
     path_append "$GOPATH/bin"
 fi
 
@@ -508,3 +503,20 @@ if [[ $- =~ .*i.* ]]; then bind '"\C-r": "\e^ihh \n"'; fi
 #   <C-n>/<C-p>: can be used instead of UP/DOWN to nav the list
 #   <CR>/<C-j>: run selection (if none selected, first in list)
 #   <TAB>: copy selection to terminal prompt, allow editing before running
+
+# java/android
+
+# pipsi
+if [[ -d $HOME/.local/bin ]]; then
+    path_prepend "$HOME/.local/bin"
+fi
+
+# emacs
+# TODO: get this working
+# export ALTERNATE_EDITOR="/Applications/Emacs.app/Contents/MacOS/Emacs"
+# alias emacs="/Applications/Emacs.app/Contents/MacOS/bin/emacs"
+# alias e="/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -nw -t"
+# alias ec="/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -c -n"
+# (if I want to complete switch over:)
+# export EDITOR="emacsclient -t"                  # $EDITOR should open in terminal
+# export VISUAL="emacsclient -c -a emacs"         # $VISUAL opens in GUI with non-daemon as alternate
