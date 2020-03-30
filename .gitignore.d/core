@@ -20,9 +20,43 @@
 
 !/.config
 /.config/*
+!/.config/alacritty
+/.config/alacritty/*
+!/.config/alacritty/alacritty.yml
+!/.config/fish
+/.config/fish/*
+!/.config/fish/config.fish
+!/.config/fish/fish_variables
+!/.config/fish/fishfile
+!/.config/fish/completions
+/.config/fish/completions/*
+!/.config/fish/completions/*.fish
+!/.config/fish/conf.d
+/.config/fish/conf.d/*
+!/.config/fish/conf.d/*.fish
+!/.config/fish/functions
+/.config/fish/functions/*
+!/.config/fish/functions/*.fish
 !/.config/git
 /.config/git/*
 !/.config/git/ignore
+!/.config/kitty
+/.config/kitty/*
+!/.config/kitty/dracula.conf
+!/.config/kitty/kitty.conf
+!/.config/neofetch
+/.config/neofetch/*
+!/.config/neofetch/config.conf
+!/.config/nvim
+/.config/nvim/*
+!/.config/nvim/coc-settings.json
+!/.config/nvim/init.vim
+!/.config/thefuck
+/.config/thefuck/*
+!/.config/thefuck/settings.py
+!/.config/RadareOrg
+/.config/RadareOrg/*
+!/.config/RadareOrg/Cutter.ini
 
 !/.dotfiles-misc
 
@@ -35,7 +69,11 @@
 
 !/.inputrc
 
+!/.prospector.yaml
+
 !/.spacemacs
+
+!/.tool-versions
 
 !/.tmux.conf
 
@@ -43,12 +81,18 @@
 
 !/.vim
 /.vim/*
+!/.vim/after
+/.vim/after/*
+!/.vim/after/ftplugin
+/.vim/after/ftplugin/*
+!/.vim/after/ftplugin/markdown.vim
 !/.vim/autoload
 /.vim/autoload/*
 !/.vim/autoload/has.vim
 !/.vim/autoload/plug.vim
 !/.vim/snippets
 /.vim/snippets/*
+!/.vim/snippets/c.snippets
 !/.vim/snippets/django.snippets
 !/.vim/snippets/htmldjango.snippets
 !/.vim/tmp
@@ -70,6 +114,7 @@
 !/bin/git-svn-clone-externals
 !/bin/muttqt-sendmail
 !/bin/on_ac_power
+!/bin/npl
 
 !/scripts
 /scripts/*

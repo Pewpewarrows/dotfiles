@@ -1,0 +1,44 @@
+snippet header
+	/**
+	 * @file ${1:Brief file description here}
+	 *
+	 * ${2:Detailed description of the file}
+	 */
+
+	#pragma once
+
+snippet tds
+	/**
+	 * @struct $1
+	 * @brief ${5:Brief struct description}
+	 *
+	 * ${6:Detailed description}
+	 */
+	typedef struct $1 {
+		${7:void} ${3:Data}; /*!< ${4:Description} */
+	} ${1:`vim_snippets#Filename('$1_t', 'name')`};
+
+snippet func
+	/**
+	 * @brief ${1:Brief function description here}
+	 *
+	 * ${2:Detailed description of the function}
+	 *
+	 * Usage:
+	 *
+	 * @code
+	 * $11();
+	 * @endcode
+	 *
+	 * @param $3 ${4:Parameter description}
+	 * @param $5 ${6:Parameter description}
+	 * @param $7 ${8:Parameter description}
+	 * @return ${9:Return parameter description}
+	 */
+	${10:void} ${11:function_name}(${12:Type} ${3:Parameter}, ${13:Type} ${5:Parameter}, ${14:Type} ${7:Parameter}) {
+		int retval = 0;
+		${15}
+
+	out:
+		return retval;
+	}

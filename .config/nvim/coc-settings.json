@@ -1,0 +1,6 @@
+{
+    "python.analysis.diagnosticEnabled": false,
+    "python.jediEnabled": false,
+    "python.linting.enabled": false,
+    "rust-analyzer.cargo-watch.enable": false
+}

@@ -1,0 +1,19 @@
+allow-shorthand: false
+
+inherits:
+  - strictness_veryhigh
+
+pylint:
+  disable:
+    - line-too-long  # already checked by pep8/pycodestyle
+
+pep8:
+  options:
+    max-line-length: 88
+
+pep257:
+  disable:
+    - D203
+    - D212
+  enable:
+    - D213

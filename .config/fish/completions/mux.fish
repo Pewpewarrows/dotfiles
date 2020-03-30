@@ -1,0 +1,1 @@
+/Users/marco/.config/fish/completions/tmuxinator.fish
