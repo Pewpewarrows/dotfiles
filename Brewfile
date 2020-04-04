@@ -19,27 +19,20 @@ brew 'clang-format'
 brew 'cmake'
 brew 'cppcheck'
 brew 'cpputest'
-brew 'ctags'
+brew 'exa'
 brew 'git'
 brew 'git-flow'  # TODO: vs git-flow-avh
 brew 'git-lfs'
-# TODO: move to gvm, it needs a homebrew recipe first though
-brew 'golang'
 brew 'gradle'
 brew 'hg'
 brew 'libimobiledevice'
 brew 'libplist'
 brew 'llvm', args: ['with-clang', 'with-clang-extra-tools', 'with-lld', 'with-lldb', 'with-rtti', 'with-all-targets', 'with-python']
-brew 'lua'
 brew 'maven'
 brew 'mono'
 brew 'neovim'
-brew 'opam'
-brew 'pyenv'
-brew 'pyenv-virtualenv'
+brew 'pipx'
 brew 'radare2'
-brew 'rbenv'
-brew 'ruby-build'
 brew 'shellcheck'
 brew 'splint'
 brew 'testssl'
@@ -86,6 +79,11 @@ brew 'urlview'
 brew 'vcprompt'
 brew 'wget'
 
+# Writing
+brew 'languagetool'
+brew 'redpen'
+brew 'vale'
+
 # For consideration
 # brew 'ghi'
 # brew 'mobile-shell'
@@ -111,6 +109,9 @@ brew 'liftoff'
 tap 'tgray/homebrew-tgbrew'
 brew 'contacts2'
 brew 'muttqt'
+
+tap 'universal-ctags/homebrew-universal-ctags'
+brew 'universal-ctags', args: ['HEAD']
 
 # This extends brew with a "cu" subcommand, only need to tap, no further
 # installs
@@ -142,7 +143,8 @@ cask 'google-hangouts'
 # cask 'gpgtools'
 cask 'gpg-suite'
 cask 'hipchat'
-cask 'istat-menus'
+cask 'iglance'
+# cask 'istat-menus'  # TODO: probably remove, have iglance now
 cask 'krita'
 cask 'licecap'
 cask 'loading'
@@ -168,6 +170,7 @@ cask 'ynab'
 
 # Development
 cask 'adoptopenjdk'
+cask 'alacritty'
 cask 'android-ndk'
 cask 'android-studio'
 cask 'balsamiq-mockups'
@@ -181,6 +184,7 @@ cask 'hex-fiend'
 cask 'hopper-disassembler'
 cask 'iterm2'
 cask 'java'
+cask 'kitty'
 cask 'mactex'
 cask 'oclint'
 cask 'osxfuse'
@@ -196,7 +200,9 @@ cask 'emacs-mac'
 tap 'caskroom/fonts'
 # Alternatives instead of macOS built-ins Monaco and SF Mono
 # cask 'font-firacode-nerd-font'
-cask 'font-firamono-nerd-font'
+# TODO: using haasosaurus/nerd-fonts fork for kitty support
+# see: https://github.com/ryanoasis/nerd-fonts/issues/268
+# cask 'font-firamono-nerd-font'
 # cask 'font-hack-nerd-font'
 # cask 'font-sourcecodepro-nerd-font'
 # Unavailable

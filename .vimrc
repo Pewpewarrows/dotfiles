@@ -24,6 +24,7 @@
 "   http://vi.stackexchange.com/questions/415/adding-80-column-wide-comment-header-block-with-centered-text
 " - Bind ":syntax sync fromstart" to a key: http://vim.wikia.com/wiki/Fix_syntax_highlighting
 " - :verbose set shiftwidth?
+" - asyncrun/dispatch/neomake project-wide build/lint/test errorformat parsing
 
 " Preamble {{{
 
@@ -52,6 +53,10 @@
 
     " Need to run :PlugInstall on new machines, and :PlugUpdate for updates
     call plug#begin()
+
+    " TODO: have a minimal plugin set to switch to temporarily if a big
+    " breaking change occurs and some emergency editing needs to happen, but
+    " don't need to go as extreme as not loading the vimrc altogether
 
     " Options
     Plug 'tpope/vim-sensible'
@@ -85,6 +90,8 @@
     Plug 'justinmk/vim-dirvish'
     Plug 'osyo-manga/vim-anzu'
     Plug 'milkypostman/vim-togglelist'
+    Plug 'majutsushi/tagbar'
+    Plug 'ludovicchabant/vim-gutentags'
 
     " Editing
     Plug 'Lokaltog/vim-easymotion'
@@ -128,7 +135,6 @@
     " Plug 'kshenoy/vim-signature'
     " Plug 'terryma/vim-multiple-cursors'
     " Plug 'solarnz/thrift.vim'
-    " Plug 'craigemery/vim-autotag'
     " Plug 'xuhdev/vim-latex-live-preview'
     " " Plug 'gilligan/vim-lldb'
     " Plug 'ARM9/arm-syntax-vim'
@@ -136,7 +142,7 @@
     " Plug 'dag/vim-fish'
     " TODO: Indent Guides, tmux-nav, go, numbers, localvimrc, yankring, slime,
     "       scratch, rainbow parenths, vim-instant-markdown, lexical, riv?,
-    "       eunuch, butane?, seek?, incsearch, easytags?, projectionist?
+    "       eunuch, butane?, seek?, incsearch, projectionist?
 
 " }}}
 
@@ -254,7 +260,7 @@
     xnoremap <CR> :
     " TODO: put these into an augroup?
     autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
-    autocmd CmdwinEnter * nnoremap <buffer> <CR> <CR>
+    autocmd CmdWinEnter * nnoremap <buffer> <CR> <CR>
 
     nnoremap <leader>wH <C-w>5<
     nnoremap <leader>wL <C-w>5>
@@ -288,11 +294,6 @@
     " nnoremap <S-h> :bprevious<CR>
     " nnoremap <S-l> :bnext<CR>
     " nnoremap <leader>n :enew<CR>
-    " TODO: try instead :bp\|bd #<CR>
-    " TODO: try instead :b#<bar>bd #<CR>
-    "       but it has problems when closing multiple buffers back to back,
-    "       ends up switching back to an already-closed buffer sometimes?
-    " TODO: but the problem with bx is that it will close the split it's in
     nnoremap <leader>bx :bd!<CR>
     " Use unimpaired's [b ]b for quick buffer browsing
 
@@ -348,6 +349,9 @@
         autocmd FileType netrw setlocal bufhidden=wipe
         autocmd FileType rst setlocal spell
         autocmd FileType vim setlocal keywordprg=:help
+        " TODO: decide on one of these
+        autocmd FileType vimwiki set ft=markdown
+        " autocmd FileType vimwiki setfiletype markdown
         " TODO: potentially `set complete+=kspell` for prose filetypes
         " TODO: detecting certain .conf files for dosini filetype?
         " autocmd FileType fish compiler fish
@@ -372,6 +376,7 @@
     " airline {{{
 
         let g:airline#extensions#tabline#enabled = 1
+        " TODO: get rid of encoding, line progress, and column count
 
     " }}}
 
@@ -389,6 +394,8 @@
         let g:ale_linters = {}
         " TODO: add 'pyre' back to here after fixing its buck problem
         let g:ale_linters.python = ['prospector']
+        " languagetool is slow and clunky, run it manually outside of vim
+        let g:ale_linters.markdown = ['alex', 'markdownlint', 'mdl', 'proselint', 'redpen', 'remark_lint', 'textlint', 'vale', 'writegood']
 
         " TODO: --doc-warnings --test-warnings
         let g:ale_python_prospector_options = '--profile $HOME/.prospector.yaml --with-tool mypy --with-tool pep257 --with-tool pyroma --with-tool vulture --with-tool bandit'
@@ -406,6 +413,11 @@
         " let g:syntastic_c_checkpatch_args = '--ignore CODE_INDENT,LEADING_SPACE,C99_COMMENTS,OPEN_BRACE'
         " let g:syntastic_c_compiler_options = '-std=c11 -Wall -Wextra -Wformat=2 -pedantic -Wshadow -Wstrict-overflow -fno-strict-aliasing -Wpointer-arith'
 
+        " could use g:ale_command_wrapper to wrap nodejs utils in npx for heavy
+        " isolation, but not keen on the install/remove overhead every time it
+        " runs, so put up with having those utils installed globally/locally
+        " for now
+
     " }}}
 
     " asyncrun.vim {{{
@@ -415,7 +427,7 @@
         nnoremap <silent> <F6> :AsyncRun -cwd=<root> -raw make test<CR>
         nnoremap <silent> <F7> :AsyncRun -cwd=<root> make<CR>
         nnoremap <silent> <F8> :AsyncRun -cwd=<root> -raw make run<CR>
-        " TODO: toggle quickfix window? run current single file? lint?
+        " TODO: run current single file? lint?
 
         augroup asyncrun
             autocmd!
@@ -443,27 +455,90 @@
 
     " fzf.vim {{{
 
+        let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+        let g:fzf_history_dir = '~/.local/share/fzf-history'
+
+        " let g:fzf_preview_window = 'right:50%'
+
+        " TODO: previews everywhere
+        " TODO: maybe by using yuki-ycino/fzf-preview.vim instead of manually
+        " TODO: -bind alt-a:select-all,alt-d:deselect-all,alt-t:toggle-all
+
+        function! FZFWithDevIcons(qargs)
+            " TODO: use $FZF_PREVIEW_FILE_COMMAND here
+            " TODO: final arg to bat, {2..}, {2..-1} ?
+            let l:fzf_files_options = ' --multi --bind ctrl-d:preview-page-down,ctrl-u:preview-page-up --preview "bat --color always --style numbers {2..}"'
+
+            function! s:files(dir)
+                let l:cmd = $FZF_DEFAULT_COMMAND
+                if a:dir != ''
+                    let l:cmd .= ' ' . shellescape(a:dir)
+                endif
+                let l:files = split(system(l:cmd.'| devicon-lookup'), '\n')
+                return l:files
+            endfunction
+
+            function! s:edit_file(items)
+                let items = a:items
+                let i = 1
+                let ln = len(items)
+                while i < ln
+                    let item = items[i]
+                    let parts = split(item, ' ')
+                    let file_path = get(parts, 1, '')
+                    let items[i] = file_path
+                    let i += 1
+                endwhile
+                call s:Sink(items)
+            endfunction
+
+            let opts = fzf#wrap({})
+            let opts.source = <sid>files(a:qargs)
+            let s:Sink = opts['sink*']
+            let opts['sink*'] = function('s:edit_file')
+            let opts.options .= l:fzf_files_options
+            call fzf#run(opts)
+        endfunction
+
+        " Overriding fzf.vim's default :Files command.
+        " Pass zero or one args to Files command (which are then passed to FZFWithDevIcons). Support file path completion too.
+        " TODO: sadly, piping to devicon-lookup causes fzf to block until
+        "       scanning completes, which is too costly to replace :Files as
+        "       a default, so make a new command for now until fixed
+        " command! -nargs=? -complete=file Files call FZFWithDevIcons(<q-args>)
+        command! -nargs=? -complete=file FilesWithDevIcons call FZFWithDevIcons(<q-args>)
+
         nnoremap <Leader>bb :Buffers<CR>
         nnoremap <Leader>f<Space> :Commands<CR>
         nnoremap <Leader>ff :Files<CR>
+        nnoremap <Leader>fd :FilesWithDevIcons<CR>
         nnoremap <Leader>fh :History<CR>
         " TODO: :History queries the .viminfo file, which is only regenerated
         " upon quitting vim, need a better MRU plugin or fzf config that will
         " account for files opened during the current session
         nnoremap <Leader>f: :History:<CR>
         nnoremap <Leader>f/ :History/<CR>
-        nnoremap <Leader>fl :Lines<CR>
+        nnoremap <Leader>f' :Marks<CR>
+        nnoremap <Leader>fl :BLines<CR>
+        nnoremap <Leader>fL :Lines<CR>
+        nnoremap <Leader>ft :BTags<CR>
+        nnoremap <Leader>fT :Tags<CR>
+        nnoremap <Leader>fm :Maps<CR>
+        nnoremap <Leader>fy :Filetypes<CR>
+        nnoremap <Leader>fH :Helptags!<CR>
         nnoremap <Leader>rg :Rg<Space>
         " TODO: close buffer while browsing them via :Buffers
 
         command! Todo execute ":Rg! [T]O[_ ]?DO|[F]IX[_ ]?ME|[X]XX|[H]ACK|[^(DE)|^_][B]UG|[R]EVIEW|[W]TF|[S]MELL|[B]ROKE|[N]OCOMMIT|[N]ORELEASE"
         nnoremap <leader>T :Todo<cr>
 
+        " TODO: make work w/ devicons
         command! FilesFlat call fzf#run(fzf#wrap({'source': '$FZF_DEFAULT_COMMAND --max-depth 1'}))
         nnoremap <leader>fa :FilesFlat<CR>
 
+        " TODO: make work w/ devicons
         command! FilesShallow call fzf#run(fzf#wrap({'source': '$FZF_DEFAULT_COMMAND --max-depth 4'}))
-        nnoremap <leader>fs :FilesShallow<CR>
+        nnoremap <leader>fw :FilesShallow<CR>
 
     " }}}
 
@@ -485,19 +560,74 @@
 
         " See: https://github.com/tpope/vim-vinegar/issues/13
         function! QuitNetrw()
-          for i in range(1, bufnr('$'))
-            if buflisted(i)
-              if getbufvar(i, '&filetype') == "netrw"
-                silent exe 'bwipeout ' . i
-              endif
-            endif
-          endfor
+            for i in range(1, bufnr('$'))
+                if buflisted(i)
+                    if getbufvar(i, '&filetype') == "netrw"
+                        silent exe 'bwipeout ' . i
+                    endif
+                endif
+            endfor
         endfunction
 
         augroup plug_netrw
             autocmd!
             autocmd VimLeavePre * call QuitNetrw()
         augroup END
+
+    " }}}
+
+    " tagbar {{{
+
+        " Adding new filetype support: https://github.com/majutsushi/tagbar/wiki
+
+        nnoremap <silent> <F9> :TagbarOpenAutoClose<CR>
+
+        " TODO: markdown outlines aren't nested correctly, look into:
+        " https://github.com/majutsushi/tagbar/wiki#markdown
+        " https://github.com/lvht/tagbar-markdown
+
+        let g:tagbar_type_make = {
+            \ 'kinds':[
+                \ 'm:macros',
+                \ 't:targets'
+            \ ]
+        \ }
+
+        let g:rust_use_custom_ctags_defs = 1  " TODO: only if using rust.vim
+        " TODO: hardcoded ctags path?
+        let g:tagbar_type_rust = {
+            \ 'ctagsbin' : '/usr/local/bin/ctags',
+            \ 'ctagstype' : 'rust',
+            \ 'kinds' : [
+                \ 'n:modules',
+                \ 's:structures:1',
+                \ 'i:interfaces',
+                \ 'c:implementations',
+                \ 'f:functions:1',
+                \ 'g:enumerations:1',
+                \ 't:type aliases:1:0',
+                \ 'v:constants:1:0',
+                \ 'M:macros:1',
+                \ 'm:fields:1:0',
+                \ 'e:enum variants:1:0',
+                \ 'P:methods:1',
+            \ ],
+            \ 'sro': '::',
+            \ 'kind2scope' : {
+                \ 'n': 'module',
+                \ 's': 'struct',
+                \ 'i': 'interface',
+                \ 'c': 'implementation',
+                \ 'f': 'function',
+                \ 'g': 'enum',
+                \ 't': 'typedef',
+                \ 'v': 'variable',
+                \ 'M': 'macro',
+                \ 'm': 'field',
+                \ 'e': 'enumerator',
+                \ 'P': 'method',
+            \ },
+        \ }
 
     " }}}
 
@@ -540,9 +670,9 @@
 
         set wildignore=*swp,*.class,*.pyc,*.png,*.jpg,*.gif,*.zip,*.o,*.obj,*.so,*.exe
 
-        " TODO: the trouble with :b# is it may switch back to an already-closed
-        " buffer (see them still visible via :ls!)
-        nnoremap <leader>bd :b#<bar>bd#<CR>
+        " think all the buggy behavior related to switching back to unlisted
+        " buffers has been fixed, if not try out moll/vim-bbye
+        nnoremap <silent> <leader>bd :bp<bar>bd#<CR>
 
         " Edit text without adding it to the yank stack
         nnoremap <silent> <leader>c "_c
@@ -578,6 +708,13 @@
         " s{char}{char} to move to {char}{char}
         nmap s <Plug>(easymotion-overwin-f2)
         xmap s <Plug>(easymotion-overwin-f2)
+
+    " }}}
+    "
+    " vim-gutentags {{{
+
+        let g:gutentags_cache_dir = expand('~/.cache/gutentags/')
+        " TODO: very large markdown files seem to block the foreground process upon save
 
     " }}}
 
@@ -621,6 +758,8 @@
     " }}}
 
     " vimwiki {{{
+
+        let g:vimwiki_global_ext = 0
 
         let g:vimwiki_list = [
             \ {

@@ -2,8 +2,8 @@
 # VERSION: 3.0
 SETUVAR CLICOLOR:1
 SETUVAR EDITOR:nvim
-SETUVAR FZF_CD_COMMAND:fd\x20\x2d\x2dtype\x20directories\x20\x2d\x2dfull\x2dpath\x20\x2d\x2dmax\x2ddepth\x205\x20\x2e\x20\x24dir
-SETUVAR FZF_CD_WITH_HIDDEN_COMMAND:fd\x20\x2d\x2dtype\x20directories\x20\x2d\x2dhidden\x20\x2d\x2dfollow\x20\x2d\x2dfull\x2dpath\x20\x2d\x2dmax\x2ddepth\x205\x20\x2e\x20\x24dir
+SETUVAR FZF_CD_COMMAND:fd\x20\x2d\x2dtype\x20directory\x20\x2d\x2dfull\x2dpath\x20\x2d\x2dmax\x2ddepth\x205\x20\x2e\x20\x24dir
+SETUVAR FZF_CD_WITH_HIDDEN_COMMAND:fd\x20\x2d\x2dtype\x20directory\x20\x2d\x2dhidden\x20\x2d\x2dfollow\x20\x2d\x2dfull\x2dpath\x20\x2d\x2dmax\x2ddepth\x205\x20\x2e\x20\x24dir
 SETUVAR FZF_CTRL_T_COMMAND:fd\x20\x2d\x2dtype\x20file\x20\x2d\x2dhidden\x20\x2d\x2dfollow\x20\x2d\x2dcolor\x3dalways\x20\x2d\x2dexclude\x20\x2egit
 SETUVAR FZF_DEFAULT_COMMAND:fd\x20\x2d\x2dtype\x20file\x20\x2d\x2dhidden\x20\x2d\x2dfollow\x20\x2d\x2dexclude\x20\x2egit\x20\x2d\x2dcolor\x3dalways
 SETUVAR FZF_DEFAULT_OPTS:\x2d\x2dheight\x2040\x20\x2d\x2dansi
@@ -14,6 +14,7 @@ SETUVAR FZF_OPEN_COMMAND:fd\x20\x2d\x2dtype\x20file\x20\x2d\x2dhidden\x20\x2d\x2
 SETUVAR FZF_PREVIEW_DIR_CMD:ls
 SETUVAR FZF_PREVIEW_FILE_CMD:bat\x20\x2d\x2dline\x2drange\x20\x3a10\x20\x2d\x2dplain\x20\x2d\x2dcolor\x20always
 SETUVAR FZF_TMUX_HEIGHT:40\x25
+SETUVAR GIT_EDITOR:nvim
 SETUVAR LSCOLORS:gxBxhxDxfxhxhxhxhxcxcx
 SETUVAR PAGER:less
 SETUVAR VISUAL:nvim
@@ -51,4 +52,6 @@ SETUVAR fish_pager_color_completion:normal
 SETUVAR fish_pager_color_description:B3A06D\x1eyellow
 SETUVAR fish_pager_color_prefix:white\x1e\x2d\x2dbold\x1e\x2d\x2dunderline
 SETUVAR fish_pager_color_progress:brwhite\x1e\x2d\x2dbackground\x3dcyan
-SETUVAR fish_user_paths:/Users/marco/\x2econfig/nvm/12\x2e13\x2e0/bin\x1e/Users/marco/bin\x1e/Users/marco/\x2elocal/bin
+SETUVAR fish_user_paths:/Users/marco/bin\x1e/Users/marco/\x2elocal/bin
+SETUVAR ls:exa
+SETUVAR pisces_pairs:\x28\x2c\x29\x1e\x5b\x2c\x5d\x1e\x7b\x2c\x7d\x1e\x22\x2c\x22\x1e\x27\x2c\x27

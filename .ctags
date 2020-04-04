@@ -11,3 +11,4 @@
 --exclude=tmp/*
 --exclude=*.min.*
 --python-kinds=-iv
+--regex-make=/^([^# \t]*):/\1/t,target/

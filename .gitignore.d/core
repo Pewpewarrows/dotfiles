@@ -13,7 +13,7 @@
 
 /*
 
-!/.bash_completion.d/git-flow-completion.bash
+!/.asdfrc
 
 !/.bash_profile
 !/.bashrc
@@ -23,6 +23,9 @@
 !/.config/alacritty
 /.config/alacritty/*
 !/.config/alacritty/alacritty.yml
+!/.config/bat
+/.config/bat/*
+!/.config/bat/config
 !/.config/fish
 /.config/fish/*
 !/.config/fish/config.fish
@@ -58,6 +61,11 @@
 /.config/RadareOrg/*
 !/.config/RadareOrg/Cutter.ini
 
+!/.default-cargo-crates
+!/.default-gems
+!/.default-npm-packages
+!/.default-python-packages
+
 !/.dotfiles-misc
 
 !/.gitconfig
@@ -85,16 +93,14 @@
 /.vim/after/*
 !/.vim/after/ftplugin
 /.vim/after/ftplugin/*
-!/.vim/after/ftplugin/markdown.vim
+!/.vim/after/ftplugin/*.vim
 !/.vim/autoload
 /.vim/autoload/*
 !/.vim/autoload/has.vim
 !/.vim/autoload/plug.vim
 !/.vim/snippets
 /.vim/snippets/*
-!/.vim/snippets/c.snippets
-!/.vim/snippets/django.snippets
-!/.vim/snippets/htmldjango.snippets
+!/.vim/snippets/*.snippets
 !/.vim/tmp
 /.vim/tmp/*
 !/.vim/tmp/backup/.gitkeep
@@ -123,8 +129,3 @@
 
 !/Brewfile
 !/Brewfile.personal
-
-# OLD IGNORES:
-# .vim/tmp/
-# .virtualenvs/*
-# !.virtualenvs/postactivate

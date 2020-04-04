@@ -6,10 +6,18 @@ if not functions -q fisher
     fish -c fisher
 end
 
+# TODO: install these when some upstream issues are fixed
+# - oh-my-fish/plugin-git-flow
+#   - does not correctly detect standard git completions existing
+# - b4b4r07/enhancd
+#   - uses long options for rm command, there's a PR up to fix this
+# - acomagu/fish-async-prompt
+#   - does not play nice with the prefixed extra newline in starship
+
 # Variables
 
-# TODO: turn this back on after fixing grc/grcplugin_ls/colors, or moving to
-# exa
+# TODO: turn this back on after fixing grc/grcplugin_ls/colors, or stop caring
+#       since we alias ls to exa now
 # if ls --color > /dev/null 2>&1
 #     # GNU ls
 #     set -gx grcplugin_ls "--color"
@@ -30,23 +38,49 @@ alias reload="source ~/.config/fish/config.fish"
 # Explanation of options: https://apple.stackexchange.com/questions/282185/how-do-i-get-different-colors-for-directories-etc-in-iterm2
 # TODO: turn this back on after fixing grc/grcplugin_ls/colors
 # alias l="ls -lah"
-alias l="command ls -lahG"
+# alias l="command ls -lahG"
+alias e="exa"
+alias l="exa --binary --group --long --git"  # TODO: --group-directories-first ?
+alias la="l --all"
+alias r="ranger"
+# TODO: git, docker, vagrant, cargo, make, yarn, npm, pip, brew, nix, tmux aliases
 # TODO: maybe:
 # bind \e\[A 'history --merge ; up-or-search'
 alias hr="history --merge"
-alias vim="nvim"
-alias vimdiff="nvim -d"
-alias view="nvim -R"
+if type -q nvim
+    alias vim="nvim"
+    alias vimdiff="nvim -d"
+    alias view="nvim -R"
+end
 alias ports="lsof -i -P | grep -i 'listen'"
 alias fix="reset; ssty sane; tput rs1; clear; echo -e \"\033c\""
 alias be="bundle exec"
-alias myip="curl icanhazip.com"
+alias myip="curl icanhazip.com"  # TODO: ifconfig.co ?
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias ......="cd ../../../../.."
+# TODO: alternatively, ..3 or .3
+alias 1=".."
+alias 2="..."
+alias 3="...."
+alias 4="....."
+alias 5="......"
 alias todo="rg \"[T]O[_ ]?DO|[F]IX[_ ]?ME|[X]XX|[H]ACK|[^(DE)|^_][B]UG|[R]EVIEW|[W]TF|[S]MELL|[B]ROKE|[N]OCOMMIT|[N]ORELEASE\""
+alias flushdns="sudo killall -HUP mDNSResponder"
+# TODO: this might not work
+# alias -="cd -"
+# TODO: from bash
+# alias trash="command mv "$@" ~/.Trash"
+# alias ql="qlmanage -p "$*" >& /dev/null"
+# TODO: if ever end up using kitty
+# alias icat="kitty +kitten icat"
+# alias kdiff="kitty +kitten diff"
+# TODO: requires aspell, conversion from bash
+# spl () {
+#     aspell -a <<< "$1"
+# }
 
 # Mini Functions
 
@@ -87,7 +121,9 @@ type -q thefuck; and thefuck --alias | source
 
 # virtualfish
 
-test -d ~/.local/pipx/venvs/virtualfish; and ~/.local/pipx/venvs/virtualfish/bin/python -m virtualfish | source
+# remember to do "vf new --python (asdf which python) <env-name>" to play nice with asdf
+# alternatively, "vf new --python (asdf which python <version>) <env-name>"
+# also, "pipx install --python (asdf which python <version>) <package>"
 
 # Local Configuration
 
