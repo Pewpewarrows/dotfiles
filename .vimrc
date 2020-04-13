@@ -347,7 +347,7 @@
         " Options per filetype
         autocmd FileType gitcommit setlocal spell textwidth=72 colorcolumn=51,73
         autocmd FileType mail setlocal spell
-        autocmd FileType markdown setlocal spell
+        autocmd FileType markdown setlocal spell textwidth=0
         autocmd FileType netrw setlocal bufhidden=wipe
         autocmd FileType rst setlocal spell
         autocmd FileType vim setlocal keywordprg=:help
