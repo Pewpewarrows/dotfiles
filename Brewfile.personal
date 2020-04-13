@@ -6,4 +6,5 @@
 
 # Gaming
 cask 'battle-net'
+cask 'gog-galaxy'
 cask 'steam'

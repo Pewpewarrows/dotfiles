@@ -75,6 +75,7 @@
     Plug 'dhruvasagar/vim-prosession'
     Plug 'skywind3000/asyncrun.vim'
     Plug 'tpope/vim-fugitive'
+    Plug 'tpope/vim-eunuch'
 
     " Filetypes
     Plug 'sheerun/vim-polyglot'
@@ -142,7 +143,7 @@
     " Plug 'dag/vim-fish'
     " TODO: Indent Guides, tmux-nav, go, numbers, localvimrc, yankring, slime,
     "       scratch, rainbow parenths, vim-instant-markdown, lexical, riv?,
-    "       eunuch, butane?, seek?, incsearch, projectionist?
+    "       butane?, seek?, incsearch, projectionist?
 
 " }}}
 
@@ -161,6 +162,7 @@
     set visualbell  " don't beep at me!
     set diffopt+=vertical
     set nostartofline
+    set spellfile="$HOME/.vim/spell/en.utf-8.add"
 
     " Recommended by coc.vim
     " set cmdheight=2
@@ -376,6 +378,7 @@
     " airline {{{
 
         let g:airline#extensions#tabline#enabled = 1
+        let g:airline_powerline_fonts = 1
         " TODO: get rid of encoding, line progress, and column count
 
     " }}}
@@ -402,6 +405,7 @@
         let g:ale_rust_cargo_use_clippy = executable('cargo-clippy')
 
         nmap <Leader>af <Plug>(ale_fix)
+        nmap <Leader>al <Plug>(ale_lint)
         " TODO: evaluate unimpaired loclist bindings, maybe use instead
         nmap <Leader>aj <Plug>(ale_next_wrap)
         nmap <Leader>ak <Plug>(ale_previous_wrap)
@@ -470,11 +474,11 @@
             let l:fzf_files_options = ' --multi --bind ctrl-d:preview-page-down,ctrl-u:preview-page-up --preview "bat --color always --style numbers {2..}"'
 
             function! s:files(dir)
-                let l:cmd = $FZF_DEFAULT_COMMAND
+                let l:cmd = "$FZF_DEFAULT_COMMAND"
                 if a:dir != ''
                     let l:cmd .= ' ' . shellescape(a:dir)
                 endif
-                let l:files = split(system(l:cmd.'| devicon-lookup'), '\n')
+                let l:files = split(system(l:cmd.' | devicon-lookup'), '\n')
                 return l:files
             endfunction
 

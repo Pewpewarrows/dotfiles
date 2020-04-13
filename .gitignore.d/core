@@ -101,6 +101,9 @@
 !/.vim/snippets
 /.vim/snippets/*
 !/.vim/snippets/*.snippets
+!/.vim/spell
+/.vim/spell/*
+!/.vim/spell/.gitkeep
 !/.vim/tmp
 /.vim/tmp/*
 !/.vim/tmp/backup/.gitkeep

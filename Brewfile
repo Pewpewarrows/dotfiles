@@ -25,7 +25,8 @@ brew 'git-flow'  # TODO: vs git-flow-avh
 brew 'git-lfs'
 brew 'gradle'
 brew 'hg'
-brew 'libimobiledevice'
+brew 'ideviceinstaller', args: ['HEAD']
+brew 'libimobiledevice', args: ['HEAD']
 brew 'libplist'
 brew 'llvm', args: ['with-clang', 'with-clang-extra-tools', 'with-lld', 'with-lldb', 'with-rtti', 'with-all-targets', 'with-python']
 brew 'maven'
@@ -34,9 +35,11 @@ brew 'neovim'
 brew 'pipx'
 brew 'radare2'
 brew 'shellcheck'
+brew 'socat'
 brew 'splint'
 brew 'testssl'
 brew 'tig'
+brew 'usbmuxd', args: ['HEAD']
 brew 'valgrind'
 brew 'vim', args: ['override-system-vi', 'with-lua', 'with-luajit']
 brew 'xcproj'
@@ -144,7 +147,6 @@ cask 'google-hangouts'
 cask 'gpg-suite'
 cask 'hipchat'
 cask 'iglance'
-# cask 'istat-menus'  # TODO: probably remove, have iglance now
 cask 'krita'
 cask 'licecap'
 cask 'loading'
@@ -199,10 +201,15 @@ cask 'emacs-mac'
 
 tap 'caskroom/fonts'
 # Alternatives instead of macOS built-ins Monaco and SF Mono
+cask 'font-fira-mono'
+# TODO: manually downloaded
+# https://github.com/ryanoasis/nerd-fonts/blob/master/src/glyphs/Symbols-2048-em%20Nerd%20Font%20Complete.ttf
+# copied to ~/Library/Fonts/ and ran
+# $ fc-cache -fr
+# will want to make a formula based on:
+# https://github.com/Homebrew/homebrew-cask-fonts/blob/master/Casks/font-powerline-symbols.rb
 # cask 'font-firacode-nerd-font'
-# TODO: using haasosaurus/nerd-fonts fork for kitty support
-# see: https://github.com/ryanoasis/nerd-fonts/issues/268
-# cask 'font-firamono-nerd-font'
+cask 'font-firamono-nerd-font'
 # cask 'font-hack-nerd-font'
 # cask 'font-sourcecodepro-nerd-font'
 # Unavailable
@@ -230,7 +237,6 @@ tap 'caskroom/fonts'
 # cask 'mojibar'
 # cask 'fantastical'
 # cask 'imageoptim'
-# cask 'istat-menus'
 # cask 'coyim'
 # cask 'intel-haxm'
 
