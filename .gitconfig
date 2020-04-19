@@ -66,7 +66,7 @@
     it = !git init && git commit -m "Hello world" --allow-empty
     f = fetch --all --prune
     pullff = pull --ff-only
-    pullr = rebase -p
+    pullr = rebase --rebase-merges
     down = !git pullr
     up = push
     noff = merge --no-ff
