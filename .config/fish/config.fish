@@ -6,6 +6,8 @@ if not functions -q fisher
     fish -c fisher
 end
 
+# TODO: should certain things here be excluded if non-interactive?
+
 # TODO: install these when some upstream issues are fixed
 # - oh-my-fish/plugin-git-flow
 #   - does not correctly detect standard git completions existing

@@ -336,9 +336,9 @@
     " nnoremap Q gqap
 
     " nnoremap <space> zA
-    
+
     " romainl/text-objects.vim {{{
-    
+
         " 24 simple text objects
         " ----------------------
         " i_ i. i: i, i; i| i/ i\ i* i+ i- i#
@@ -399,7 +399,7 @@
         xnoremap ik `]o`[
         onoremap ik :<C-u>normal vik<CR>
         onoremap ak :<C-u>normal vikV<CR>
-    
+
     " }}}
 
 " }}}
@@ -442,6 +442,8 @@
 
     " airline {{{
 
+        " TODO: this is a massive performance hog, replace it
+
         let g:airline#extensions#tabline#enabled = 1
         let g:airline_powerline_fonts = 1
         " TODO: get rid of encoding, line progress, and column count
@@ -469,11 +471,11 @@
         let g:ale_python_prospector_options = '--profile $HOME/.prospector.yaml --with-tool mypy --with-tool pep257 --with-tool pyroma --with-tool vulture --with-tool bandit'
         let g:ale_rust_cargo_use_clippy = executable('cargo-clippy')
 
-        nmap <Leader>af <Plug>(ale_fix)
-        nmap <Leader>al <Plug>(ale_lint)
+        nmap <leader>af <Plug>(ale_fix)
+        nmap <leader>al <Plug>(ale_lint)
         " TODO: evaluate unimpaired loclist bindings, maybe use instead
-        nmap <Leader>aj <Plug>(ale_next_wrap)
-        nmap <Leader>ak <Plug>(ale_previous_wrap)
+        nmap <leader>aj <Plug>(ale_next_wrap)
+        nmap <leader>ak <Plug>(ale_previous_wrap)
 
         " TODO: evaluate some of these old syntastic configs for C-lang dev
         " TODO: make a brew formula for sparse and add it here
@@ -532,6 +534,7 @@
         " TODO: previews everywhere
         " TODO: maybe by using yuki-ycino/fzf-preview.vim instead of manually
         " TODO: -bind alt-a:select-all,alt-d:deselect-all,alt-t:toggle-all
+        " TODO: add hidden files: https://github.com/junegunn/fzf/issues/337
 
         function! FZFWithDevIcons(qargs)
             " TODO: use $FZF_PREVIEW_FILE_COMMAND here
@@ -569,6 +572,32 @@
             call fzf#run(opts)
         endfunction
 
+        function! FZFWipeout()
+            function! s:list_buffers()
+                redir => list
+                silent ls
+                redir END
+                return split(list, "\n")
+            endfunction
+
+            function! s:delete_buffers(lines)
+                execute 'bwipeout' join(map(a:lines, {_, line -> split(line)[0]}))
+            endfunction
+
+            let opts = fzf#wrap({})
+            let opts.source = <sid>list_buffers()
+            let opts['sink*'] = { lines -> s:delete_buffers(lines) }
+            let opts.options = '--multi --reverse --bind ctrl-a:select-all+accept'
+            call fzf#run(opts)
+        endfunction
+
+        " TODO: remove me
+        " command! BD call fzf#run(fzf#wrap({
+        "   \ 'source': s:list_buffers(),
+        "   \ 'sink*': { lines -> s:delete_buffers(lines) },
+        "   \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
+        " \ }))
+
         " Overriding fzf.vim's default :Files command.
         " Pass zero or one args to Files command (which are then passed to FZFWithDevIcons). Support file path completion too.
         " TODO: sadly, piping to devicon-lookup causes fzf to block until
@@ -577,25 +606,28 @@
         " command! -nargs=? -complete=file Files call FZFWithDevIcons(<q-args>)
         command! -nargs=? -complete=file FilesWithDevIcons call FZFWithDevIcons(<q-args>)
 
-        nnoremap <Leader>bb :Buffers<CR>
-        nnoremap <Leader>f<Space> :Commands<CR>
-        nnoremap <Leader>ff :Files<CR>
-        nnoremap <Leader>fd :FilesWithDevIcons<CR>
-        nnoremap <Leader>fh :History<CR>
+        command! -nargs=? -complete=buffer Wipeouts call FZFWipeout()
+
+        nnoremap <leader>bb :Buffers<CR>
+        nnoremap <leader>bw :Wipeouts<CR>
+        nnoremap <leader>f<Space> :Commands<CR>
+        nnoremap <leader>ff :Files<CR>
+        nnoremap <leader>fd :FilesWithDevIcons<CR>
+        nnoremap <leader>fh :History<CR>
         " TODO: :History queries the .viminfo file, which is only regenerated
         " upon quitting vim, need a better MRU plugin or fzf config that will
         " account for files opened during the current session
-        nnoremap <Leader>f: :History:<CR>
-        nnoremap <Leader>f/ :History/<CR>
-        nnoremap <Leader>f' :Marks<CR>
-        nnoremap <Leader>fl :BLines<CR>
-        nnoremap <Leader>fL :Lines<CR>
-        nnoremap <Leader>ft :BTags<CR>
-        nnoremap <Leader>fT :Tags<CR>
-        nnoremap <Leader>fm :Maps<CR>
-        nnoremap <Leader>fy :Filetypes<CR>
-        nnoremap <Leader>fH :Helptags!<CR>
-        nnoremap <Leader>rg :Rg<Space>
+        nnoremap <leader>f: :History:<CR>
+        nnoremap <leader>f/ :History/<CR>
+        nnoremap <leader>f' :Marks<CR>
+        nnoremap <leader>fl :BLines<CR>
+        nnoremap <leader>fL :Lines<CR>
+        nnoremap <leader>ft :BTags<CR>
+        nnoremap <leader>fT :Tags<CR>
+        nnoremap <leader>fm :Maps<CR>
+        nnoremap <leader>fy :Filetypes<CR>
+        nnoremap <leader>fH :Helptags!<CR>
+        nnoremap <leader>rg :Rg<Space>
         " TODO: close buffer while browsing them via :Buffers
 
         command! Todo execute ":Rg! [T]O[_ ]?DO|[F]IX[_ ]?ME|[X]XX|[H]ACK|[^(DE)|^_][B]UG|[R]EVIEW|[W]TF|[S]MELL|[B]ROKE|[N]OCOMMIT|[N]ORELEASE"
@@ -608,6 +640,10 @@
         " TODO: make work w/ devicons
         command! FilesShallow call fzf#run(fzf#wrap({'source': '$FZF_DEFAULT_COMMAND --max-depth 4'}))
         nnoremap <leader>fw :FilesShallow<CR>
+
+        " TODO: <leader>p bind for an all-in-one buffers/MRU/files/tags filter,
+        "       prioritized in that order, for now it's extra bind to :Buffers
+        nnoremap <leader>p :Buffers<CR>
 
     " }}}
 

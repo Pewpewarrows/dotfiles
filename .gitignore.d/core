@@ -54,6 +54,13 @@
 /.config/nvim/*
 !/.config/nvim/coc-settings.json
 !/.config/nvim/init.vim
+!/.config/ranger
+/.config/ranger/*
+!/.config/ranger/commands.py
+!/.config/ranger/commands_full.py
+!/.config/ranger/rc.conf
+!/.config/ranger/rifle.conf
+!/.config/ranger/scope.sh
 !/.config/thefuck
 /.config/thefuck/*
 !/.config/thefuck/settings.py
