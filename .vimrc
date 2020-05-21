@@ -417,19 +417,28 @@
         autocmd FileType rst setlocal spell
         autocmd FileType vim setlocal keywordprg=:help
         " TODO: decide on one of these
-        autocmd FileType vimwiki set ft=markdown
+        autocmd FileType vimwiki set filetype=markdown
         " autocmd FileType vimwiki setfiletype markdown
         " TODO: potentially `set complete+=kspell` for prose filetypes
         " TODO: detecting certain .conf files for dosini filetype?
         " autocmd FileType fish compiler fish
         " autocmd FileType fish setlocal foldmethod=expr
         " Filetypes per extension
-        autocmd BufNewFile,BufRead *.c setfiletype doxygen
+        autocmd BufNewFile,BufRead *.c setfiletype c.doxygen
         autocmd BufNewFile,BufRead *.h,*.cpp setfiletype doxygen
-        autocmd BufNewFile,BufRead *.html setfiletype htmldjango
+        " TODO: might want to do something fancy like:
+        " function DetectGoHtmlTmpl()
+        "     if search("{{") != 0
+        "         set filetype=gohtmltmpl
+        "     endif
+        " endfunction
+        " autocmd BufNewFile,BufRead *.html call DetectGoHtmlTmpl();
+        " TODO: could also do the same with {{ and/or {% for django templates
+        " TODO: unfortunately for both it won't help for new files
+        autocmd BufNewFile,BufRead *.html setfiletype gohtmltmpl.htmldjango.html
         " autocmd BufNewFile,BufRead *.json setfiletype javascript
-        autocmd BufNewFile,BufRead *.prettierrc setfiletype json
-        autocmd BufNewFile,BufRead *.py setfiletype django
+        autocmd BufNewFile,BufRead *.csslintrc,*.prettierrc,*.stylelintrc setfiletype json
+        autocmd BufNewFile,BufRead *.py setfiletype python.django
         autocmd BufNewFile,BufRead {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru} setfiletype ruby
     augroup END
 
@@ -454,6 +463,7 @@
 
         let g:ale_fixers = {}
         let g:ale_fixers['*'] = ['remove_trailing_lines', 'trim_whitespace']
+        let g:ale_fixers.css = ['prettier', 'stylelint']
         let g:ale_fixers.html = ['prettier']
         let g:ale_fixers.json = ['prettier']
         let g:ale_fixers.markdown = ['prettier']
@@ -462,20 +472,47 @@
         let g:ale_fixers.vim = ['ale_custom_linting_rules']
 
         let g:ale_linters = {}
+        let g:ale_linters.html = ['fecs', 'htmlhint', 'stylelint', 'tidy']
+        " languagetool is slow and clunky, run it manually outside of vim
+        let g:ale_linters.markdown = ['markdownlint', 'mdl', 'remark_lint']
         " TODO: add 'pyre' back to here after fixing its buck problem
         let g:ale_linters.python = ['prospector']
-        " languagetool is slow and clunky, run it manually outside of vim
-        let g:ale_linters.markdown = ['alex', 'markdownlint', 'mdl', 'proselint', 'redpen', 'remark_lint', 'textlint', 'vale', 'writegood']
+        let g:ale_linters.rst = ['rstcheck']
 
+        let g:ale_css_stylelint_options = '--config-basedir $(npm root --global)'
+        let g:ale_html_stylelint_options = '--config-basedir $(npm root --global)'
+        let g:ale_markdown_mdl_options = '--rules ~MD013'
         " TODO: --doc-warnings --test-warnings
         let g:ale_python_prospector_options = '--profile $HOME/.prospector.yaml --with-tool mypy --with-tool pep257 --with-tool pyroma --with-tool vulture --with-tool bandit'
         let g:ale_rust_cargo_use_clippy = executable('cargo-clippy')
+        let g:ale_scss_stylelint_options = g:ale_css_stylelint_options
+        let g:ale_stylelint_options = g:ale_css_stylelint_options
 
         nmap <leader>af <Plug>(ale_fix)
         nmap <leader>al <Plug>(ale_lint)
         " TODO: evaluate unimpaired loclist bindings, maybe use instead
         nmap <leader>aj <Plug>(ale_next_wrap)
         nmap <leader>ak <Plug>(ale_previous_wrap)
+        nnoremap <leader>at :ALEToggle<CR>
+
+        function! ALELintWriting()
+            let l:heavy_text_linters = ['alex', 'proselint', 'redpen', 'textlint', 'vale', 'writegood']
+            let l:original_ale_linters_markdown = g:ale_linters.markdown
+            let l:original_ale_linters_rst = g:ale_linters.rst
+            let g:ale_linters.markdown = l:original_ale_linters_markdown + l:heavy_text_linters
+            let g:ale_linters.rst = l:original_ale_linters_rst + l:heavy_text_linters
+            " TODO: calling this plug line did not seem to have any effect,
+            "       using following line instead for now, but would like to
+            "       eventually know why
+            " execute 'normal \<plug>(ale_lint)'
+            execute 'ALELint'
+            let g:ale_linters.markdown = l:original_ale_linters_markdown
+            let g:ale_linters.rst = l:original_ale_linters_rst
+        endfunction
+
+        command! ALELintWriting call ALELintWriting()
+
+        nnoremap <leader>aw :ALELintWriting<CR>
 
         " TODO: evaluate some of these old syntastic configs for C-lang dev
         " TODO: make a brew formula for sparse and add it here

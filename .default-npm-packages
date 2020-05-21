@@ -1,11 +1,17 @@
 alex
+csslint
 decktape
+htmlhint
 jshint
 jsonlint
 markdownlint
 npx
 prettier
 remark-lint
+stylelint
+stylelint-config-standard
+stylelint-config-sass-guidelines
+stylelint-order
 textlint
 typescript
 write-good

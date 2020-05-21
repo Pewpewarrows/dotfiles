@@ -68,6 +68,8 @@
 /.config/RadareOrg/*
 !/.config/RadareOrg/Cutter.ini
 
+!/.csslintrc
+
 !/.default-cargo-crates
 !/.default-gems
 !/.default-npm-packages
@@ -87,6 +89,8 @@
 !/.prospector.yaml
 
 !/.spacemacs
+
+!/.stylelintrc
 
 !/.tool-versions
 
