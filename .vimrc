@@ -822,6 +822,11 @@
         nnoremap <silent> <leader>d "_d
         xnoremap <silent> <leader>d "_d
 
+        " Make relativenumber and wrap behave with remapping j/k to gj/gk
+        " TODO: check visual mode, also does it need silent?
+        nnoremap <expr> j v:count ? 'j' : 'gj'
+        nnoremap <expr> k v:count ? 'k' : 'gk'
+
         " TODO: remap U back to undo line?
 
         " :nohlsearch used to not always work correctly, this was an alternate
