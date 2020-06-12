@@ -679,7 +679,8 @@
         nnoremap <leader>fw :FilesShallow<CR>
 
         " TODO: <leader>p bind for an all-in-one buffers/MRU/files/tags filter,
-        "       prioritized in that order, for now it's extra bind to :Buffers
+        "       prioritized in that order, for now it's extra bind to :Buffers,
+        "       see POC: https://github.com/mike-hearn/vim-combosearch
         nnoremap <leader>p :Buffers<CR>
 
     " }}}
