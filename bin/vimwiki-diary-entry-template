@@ -1,0 +1,42 @@
+#!/usr/bin/env python3
+
+"""Outputs a formatted template for a vimwiki diary entry."""
+
+import argparse
+import pathlib
+import sys
+import datetime
+
+
+def main() -> None:
+    """Run this script."""
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "template_path",
+        metavar="template-path",
+        type=pathlib.Path,
+        help="path to diary entry template",
+    )
+    parser.add_argument(
+        "-f",
+        "--destination-filename",
+        type=pathlib.Path,
+        help="intended file name for diary entry, in YYYY-MM-DD.extension format, used for inferring the date",
+    )
+
+    args = parser.parse_args()
+
+    template = args.template_path.read_text()
+
+    if args.destination_filename is None:
+        date = datetime.date.today()
+    else:
+        date = datetime.datetime.strptime(args.destination_filename.stem, "%Y-%m-%d")
+
+    date = date.strftime("%B %-d, %Y")
+
+    sys.stdout.write(template.format(date=date))
+
+
+if __name__ == "__main__":
+    main()

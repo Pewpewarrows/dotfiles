@@ -135,6 +135,7 @@
 !/bin/muttqt-sendmail
 !/bin/on_ac_power
 !/bin/npl
+!/bin/vimwiki-diary-entry-template
 
 !/scripts
 /scripts/*

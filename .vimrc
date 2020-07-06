@@ -66,9 +66,12 @@
     Plug 'ntpeters/vim-better-whitespace'
     Plug 'bling/vim-airline'
     Plug 'ryanoasis/vim-devicons'
+    Plug 'junegunn/goyo.vim'
+    Plug 'junegunn/limelight.vim'
 
     " Theme
     Plug 'dracula/vim', {'as': 'dracula'}
+    Plug 'morhetz/gruvbox'
 
     " Project Management
     Plug 'tpope/vim-obsession'
@@ -199,9 +202,14 @@
 
 " Theme {{{
 
-    if (&t_Co >= 256 || has('gui_running')) && has#colorscheme('dracula')
+    if &t_Co >= 256 || has('gui_running')
         " TODO: test for colorschemes, have backups
-        colorscheme dracula
+        if has#colorscheme('gruvbox')
+            colorscheme gruvbox
+        endif
+        " if has#colorscheme('dracula')
+        "     colorscheme dracula
+        " endif
     endif
 
     if has('gui_running')
@@ -440,6 +448,8 @@
         autocmd BufNewFile,BufRead *.csslintrc,*.prettierrc,*.stylelintrc setfiletype json
         autocmd BufNewFile,BufRead *.py setfiletype python.django
         autocmd BufNewFile,BufRead {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru} setfiletype ruby
+        " TODO: hardcoded paths
+        autocmd BufNewFile ~/tmp/repos/github.com/Pewpewarrows/notebook/diary/*.md :silent 0r !vimwiki-diary-entry-template "$HOME/tmp/repos/github.com/Pewpewarrows/notebook/diary/template.md" --destination-filename '%'
     augroup END
 
     " TODO: consider this for ensuring dirs exist to new file
@@ -696,6 +706,14 @@
 
     " }}}
 
+    " limelight.vim {{{
+
+        " TODO: augroup here?
+        autocmd! User GoyoEnter Limelight
+        autocmd! User GoyoLeave Limelight!
+
+    " }}}
+
     " netrw {{{
 
         let g:netrw_fastbrowse = 0
@@ -824,7 +842,7 @@
         xnoremap <silent> <leader>d "_d
 
         " Make relativenumber and wrap behave with remapping j/k to gj/gk
-        " TODO: check visual mode, also does it need silent?
+        " TODO: make this work in visual mode, also does it need silent?
         nnoremap <expr> j v:count ? 'j' : 'gj'
         nnoremap <expr> k v:count ? 'k' : 'gk'
 
@@ -855,6 +873,7 @@
 
         " s{char}{char} to move to {char}{char}
         nmap s <Plug>(easymotion-overwin-f2)
+        " TODO: can this be used in visual mode?
         xmap s <Plug>(easymotion-overwin-f2)
 
     " }}}
