@@ -70,12 +70,16 @@
 
 !/.csslintrc
 
+!/.ctags
+
 !/.default-cargo-crates
 !/.default-gems
 !/.default-npm-packages
 !/.default-python-packages
 
 !/.dotfiles-misc
+
+!/.gdbinit
 
 !/.gitconfig
 !/.gitignore.d
@@ -115,6 +119,8 @@
 !/.vim/spell
 /.vim/spell/*
 !/.vim/spell/.gitkeep
+!/.vim/spell/en.utf-8.add
+!/.vim/spell/en.utf-8.add.spl
 !/.vim/tmp
 /.vim/tmp/*
 !/.vim/tmp/backup/.gitkeep
@@ -139,6 +145,9 @@
 
 !/scripts
 /scripts/*
+!/scripts/export_html_for_bookmarks.py
+!/scripts/limit.maxfiles.plist
+!/scripts/limit.maxproc.plist
 !/scripts/prune_tmux_resurrect.sh
 !/scripts/safari.css
 

@@ -86,6 +86,7 @@
         Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install' }
     endif
     Plug 'arzg/vim-rust-syntax-ext'
+    " Plug 'clktmr/vim-gdscript3'
 
     " Navigation
     " TODO: this is macOS/homebrew specific
@@ -748,18 +749,32 @@
         " https://github.com/lvht/tagbar-markdown
 
         let g:tagbar_type_make = {
-            \ 'kinds':[
+            \ 'kinds': [
                 \ 'm:macros',
-                \ 't:targets'
-            \ ]
+                \ 't:targets',
+            \ ],
+        \ }
+
+        let g:tagbar_type_vimwiki = {
+            \ 'ctagstype': 'vimwiki',
+            \ 'ctagsbin': 'vwtags',
+            \ 'ctagsargs': 'default',
+            \ 'kinds':[
+                \ 'h:header',
+            \ ],
+            \ 'sro': '&&&',
+            \ 'kind2scope': {
+                \ 'h': 'header',
+            \ },
+            \ 'sort': 0,
         \ }
 
         let g:rust_use_custom_ctags_defs = 1  " TODO: only if using rust.vim
         " TODO: hardcoded ctags path?
         let g:tagbar_type_rust = {
-            \ 'ctagsbin' : '/usr/local/bin/ctags',
-            \ 'ctagstype' : 'rust',
-            \ 'kinds' : [
+            \ 'ctagsbin': '/usr/local/bin/ctags',
+            \ 'ctagstype': 'rust',
+            \ 'kinds': [
                 \ 'n:modules',
                 \ 's:structures:1',
                 \ 'i:interfaces',
@@ -774,7 +789,7 @@
                 \ 'P:methods:1',
             \ ],
             \ 'sro': '::',
-            \ 'kind2scope' : {
+            \ 'kind2scope': {
                 \ 'n': 'module',
                 \ 's': 'struct',
                 \ 'i': 'interface',
@@ -935,6 +950,8 @@
                 \ 'ext': '.md',
             \ },
         \ ]
+
+        " do not use built-in tag search, use ripgrep instead
 
     " }}}
 

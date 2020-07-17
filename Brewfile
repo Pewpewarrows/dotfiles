@@ -117,11 +117,15 @@ brew 'muttqt'
 tap 'universal-ctags/homebrew-universal-ctags'
 brew 'universal-ctags', args: ['HEAD']
 
+tap 'turforlag/homebrew-cervezas'
+brew 'pdftk'
+
 # This extends brew with a "cu" subcommand, only need to tap, no further
 # installs
 tap 'buo/cask-upgrade'
 
 # Casks
+# cask '1password'  # TODO: consider this and its cli version
 cask 'adium'
 cask 'adobe-acrobat-reader'
 cask 'amazon-cloud-drive'
@@ -147,6 +151,7 @@ cask 'google-chat'
 cask 'google-hangouts'
 # cask 'gpgtools'
 cask 'gpg-suite'
+cask 'handbrake'
 cask 'iglance'
 cask 'keybase'
 cask 'krita'
@@ -165,6 +170,7 @@ cask 'spotify'
 cask 'stay'
 cask 'sublime-text'
 cask 'the-unarchiver'
+cask 'thingsmacsandboxhelper'
 cask 'torbrowser'
 cask 'transmission'
 cask 'tunnelblick'
