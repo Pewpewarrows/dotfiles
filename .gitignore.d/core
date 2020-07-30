@@ -46,6 +46,7 @@
 !/.config/kitty
 /.config/kitty/*
 !/.config/kitty/dracula.conf
+!/.config/kitty/gruvbox_dark.conf
 !/.config/kitty/kitty.conf
 !/.config/neofetch
 /.config/neofetch/*
@@ -142,6 +143,7 @@
 !/bin/on_ac_power
 !/bin/npl
 !/bin/vimwiki-diary-entry-template
+!/bin/brew-list-diff
 
 !/scripts
 /scripts/*
@@ -153,3 +155,14 @@
 
 !/Brewfile
 !/Brewfile.personal
+
+!/Library
+/Library/*
+!/Library/Application Support
+/Library/Application Support/*
+!/Library/Application Support/Code
+/Library/Application Support/Code/*
+!/Library/Application Support/Code/User
+/Library/Application Support/Code/User/*
+!/Library/Application Support/Code/User/keybindings.json
+!/Library/Application Support/Code/User/settings.json

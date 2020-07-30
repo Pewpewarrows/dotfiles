@@ -22,9 +22,20 @@
 " - :help fo-table
 " - macros for inserting and editing various comment headers in several langs:
 "   http://vi.stackexchange.com/questions/415/adding-80-column-wide-comment-header-block-with-centered-text
-" - Bind ":syntax sync fromstart" to a key: http://vim.wikia.com/wiki/Fix_syntax_highlighting
 " - :verbose set shiftwidth?
 " - asyncrun/dispatch/neomake project-wide build/lint/test errorformat parsing
+
+" profiling startup:
+" $ vim --startuptime profile.log
+" consider https://github.com/hyiltiz/vim-plugins-profile
+
+" profiling specific action:
+" :profile start profile.log
+" :profile file *
+" :profile func *
+" <slow-action> (such as :e slowfile.ext)
+" :profile pause
+" :noautocmd qall!
 
 " Preamble {{{
 
@@ -61,50 +72,237 @@
     " Options
     Plug 'tpope/vim-sensible'
     Plug 'liuchengxu/vim-better-default'
+    " Plug 'embear/vim-localvimrc'
+
+    " Help
+    " Plug 'liuchengxu/vim-which-key'
+    " Plug 'rizzatti/dash.vim'
+    " Plug 'lifepillar/vim-cheat40'
+    " Plug 'Shougo/echodoc.vim' " TODO: necessary given coc's preview popup?
+    " Plug 'laher/fuzzymenu.vim'
+
+    " Learning
+    " " TODO: molasses or mediummode instead of hardmode?
+    " Plug 'wikitopian/hardmode'
+    " Plug 'ThePrimeagen/vim-be-good'
+    " Plug 'jmoon018/PacVim'
+    " Plug 'takac/vim-hardtime'
+    " Plug 'AlphaMycelium/pathfinder.vim' " try to find the most optimal navigation motion from point A to B
+
+    " Plugin Development
+    " Plug 'mattn/webapi-vim' " also needed by gist-vim
 
     " Appearance
     Plug 'ntpeters/vim-better-whitespace'
     Plug 'bling/vim-airline'
     Plug 'ryanoasis/vim-devicons'
-    Plug 'junegunn/goyo.vim'
-    Plug 'junegunn/limelight.vim'
+    Plug 'junegunn/goyo.vim' " distraction-free mode
+    Plug 'junegunn/limelight.vim' " spotlight on current text
+    " TODO: choose one
+    " Plug 'norcalli/nvim-colorizer.lua'
+    " Plug 'RRethy/vim-hexokinase'
+    " Plug 'ap/vim-css-color'
+    " Plug 'skammer/vim-css-color'
+    " <end-choice>
+    " Plug 'luochen1990/rainbow'
+    " Plug 'roman/golden-ratio'
+    " Plug 'camspiers/lens.vim' " alternative auto window resizer
+    " TODO: choose either
+    " Plug 'nathanaelkane/vim-indent-guides'
+    " Plug 'Yggdroot/indentLine'
+    " TODO:
+    " `let g:indentLine_char = '▏'`
+    " `let g:indentLine_faster = 1`
+    " `let g:indentLine_setConceal = 0`
+    " TODO: choose either
+    " Plug 'psliwka/vim-smoothie'
+    " Plug 'yuttie/comfortable-motion.vim'
+    " Plug 'naddeoa/vim-visual-page-percent'
+    " Plug 'machakann/vim-highlightedyank'
+    " TODO: or other scrollbar or minimap-like emulation
+    " Plug 'drzel/vim-line-no-indicator'
+    " Plug 'wellle/context.vim'
+    " Plug 'TaDaa/vimade' " fades inactive windows
+    " Plug 'jaxbot/semantic-highlight.vim' " alternative to syntax highlighting, emphasizes vars instead
+    " Plug 'liuchengxu/eleline.vim' " alternative statusline
+    " Plug 'reedes/vim-wheel' " keep cursor line centered, TODO: just use scrolloff=999?
 
     " Theme
     Plug 'dracula/vim', {'as': 'dracula'}
     Plug 'morhetz/gruvbox'
+    " Plug 'arzg/vim-colors-xcode' " dark / high-contrast
 
     " Project Management
+    " - sessions
     Plug 'tpope/vim-obsession'
     Plug 'dhruvasagar/vim-prosession'
+    " Plug 'mhinz/vim-startify'
+    " Plug 'vim-ctrlspace/vim-ctrlspace'
+    " - external commands (build, run, test)
     Plug 'skywind3000/asyncrun.vim'
+    " Plug 'igemnace/vim-makery' " enhancements to builtin :make
+    " Plug 'tpope/vim-dispatch'
+    " TODO: neomake over dispatch?
+    " - version control
     Plug 'tpope/vim-fugitive'
-    Plug 'tpope/vim-eunuch'
+    " TODO: choose either
+    " Plug 'airblade/vim-gitgutter'
+    " Plug 'mhinz/vim-signify'
+    " Plug 'mattn/gist-vim'
+    " Plug 'jreybert/vimagit'
+    " Plug 'rhysd/git-messenger.vim'
+    " Plug 'AndrewRadev/linediff.vim'
+    " - file management
+    Plug 'tpope/vim-eunuch' " file management with Ex commands
+    " - misc
+    " TODO: choose either
+    " Plug 'mbbill/undotree'
+    " Plug 'simnalamburt/vim-mundo'
+    " Plug 'Soares/butane.vim' " kill buffers for good
+    " Plug 'tpope/vim-projectionist'
+    " TODO: filereadable, localleader, fzf certain conditional dirs
+    " Plug 'janko/vim-test'
+    " Plug 'puremourning/vimspector'
+    " TODO: and/or termdebug built-in
+    " Plug 'direnv/direnv.vim'
+    " Plug 'sgur/vim-editorconfig'
+    " Plug 'jpalardy/vim-slime' " repl
+    " Plug 'epeli/slimux' " repl
+    " Plug 'rhysd/reply.vim' " repl
 
     " Filetypes
+    " TODO: consider this for the commands, but not the syntax or completion
+    " Plug 'habamax/vim-godot'
     Plug 'sheerun/vim-polyglot'
     if has('nvim')
         Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install' }
     endif
-    Plug 'arzg/vim-rust-syntax-ext'
-    " Plug 'clktmr/vim-gdscript3'
+    Plug 'arzg/vim-rust-syntax-ext', { 'for': 'rust' }
+    Plug 'clktmr/vim-gdscript3', { 'for': 'gdscript3' }
+    Plug 'pearofducks/ansible-vim', { 'for': 'ansible' }
+    " TODO: add this utility func: https://gist.github.com/mtyurt/3529a999af675a0aff00eb14ab1fdde3
+    " Plug 'ARM9/arm-syntax-vim'
+    " Plug 'xuhdev/vim-latex-live-preview'
+    " Plug 'lervag/vimtex'
+    " Plug 'brennier/quicktex'
+    " Plug 'dag/vim-fish'
+    " Plug 'mattn/emmet-vim'
+    " Plug 'noahfrederick/vim-skeleton'
+    " Plug 'mzlogin/vim-markdown-toc'
+    " Plug 'masukomi/vim-markdown-folding'
+    " Plug 'plasticboy/vim-markdown'
+    " Plug 'mogelbrod/vim-jsonpath'
+    " Plug 'numirias/semshi'
+    " Plug 'tpope/vim-dadbod'
+    " Plug 'reedes/vim-pencil' " collection of tiny tweaks for prose writing
+    " - python
+    " Plug 'python-mode/python-mode'
+    " Plug 'metakirby5/codi.vim' " live playground results for python code
+    " Plug 'jeetsukumaran/vim-pythonsense'
+    " Plug 'jmcantrell/virtualenv.vim'
 
     " Navigation
     " TODO: this is macOS/homebrew specific
     Plug '/usr/local/opt/fzf'
     Plug 'junegunn/fzf.vim'
+    Plug 'pbogut/fzf-mru.vim'
     Plug 'justinmk/vim-dirvish'
-    Plug 'osyo-manga/vim-anzu'
-    Plug 'milkypostman/vim-togglelist'
-    Plug 'majutsushi/tagbar'
+    Plug 'osyo-manga/vim-anzu' " search progress status
+    Plug 'milkypostman/vim-togglelist' " toggles for quickfix/locationlist
     Plug 'ludovicchabant/vim-gutentags'
+    " Plug 'skywind3000/gutentags_plus'
+    Plug 'liuchengxu/vista.vim' " sidebar for tags or LSP symbols
+    " TODO: determine if provides anything over sensible's binds
+    " Plug 'tpope/vim-rsi'
+    " Plug 'kshenoy/vim-signature' " show marks in sidebar
+    " Plug 'haya14busa/incsearch.vim' " better incsearch
+    " Plug 'myusuf3/numbers.vim' " intelligent auto-toggle of relativenumber
+    " Plug 'Dkendal/fzy-vim' " TODO: over fzf? then use srstevenson/vim-picker?
+    " Plug 'rhysd/clever-f.vim' " improved f/t movement
+    " TODO:
+    " `let g:clever_f_across_no_line = 1`
+    " `let g:clever_f_fix_key_direction = 1`
+    " TODO: instead of file beagle or vinegar or vifm or nnn?
+    " Plug 'francoiscabrol/ranger.vim'
+    " Plug 'nelstrom/vim-visual-star-search'
+    " Plug 'tweekmonster/fzf-filemru'
+    " Plug 'justinmk/vim-sneak'
+    " TODO: sneak label mode
+    " Plug 'christoomey/vim-tmux-navigator'
+    " Plug 'yuki-ycino/fzf-preview.vim'
+    " Plug 'unkarkat/vim-mark' " custom highlights for words while reading
+    " Plug 'RRethy/vim-illuminate' " highlight word under cursor
+    " Plug 'lfv89/vim-interestingwords' " highlight word under cursor
+    " Plug 'unblevable/quick-scope' " easily find f/t targets
+    " Plug 'andymass/vim-matchup' " improved builtin matchit
+    " Plug 'haya14busa/vim-asterisk' " improved * navigation
+    " Plug 'romainl/vim-cool' " intelligent auto toggle for search highlighting
 
     " Editing
     Plug 'Lokaltog/vim-easymotion'
     Plug 'tpope/vim-commentary'
+    " TODO: choose either
     Plug 'tpope/vim-surround'
+    " Plug 'machakann/vim-sandwich'
+    " TODO:
+    " if using sandwich, may have to fix a couple of things
+    " surround-compatible mappings: https://github.com/machakann/vim-sandwich/wiki/Introduce-vim-surround-keymappings
+    " if highlighting is annoying: `operator#sandwich#set('all', 'all', 'highlight', 0)`
+    " space-wrapped mappings: https://github.com/machakann/vim-sandwich/issues/33
     Plug 'tpope/vim-unimpaired'
+    " TODO: choose one
     Plug 'jiangmiao/auto-pairs'
+    " Plug 'tmsvg/pear-tree'
+    " or `:CocInstall coc-pairs`
+    " <end-choice>
     Plug 'honza/vim-snippets'
+    " Plug 'tpope/vim-sleuth' " detect options from current file conventions
+    " Plug 'terryma/vim-expand-region'
+    " Plug 'tpope/vim-endwise'
+    " Plug 'tpope/vim-repeat'
+    " TODO: maybe not, no use cases left not already covered by builtins
+    " Plug 'terryma/vim-multiple-cursors'
+    " Plug 'junegunn/vim-peekaboo' " peek at contents of registers
+    " Plug 'vim-scripts/YankRing.vim'
+    " Plug 'svermeulen/vim-easyclip' " improved clipboard
+    " Plug 'mtth/scratch.vim'
+    " Plug 'markonm/traces.vim' " TODO: or just use neovim's inccommand
+    " Plug 'kkoomen/vim-doge'
+    " Plug 'da-x/name-assign.vim'
+    " Plug 'AndrewRadev/inline_edit.vim'
+    " Plug 'tpope/vim-speeddating'
+    " Plug 'haya14busa/vim-edgemotion'
+    " Plug 'gcmt/vim-wildfire' " smart selection of closest text objects
+    " Plug 'drzel/vim-split-line'
+    " Plug 'FooSoft/vim-argwrap' " reformatting to/from single/multiline function calls, arrays, dicts
+    " Plug 'PeterRincker/vim-argumentative'
+    " Plug 'AndrewRadev/sideways.vim' " function arguments
+    " - alignment
+    " " TODO: easy-align instead of tabular/table-mode?
+    " Plug 'godlygeek/tabular'
+    " Plug 'dhruvasagar/vim-table-mode'
+    " Plug 'tommcdo/vim-lion' " alignment operations
+    " - find/replace, word correction
+    " Plug 'tpope/vim-abolish' " find-replace across many variations of same word
+    " Plug 'pelodelfuego/vim-swoop' " find/replace inspired by helm-swoop
+    " Plug 'wincent/ferret' " project-wide find/replace
+    " Plug 'stefandtw/quickfix-reflector.vim'
+    " TODO: see thoughtbot blog post for config
+    " Plug 'kamykn/spelunker.vim' " improved spellcheck
+    " Plug 'beloglazov/vim-online-thesaurus'
+    " Plug 'reedes/vim-lexical' " improved spellcheck
+    " Plug 'reedes/vim-litecorrect' " lightweight auto-correction while typing
+    " - text objects
+    " Plug 'welle/targets.vim' " commas especially
+    " Plug 'kana/vim-textobj-user'
+    " [more textobj plugins](https://github.com/kana/vim-textobj-user/wiki), ensure they actually provide benefit over romainl's text-objects.vim and targets.vim
+    " Plug 'reedes/vim-textobj-sentences'
+    " Plug 'reedes/vim-textobj-quote'
+    " Plug 'thalesmello/vim-textobj-multiline-str'
+    " Plug 'Julian/vim-textobj-variable-segment'
+    " TODO: and/or chaoren/vim-wordmotion, but fixup with `nmap cw ce` and `nmap cW cE`
+    " Plug 'michaeljsmith/vim-indent-object'
+    " Plug 'jeetsukumaran/vim-indentwise'
 
     " Language Server Protocol
     " (Diagnostics, Code Completion, References, Formatting)
@@ -112,42 +310,23 @@
     if has('nvim')
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
     endif
+    " Plug 'antoinemadec/coc-fzf'
+    " TODO: local mode only
+    " Plug 'codota/tabnine-vim'
+    " TODO: vs local/offline kite? kite's company doesn't have a great track record
+    " Plug 'desmap/ale-sensible'
+    " Plug 'jackguo380/vim-lsp-cxx-highlight'
+    " These don't go through LSP but are diagnostics for prose
+    " Plug 'jamestomasino/vim-writingsyntax' " highlight adjectives, passive language, weasel words
+    " Plug 'reedes/vim-wordy' " collection of prose linting, not through ALE
+    " Plug 'dbmrq/vim-ditto' " highlight overused/repeated words
 
     " Apps
     Plug 'vimwiki/vimwiki'
+    " Plug 'AndrewRadev/exercism.vim'
+    " Plug 'segeljakt/vim-silicon'
 
     call plug#end()
-
-    " TODO:
-    " Plug 'tpope/vim-sleuth'
-    " Plug 'airblade/vim-gitgutter'
-    " " TODO: molasses or mediummode instead of hardmode?
-    " Plug 'wikitopian/hardmode'
-    " " TODO: easy-align instead of tabular/table-mode?
-    " Plug 'godlygeek/tabular'
-    " Plug 'dhruvasagar/vim-table-mode'
-    " Plug 'tpope/vim-abolish'
-    " Plug 'terryma/vim-expand-region'
-    " Plug 'tpope/vim-rsi'
-    " Plug 'tpope/vim-endwise'
-    " Plug 'tpope/vim-repeat'
-    " Plug 'ap/vim-css-color'
-    " Plug 'mattn/webapi-vim'
-    " Plug 'mattn/gist-vim'
-    " Plug 'mattn/emmet-vim'
-    " " Plug 'jamessan/vim-gnupg'
-    " Plug 'mbbill/undotree'
-    " Plug 'kshenoy/vim-signature'
-    " Plug 'terryma/vim-multiple-cursors'
-    " Plug 'solarnz/thrift.vim'
-    " Plug 'xuhdev/vim-latex-live-preview'
-    " " Plug 'gilligan/vim-lldb'
-    " Plug 'ARM9/arm-syntax-vim'
-    " Plug 'junegunn/vim-peekaboo'
-    " Plug 'dag/vim-fish'
-    " TODO: Indent Guides, tmux-nav, go, numbers, localvimrc, yankring, slime,
-    "       scratch, rainbow parenths, vim-instant-markdown, lexical, riv?,
-    "       butane?, seek?, incsearch, projectionist?
 
 " }}}
 
@@ -411,6 +590,8 @@
 
     " }}}
 
+    nnoremap <leader>l :syntax sync fromstart<CR>
+
 " }}}
 
 " File Types {{{
@@ -427,6 +608,7 @@
         autocmd FileType vim setlocal keywordprg=:help
         " TODO: decide on one of these
         autocmd FileType vimwiki set filetype=markdown
+        autocmd FileType yaml setlocal softtabstop=2
         " autocmd FileType vimwiki setfiletype markdown
         " TODO: potentially `set complete+=kspell` for prose filetypes
         " TODO: detecting certain .conf files for dosini filetype?
@@ -481,6 +663,7 @@
         let g:ale_fixers.python = ['black']
         let g:ale_fixers.rust = ['rustfmt']
         let g:ale_fixers.vim = ['ale_custom_linting_rules']
+        let g:ale_fixers.yaml = ['prettier']
 
         let g:ale_linters = {}
         let g:ale_linters.html = ['fecs', 'htmlhint', 'stylelint', 'tidy']
@@ -489,15 +672,19 @@
         " TODO: add 'pyre' back to here after fixing its buck problem
         let g:ale_linters.python = ['prospector']
         let g:ale_linters.rst = ['rstcheck']
+        let g:ale_linters.yaml = ['yamllint']
 
         let g:ale_css_stylelint_options = '--config-basedir $(npm root --global)'
         let g:ale_html_stylelint_options = '--config-basedir $(npm root --global)'
         let g:ale_markdown_mdl_options = '--rules ~MD013'
-        " TODO: --doc-warnings --test-warnings
-        let g:ale_python_prospector_options = '--profile $HOME/.prospector.yaml --with-tool mypy --with-tool pep257 --with-tool pyroma --with-tool vulture --with-tool bandit'
+        " TODO: --doc-warnings --test-warnings --with-tool vulture
+        let g:ale_python_prospector_options = '--profile $HOME/.prospector.yaml --with-tool mypy --with-tool pep257 --with-tool pyroma --with-tool bandit'
         let g:ale_rust_cargo_use_clippy = executable('cargo-clippy')
         let g:ale_scss_stylelint_options = g:ale_css_stylelint_options
         let g:ale_stylelint_options = g:ale_css_stylelint_options
+        " TODO: make headless work on macOS via noah or docker
+        " let g:ale_gdscript3_godotheadless_executable = '$HOME/Private/Software/Tools/Godot_v3.2.2-stable_linux_headless.64'
+        " let g:ale_gdscript3_godotheadless_executable = '/Applications/Godot.app/Contents/MacOS/Godot'
 
         nmap <leader>af <Plug>(ale_fix)
         nmap <leader>al <Plug>(ale_lint)
@@ -577,7 +764,7 @@
         let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
         let g:fzf_history_dir = '~/.local/share/fzf-history'
 
-        " let g:fzf_preview_window = 'right:50%'
+        " let g:fzf_preview_window = 'right:50%' " TODO: :hidden ?
 
         " TODO: previews everywhere
         " TODO: maybe by using yuki-ycino/fzf-preview.vim instead of manually
@@ -662,9 +849,9 @@
         nnoremap <leader>ff :Files<CR>
         nnoremap <leader>fd :FilesWithDevIcons<CR>
         nnoremap <leader>fh :History<CR>
-        " TODO: :History queries the .viminfo file, which is only regenerated
-        " upon quitting vim, need a better MRU plugin or fzf config that will
-        " account for files opened during the current session
+        " :History queries the .viminfo file, which is only regenerated upon
+        " quitting vim, use the fzf-mru plugin to account for files opened
+        " during the current session
         nnoremap <leader>f: :History:<CR>
         nnoremap <leader>f/ :History/<CR>
         nnoremap <leader>f' :Marks<CR>
@@ -682,6 +869,7 @@
         nnoremap <leader>T :Todo<cr>
 
         " TODO: make work w/ devicons
+        " command! -bang -nargs=? -complete=dir FilesFlat call fzf#vim#files(<q-args>, {'source': '$FZF_DEFAULT_COMMAND --max-depth 1'})
         command! FilesFlat call fzf#run(fzf#wrap({'source': '$FZF_DEFAULT_COMMAND --max-depth 1'}))
         nnoremap <leader>fa :FilesFlat<CR>
 
@@ -693,6 +881,12 @@
         "       prioritized in that order, for now it's extra bind to :Buffers,
         "       see POC: https://github.com/mike-hearn/vim-combosearch
         nnoremap <leader>p :Buffers<CR>
+
+    " }}}
+
+    " fzf-mru.vim {{{
+
+        nnoremap <leader>fu :FZFMru<CR>
 
     " }}}
 
@@ -735,75 +929,6 @@
             autocmd!
             autocmd VimLeavePre * call QuitNetrw()
         augroup END
-
-    " }}}
-
-    " tagbar {{{
-
-        " Adding new filetype support: https://github.com/majutsushi/tagbar/wiki
-
-        nnoremap <silent> <F9> :TagbarOpenAutoClose<CR>
-
-        " TODO: markdown outlines aren't nested correctly, look into:
-        " https://github.com/majutsushi/tagbar/wiki#markdown
-        " https://github.com/lvht/tagbar-markdown
-
-        let g:tagbar_type_make = {
-            \ 'kinds': [
-                \ 'm:macros',
-                \ 't:targets',
-            \ ],
-        \ }
-
-        let g:tagbar_type_vimwiki = {
-            \ 'ctagstype': 'vimwiki',
-            \ 'ctagsbin': 'vwtags',
-            \ 'ctagsargs': 'default',
-            \ 'kinds':[
-                \ 'h:header',
-            \ ],
-            \ 'sro': '&&&',
-            \ 'kind2scope': {
-                \ 'h': 'header',
-            \ },
-            \ 'sort': 0,
-        \ }
-
-        let g:rust_use_custom_ctags_defs = 1  " TODO: only if using rust.vim
-        " TODO: hardcoded ctags path?
-        let g:tagbar_type_rust = {
-            \ 'ctagsbin': '/usr/local/bin/ctags',
-            \ 'ctagstype': 'rust',
-            \ 'kinds': [
-                \ 'n:modules',
-                \ 's:structures:1',
-                \ 'i:interfaces',
-                \ 'c:implementations',
-                \ 'f:functions:1',
-                \ 'g:enumerations:1',
-                \ 't:type aliases:1:0',
-                \ 'v:constants:1:0',
-                \ 'M:macros:1',
-                \ 'm:fields:1:0',
-                \ 'e:enum variants:1:0',
-                \ 'P:methods:1',
-            \ ],
-            \ 'sro': '::',
-            \ 'kind2scope': {
-                \ 'n': 'module',
-                \ 's': 'struct',
-                \ 'i': 'interface',
-                \ 'c': 'implementation',
-                \ 'f': 'function',
-                \ 'g': 'enum',
-                \ 't': 'typedef',
-                \ 'v': 'variable',
-                \ 'M': 'macro',
-                \ 'm': 'field',
-                \ 'e': 'enumerator',
-                \ 'P': 'method',
-            \ },
-        \ }
 
     " }}}
 
@@ -896,7 +1021,6 @@
     " vim-gutentags {{{
 
         let g:gutentags_cache_dir = expand('~/.cache/gutentags/')
-        " TODO: very large markdown files seem to block the foreground process upon save
 
     " }}}
 
@@ -952,6 +1076,15 @@
         \ ]
 
         " do not use built-in tag search, use ripgrep instead
+
+    " }}}
+
+    " vista.vim {{{
+
+        nnoremap <silent> <F9> :Vista!!<CR>
+
+        let g:vista#renderer#enable_icon = 1
+        let g:vista_fzf_preview = ['right:50%']
 
     " }}}
 

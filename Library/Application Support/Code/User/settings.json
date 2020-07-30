@@ -1,0 +1,20 @@
+{
+    "godot_tools.editor_path": "/Applications/Godot.app/Contents/MacOS/Godot",
+    "editor.renderWhitespace": "boundary",
+    "search.smartCase": true,
+    "files.trimFinalNewlines": true,
+    "files.trimTrailingWhitespace": true,
+    "editor.rulers": [
+        79,
+        119
+    ],
+    "editor.lineNumbers": "relative",
+    "editor.wordWrap": "on",
+    "editor.wrappingIndent": "none",
+    "files.insertFinalNewline": true,
+    "vscode-neovim.neovimPath": "/usr/local/bin/nvim",
+    "workbench.iconTheme": "vscode-icons",
+    "workbench.colorTheme": "Gruvbox Dark Medium",
+    "telemetry.enableTelemetry": false,
+    "gitlens.codeLens.enabled": false
+}

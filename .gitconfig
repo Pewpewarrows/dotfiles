@@ -94,3 +94,6 @@
     path = .gitconfig.local
 
 # TODO: push.default current or tracking
+
+[init]
+    defaultBranch = main
