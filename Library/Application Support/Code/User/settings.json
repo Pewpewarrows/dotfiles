@@ -14,7 +14,7 @@
     "files.insertFinalNewline": true,
     "vscode-neovim.neovimPath": "/usr/local/bin/nvim",
     "workbench.iconTheme": "vscode-icons",
-    "workbench.colorTheme": "Gruvbox Dark Medium",
     "telemetry.enableTelemetry": false,
-    "gitlens.codeLens.enabled": false
+    "gitlens.codeLens.enabled": false,
+    "workbench.colorTheme": "Gruvbox Dark Medium"
 }

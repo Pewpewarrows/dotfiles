@@ -1,2 +1,3 @@
---theme="Dracula"
+# TODO: change to "gruvbox" once tip of master as of 2020/08/12 is released
+--theme="Nord"
 --italic-text=always

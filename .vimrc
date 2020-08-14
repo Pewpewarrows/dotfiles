@@ -14,7 +14,6 @@
 " - project-wide find-and-replace / advanced refactoring
 " - mastering folds
 " - abbreviations vs snippets
-" - mastering movement without hjkl
 " - :help changelist
 " - :help text-objects
 " - :help format-comments
@@ -46,6 +45,9 @@
 
 " Helpers {{{
 
+    let s:minimode = exists('$MINIVIM')
+    let s:vscode = exists('g:vscode')
+
     silent function! OSX()
         return has('macunix')
     endfunction
@@ -68,11 +70,19 @@
     " TODO: have a minimal plugin set to switch to temporarily if a big
     " breaking change occurs and some emergency editing needs to happen, but
     " don't need to go as extreme as not loading the vimrc altogether
+    " got mini_vimrc working, but check if there's a better way overall
 
     " Options
     Plug 'tpope/vim-sensible'
     Plug 'liuchengxu/vim-better-default'
     " Plug 'embear/vim-localvimrc'
+
+    " Theme
+    " Plug 'dracula/vim', {'as': 'dracula'}
+    Plug 'morhetz/gruvbox'
+    " Plug 'arzg/vim-colors-xcode' " dark / high-contrast
+
+    if !s:minimode
 
     " Help
     " Plug 'liuchengxu/vim-which-key'
@@ -90,11 +100,14 @@
     " Plug 'AlphaMycelium/pathfinder.vim' " try to find the most optimal navigation motion from point A to B
 
     " Plugin Development
+    Plug 'dstein64/vim-startuptime'
     " Plug 'mattn/webapi-vim' " also needed by gist-vim
 
     " Appearance
     Plug 'ntpeters/vim-better-whitespace'
-    Plug 'bling/vim-airline'
+    Plug 'itchyny/lightline.vim'
+    Plug 'mengelbrecht/lightline-bufferline'
+    Plug 'maximbaz/lightline-ale'
     Plug 'ryanoasis/vim-devicons'
     Plug 'junegunn/goyo.vim' " distraction-free mode
     Plug 'junegunn/limelight.vim' " spotlight on current text
@@ -127,17 +140,11 @@
     " Plug 'liuchengxu/eleline.vim' " alternative statusline
     " Plug 'reedes/vim-wheel' " keep cursor line centered, TODO: just use scrolloff=999?
 
-    " Theme
-    Plug 'dracula/vim', {'as': 'dracula'}
-    Plug 'morhetz/gruvbox'
-    " Plug 'arzg/vim-colors-xcode' " dark / high-contrast
-
     " Project Management
     " - sessions
     Plug 'tpope/vim-obsession'
     Plug 'dhruvasagar/vim-prosession'
     " Plug 'mhinz/vim-startify'
-    " Plug 'vim-ctrlspace/vim-ctrlspace'
     " - external commands (build, run, test)
     Plug 'skywind3000/asyncrun.vim'
     " Plug 'igemnace/vim-makery' " enhancements to builtin :make
@@ -145,27 +152,29 @@
     " TODO: neomake over dispatch?
     " - version control
     Plug 'tpope/vim-fugitive'
+    " Plug 'rbong/vim-flog'
     " TODO: choose either
     " Plug 'airblade/vim-gitgutter'
     " Plug 'mhinz/vim-signify'
     " Plug 'mattn/gist-vim'
     " Plug 'jreybert/vimagit'
-    " Plug 'rhysd/git-messenger.vim'
+    Plug 'rhysd/git-messenger.vim'
     " Plug 'AndrewRadev/linediff.vim'
     " - file management
     Plug 'tpope/vim-eunuch' " file management with Ex commands
     " - misc
+    " Plug 'vim-ctrlspace/vim-ctrlspace'
     " TODO: choose either
     " Plug 'mbbill/undotree'
     " Plug 'simnalamburt/vim-mundo'
     " Plug 'Soares/butane.vim' " kill buffers for good
     " Plug 'tpope/vim-projectionist'
     " TODO: filereadable, localleader, fzf certain conditional dirs
-    " Plug 'janko/vim-test'
+    Plug 'janko/vim-test'
     " Plug 'puremourning/vimspector'
     " TODO: and/or termdebug built-in
     " Plug 'direnv/direnv.vim'
-    " Plug 'sgur/vim-editorconfig'
+    Plug 'sgur/vim-editorconfig'
     " Plug 'jpalardy/vim-slime' " repl
     " Plug 'epeli/slimux' " repl
     " Plug 'rhysd/reply.vim' " repl
@@ -192,14 +201,14 @@
     " Plug 'masukomi/vim-markdown-folding'
     " Plug 'plasticboy/vim-markdown'
     " Plug 'mogelbrod/vim-jsonpath'
-    " Plug 'numirias/semshi'
     " Plug 'tpope/vim-dadbod'
-    " Plug 'reedes/vim-pencil' " collection of tiny tweaks for prose writing
+    Plug 'reedes/vim-pencil' " collection of tiny tweaks for prose writing
     " - python
     " Plug 'python-mode/python-mode'
     " Plug 'metakirby5/codi.vim' " live playground results for python code
     " Plug 'jeetsukumaran/vim-pythonsense'
     " Plug 'jmcantrell/virtualenv.vim'
+    " Plug 'numirias/semshi'
 
     " Navigation
     " TODO: this is macOS/homebrew specific
@@ -214,27 +223,27 @@
     Plug 'liuchengxu/vista.vim' " sidebar for tags or LSP symbols
     " TODO: determine if provides anything over sensible's binds
     " Plug 'tpope/vim-rsi'
-    " Plug 'kshenoy/vim-signature' " show marks in sidebar
-    " Plug 'haya14busa/incsearch.vim' " better incsearch
-    " Plug 'myusuf3/numbers.vim' " intelligent auto-toggle of relativenumber
+    Plug 'kshenoy/vim-signature' " show marks in sidebar
+    Plug 'haya14busa/incsearch.vim' " better incsearch
+    Plug 'myusuf3/numbers.vim' " intelligent auto-toggle of relativenumber
     " Plug 'Dkendal/fzy-vim' " TODO: over fzf? then use srstevenson/vim-picker?
-    " Plug 'rhysd/clever-f.vim' " improved f/t movement
+    Plug 'rhysd/clever-f.vim' " improved f/t movement
     " TODO:
     " `let g:clever_f_across_no_line = 1`
     " `let g:clever_f_fix_key_direction = 1`
     " TODO: instead of file beagle or vinegar or vifm or nnn?
     " Plug 'francoiscabrol/ranger.vim'
-    " Plug 'nelstrom/vim-visual-star-search'
     " Plug 'tweekmonster/fzf-filemru'
     " Plug 'justinmk/vim-sneak'
     " TODO: sneak label mode
-    " Plug 'christoomey/vim-tmux-navigator'
     " Plug 'yuki-ycino/fzf-preview.vim'
     " Plug 'unkarkat/vim-mark' " custom highlights for words while reading
     " Plug 'RRethy/vim-illuminate' " highlight word under cursor
     " Plug 'lfv89/vim-interestingwords' " highlight word under cursor
+    " TODO: maybe remove quick-scope
     " Plug 'unblevable/quick-scope' " easily find f/t targets
     " Plug 'andymass/vim-matchup' " improved builtin matchit
+    " Plug 'nelstrom/vim-visual-star-search'
     " Plug 'haya14busa/vim-asterisk' " improved * navigation
     " Plug 'romainl/vim-cool' " intelligent auto toggle for search highlighting
 
@@ -250,29 +259,28 @@
     " if highlighting is annoying: `operator#sandwich#set('all', 'all', 'highlight', 0)`
     " space-wrapped mappings: https://github.com/machakann/vim-sandwich/issues/33
     Plug 'tpope/vim-unimpaired'
-    " TODO: choose one
-    Plug 'jiangmiao/auto-pairs'
-    " Plug 'tmsvg/pear-tree'
-    " or `:CocInstall coc-pairs`
-    " <end-choice>
+    Plug 'tmsvg/pear-tree'
     Plug 'honza/vim-snippets'
+    " TODO: this heuristic runs super slow on larger files?
     " Plug 'tpope/vim-sleuth' " detect options from current file conventions
+    " TODO: choose one of three
     " Plug 'terryma/vim-expand-region'
-    " Plug 'tpope/vim-endwise'
-    " Plug 'tpope/vim-repeat'
+    " Plug 'rhysd/vim-textobj-anyblock'
+    " Plug 'gcmt/vim-wildfire' " smart selection of closest text objects
+    Plug 'tpope/vim-endwise'
+    Plug 'tpope/vim-repeat'
     " TODO: maybe not, no use cases left not already covered by builtins
     " Plug 'terryma/vim-multiple-cursors'
-    " Plug 'junegunn/vim-peekaboo' " peek at contents of registers
+    Plug 'junegunn/vim-peekaboo' " peek at contents of registers
     " Plug 'vim-scripts/YankRing.vim'
     " Plug 'svermeulen/vim-easyclip' " improved clipboard
     " Plug 'mtth/scratch.vim'
     " Plug 'markonm/traces.vim' " TODO: or just use neovim's inccommand
     " Plug 'kkoomen/vim-doge'
-    " Plug 'da-x/name-assign.vim'
+    Plug 'da-x/name-assign.vim'
     " Plug 'AndrewRadev/inline_edit.vim'
     " Plug 'tpope/vim-speeddating'
     " Plug 'haya14busa/vim-edgemotion'
-    " Plug 'gcmt/vim-wildfire' " smart selection of closest text objects
     " Plug 'drzel/vim-split-line'
     " Plug 'FooSoft/vim-argwrap' " reformatting to/from single/multiline function calls, arrays, dicts
     " Plug 'PeterRincker/vim-argumentative'
@@ -283,7 +291,7 @@
     " Plug 'dhruvasagar/vim-table-mode'
     " Plug 'tommcdo/vim-lion' " alignment operations
     " - find/replace, word correction
-    " Plug 'tpope/vim-abolish' " find-replace across many variations of same word
+    Plug 'tpope/vim-abolish' " find-replace across many variations of same word
     " Plug 'pelodelfuego/vim-swoop' " find/replace inspired by helm-swoop
     " Plug 'wincent/ferret' " project-wide find/replace
     " Plug 'stefandtw/quickfix-reflector.vim'
@@ -303,6 +311,7 @@
     " TODO: and/or chaoren/vim-wordmotion, but fixup with `nmap cw ce` and `nmap cW cE`
     " Plug 'michaeljsmith/vim-indent-object'
     " Plug 'jeetsukumaran/vim-indentwise'
+    " Plug 'christoomey/vim-sort-motion'
 
     " Language Server Protocol
     " (Diagnostics, Code Completion, References, Formatting)
@@ -317,14 +326,16 @@
     " Plug 'desmap/ale-sensible'
     " Plug 'jackguo380/vim-lsp-cxx-highlight'
     " These don't go through LSP but are diagnostics for prose
-    " Plug 'jamestomasino/vim-writingsyntax' " highlight adjectives, passive language, weasel words
-    " Plug 'reedes/vim-wordy' " collection of prose linting, not through ALE
-    " Plug 'dbmrq/vim-ditto' " highlight overused/repeated words
+    Plug 'jamestomasino/vim-writingsyntax' " highlight adjectives, passive language, weasel words
+    Plug 'reedes/vim-wordy' " collection of prose linting, not through ALE
+    Plug 'dbmrq/vim-ditto' " highlight overused/repeated words
 
     " Apps
     Plug 'vimwiki/vimwiki'
     " Plug 'AndrewRadev/exercism.vim'
     " Plug 'segeljakt/vim-silicon'
+
+    endif
 
     call plug#end()
 
@@ -342,16 +353,23 @@
     set showbreak=↪
     set textwidth=79
     set title
+    " TODO: may not be visible with kitty and tmux?
     set visualbell  " don't beep at me!
     set diffopt+=vertical
     set nostartofline
     set spellfile="$HOME/.vim/spell/en.utf-8.add"
+    set showtabline=2
 
     " Recommended by coc.vim
     " set cmdheight=2
     set updatetime=300
     set shortmess+=c
-    set signcolumn=yes
+    if has("patch-8.1.1564")
+        " Recently vim can merge signcolumn and number column into one
+        set signcolumn=number
+    else
+        set signcolumn=yes
+    endif
 
     " Hightlight VCS conflict markers
     match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
@@ -395,6 +413,7 @@
     if has('gui_running')
         " TODO: test for fonts, have backups
         " set guioptions-=T
+        " set guioptions-=e " disable graphical tabline
         set guifont=Fura Mono Nerd Font:h12
     endif
 
@@ -415,6 +434,11 @@
     " Quickly edit and reload the .vimrc file
     nnoremap <silent> <leader>ev :edit $MYVIMRC<CR>
     nnoremap <silent> <leader>sv :source $MYVIMRC<CR>
+    augroup reload_vimrc
+        autocmd!
+        " TODO: causes weird visual artifacts / incorrect colors on reload
+        " autocmd BufWritePost $MYVIMRC,.vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC
+    augroup END
 
     " Toggle invisible chars
     nnoremap <leader>i :set list!<CR>
@@ -439,39 +463,27 @@
     nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 
     " Quick find-replace for any word under the cursor
+    " TODO: simplified? *``cgn
     nnoremap c* /\<<C-r>=expand('<cword>')<CR>\>\C<CR>``cgn
+    " TODO: simplified? #``cgn
     nnoremap c# /\<<C-r>=expand('<cword>')<CR>\>\C<CR>``cgN
     nnoremap d* /\<<C-r>=expand('<cword>')<CR>\>\C<CR>``dgn
     nnoremap d# /\<<C-r>=expand('<cword>')<CR>\>\C<CR>``dgN
     " TODO: make these work with a visual selection
     " https://old.reddit.com/r/vim/comments/2p6jqr/quick_replace_useful_refactoring_and_editing_tool/
 
-    " TODO: remove me, already in vim-better-default
     xnoremap <CR> :
-    " TODO: put these into an augroup?
-    autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
-    autocmd CmdWinEnter * nnoremap <buffer> <CR> <CR>
+    augroup default_cr_in_qf_and_cmds
+        autocmd!
+        autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
+        autocmd CmdWinEnter * nnoremap <buffer> <CR> <CR>
+    augroup END
 
     nnoremap <leader>wH <C-w>5<
     nnoremap <leader>wL <C-w>5>
     nnoremap <leader>wJ :resize +5<CR>
     nnoremap <leader>wK :resize -5<CR>
 
-    " Old split/window/tab/buffer mappings
-
-    " Improved splits movement
-    " set splitbelow
-    " set splitright
-    " nnoremap <leader>\ <C-w>v<C-w>l
-    " nnoremap <leader><bar> <C-w>v<C-w>l
-    " nnoremap <leader>- <C-w>s<C-w>j
-    " nnoremap <leader>_ <C-w>s<C-w>j
-    " nnoremap <C-h> <C-w>h
-    " nnoremap <C-j> <C-w>j
-    " nnoremap <C-k> <C-w>k
-    " nnoremap <C-l> <C-w>l
-
-    " nnoremap <leader>w :w<CR>
     " ? http://vim.wikia.com/wiki/Copy_or_change_search_hit
 
     " Improved tab movement
@@ -481,24 +493,23 @@
     " nnoremap <leader>td :tabclose<CR>
 
     " Improved buffer movement
-    " nnoremap <S-h> :bprevious<CR>
-    " nnoremap <S-l> :bnext<CR>
+    nnoremap <PageUp> :bprevious<CR>
+    nnoremap <PageDown> :bnext<CR>
     " nnoremap <leader>n :enew<CR>
     nnoremap <leader>bx :bd!<CR>
-    " Use unimpaired's [b ]b for quick buffer browsing
 
     " Quickly switch to last buffer, like alt+tab. can also use <C-^> or <C-6>
     nnoremap <leader><tab> :b#<CR>
-    " TODO: map <bs> to that instead?
-    " nnoremap <silent> Z <C-^>
+    nnoremap <bs> :b#<CR>
 
-    " Stupid help menu right next to the ESC key...
-    " inoremap <F1> <ESC>
-    " nnoremap <F1> <ESC>
-    " vnoremap <F1> <ESC>
+    " Stupid help menu right next to the Esc key...
+    " inoremap <F1> <Esc>
+    " nnoremap <F1> <Esc>
+    " vnoremap <F1> <Esc>
 
     " Plain arrows for bubbling text
     " For the <Up> and <Down> binds, see vim-unimpaired config below
+    " TODO: for better versions of all of these consider https://github.com/matze/vim-move
     nnoremap <Left> <<
     inoremap <Left> <C-o><<
     xnoremap <Left> <gv
@@ -509,19 +520,22 @@
     " Control-arrows conflict with macOS Mission Control shortcuts
     " TODO: Shift-arrows for splits, Alt-arrows for resizing splits? Duplicate lines?
 
-    " TODO: this might not be necessary with vim-unimpaired's [p and ]p
-    " nnoremap <leader>p o<Esc>p
-    " from system clipboard
-    " nnoremap <leader>P o<Esc>"*p
+    " TODO: find usable mappings for these
+    " nnoremap <S-C-k> dd
+    " duplicate the selection
+    vnoremap D y`]pgv
+    " nnoremap <S-C-d> yyp
+    " inoremap <S-C-d> <Esc>yypa
 
     " Re-select text
     " nnoremap <leader>v V`]
     nnoremap gV `[v]`
 
     " Paragraph text wrapping galore
-    " nnoremap <leader>q gqip
-    " vnoremap Q gq
-    " nnoremap Q gqap
+    " Q is legacy cruft, remap it, anything that you might need it for use `gQ` instead
+    nnoremap <silent> Q gqap
+    xnoremap <silent> Q gq
+    nnoremap <silent> <leader>Q gqip
 
     " nnoremap <space> zA
 
@@ -592,6 +606,34 @@
 
     nnoremap <leader>l :syntax sync fromstart<CR>
 
+    " yank whole file
+    nnoremap <leader>yy :%y+<CR>
+
+    " press <Tab>/<S-Tab> to move to next match during incremental search
+    " TODO: this seems to kill tab-completion in Ex mode?
+    " cnoremap <expr> <Tab>   getcmdtype() == "/" \|\| getcmdtype() == "?" ? "<CR>/<C-r>/" : "<C-z>"
+    " cnoremap <expr> <S-Tab> getcmdtype() == "/" \|\| getcmdtype() == "?" ? "<CR>?<C-r>/" : "<S-Tab>"
+
+    " project-wide find/replace requires more advanced/manual intervention, but
+    " for quick paragraph and file-wide replacements:
+    nnoremap <leader>rp :'{,'}s/\<<C-r>=expand("<cword>")<CR>\>/
+    nnoremap <leader>r% :%s/\<<C-r>=expand("<cword>")<CR>\>/
+    " replace current visual selection with yank buffer
+    vnoremap <leader>rr "_dP
+
+    " page facing view: side-by-side view of same buffer scrollbound
+    nnoremap <leader>vs :<C-u>let @z=&so<cr>:set so=0 noscb<cr>:bo vs<cr>Ljzt:setl scb<cr><C-w>p:setl scb<cr>:let &so=@z<cr>
+
+    " quick save
+    nnoremap <silent> <leader><CR> :update<CR>
+
+    " fun map ideas
+    " <leader>/ search-related?
+
+    " finish with the macro letter and hit enter to run the macro on each line
+    " individually
+    vnoremap <leader>@ :normal @
+
 " }}}
 
 " File Types {{{
@@ -642,15 +684,18 @@
 
 " Plugin Configuration {{{
 
-    " airline {{{
-
-        " TODO: this is a massive performance hog, replace it
-
-        let g:airline#extensions#tabline#enabled = 1
-        let g:airline_powerline_fonts = 1
-        " TODO: get rid of encoding, line progress, and column count
-
-    " }}}
+    " TODO: configs to add
+    " - vim-endwise
+    " - git-messenger.vim
+    " - incsearch.vim
+    " - clever-f.vim
+    " - vim-peekaboo
+    " - vim-abolish
+    " - name-assign.vim
+    " - vim-signature
+    " - vim-writingsyntax
+    " - vim-wordy
+    " - vim-ditto
 
     " ale {{{
 
@@ -744,18 +789,74 @@
 
     " coc.nvim {{{
 
-        if has('nvim')
-            " Use <c-space> to trigger completion.
-            inoremap <silent><expr> <c-space> coc#refresh()
+        " Trigger completion with characters ahead and navigate.
+        inoremap <silent><expr> <TAB>
+                    \ pumvisible() ? "\<C-n>" :
+                    \ <SID>check_back_space() ? "\<TAB>" :
+                    \ coc#refresh()
+        inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-            let g:coc_global_extensions = [
-                \ 'coc-elixir',
-                \ 'coc-json',
-                \ 'coc-python',
-                \ 'coc-rust-analyzer',
-                \ 'coc-snippets',
-            \ ]
+        function! s:check_back_space() abort
+            let col = col('.') - 1
+            return !col || getline('.')[col - 1]  =~# '\s'
+        endfunction
+
+        if has('nvim')
+            " Force to trigger completion.
+            inoremap <silent><expr> <c-space> coc#refresh()
+        else
+            inoremap <silent><expr> <c-@> coc#refresh()
         endif
+
+        " Confirm completion, `<C-g>u` means break undo chain at current
+        " position. Coc only does snippet and additional edit on confirm.
+        " TODO: conflict with pear-tree and endwise <CR> mappings?
+        if exists('*complete_info')
+            inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+        else
+            inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+        endif
+
+        " Navigate diagnostics
+        " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+        nmap <silent> [g <Plug>(coc-diagnostic-prev)
+        nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+        " GoTo code navigation.
+        " TODO: don't clobber built-in gd, find another bind
+        " nmap <silent> gd <Plug>(coc-definition)
+        nmap <silent> gy <Plug>(coc-type-definition)
+        nmap <silent> gi <Plug>(coc-implementation)
+        nmap <silent> gr <Plug>(coc-references)
+
+        " Show documentation in preview window.
+        " TODO: same, don't clobber K
+        " nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+        function! s:show_documentation()
+            if (index(['vim','help'], &filetype) >= 0)
+                execute 'h '.expand('<cword>')
+            else
+                call CocAction('doHover')
+            endif
+        endfunction
+
+        " Highlight the symbol and its references when holding the cursor.
+        autocmd CursorHold * silent call CocActionAsync('highlight')
+
+        " TODO: finish config from https://github.com/neoclide/coc.nvim#example-vim-configuration
+
+        let g:coc_global_extensions = [
+            \ 'coc-elixir',
+            \ 'coc-json',
+            \ 'coc-python',
+            \ 'coc-rust-analyzer',
+            \ 'coc-snippets',
+            \ 'coc-lists',
+            \ 'coc-sourcekit',
+        \ ]
+
+        " TODO: color highlighted suggestions like https://i.redd.it/yz5xnpl0d7g51.jpg
 
     " }}}
 
@@ -763,8 +864,31 @@
 
         let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
         let g:fzf_history_dir = '~/.local/share/fzf-history'
+        let g:fzf_preview_window = 'right:50%' " TODO: :hidden ?
+        " TODO: border used to be Ignore, find best visible alternative
+        let g:fzf_colors =
+        \ { 'fg':      ['fg', 'Normal'],
+          \ 'bg':      ['bg', 'Normal'],
+          \ 'hl':      ['fg', 'Comment'],
+          \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+          \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+          \ 'hl+':     ['fg', 'Statement'],
+          \ 'info':    ['fg', 'PreProc'],
+          \ 'border':  ['fg', 'Comment'],
+          \ 'prompt':  ['fg', 'Conditional'],
+          \ 'pointer': ['fg', 'Exception'],
+          \ 'marker':  ['fg', 'Keyword'],
+          \ 'spinner': ['fg', 'Label'],
+          \ 'header':  ['fg', 'Comment'] }
 
-        " let g:fzf_preview_window = 'right:50%' " TODO: :hidden ?
+        if has('nvim') && !exists('g:fzf_layout')
+            augroup fzf
+                autocmd!
+                autocmd! FileType fzf
+                autocmd  FileType fzf set laststatus=0 noshowmode noruler signcolumn=no
+                            \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler signcolumn=yes
+            augroup END
+        endif
 
         " TODO: previews everywhere
         " TODO: maybe by using yuki-ycino/fzf-preview.vim instead of manually
@@ -843,9 +967,11 @@
 
         command! -nargs=? -complete=buffer Wipeouts call FZFWipeout()
 
+        " without fzf: :buffer *
         nnoremap <leader>bb :Buffers<CR>
         nnoremap <leader>bw :Wipeouts<CR>
         nnoremap <leader>f<Space> :Commands<CR>
+        " without fzf: :find *
         nnoremap <leader>ff :Files<CR>
         nnoremap <leader>fd :FilesWithDevIcons<CR>
         nnoremap <leader>fh :History<CR>
@@ -863,18 +989,18 @@
         nnoremap <leader>fy :Filetypes<CR>
         nnoremap <leader>fH :Helptags!<CR>
         nnoremap <leader>rg :Rg<Space>
+        nnoremap <leader>* :Rg <C-r>=expand('<cword>')<CR><CR>
         " TODO: close buffer while browsing them via :Buffers
 
         command! Todo execute ":Rg! [T]O[_ ]?DO|[F]IX[_ ]?ME|[X]XX|[H]ACK|[^(DE)|^_][B]UG|[R]EVIEW|[W]TF|[S]MELL|[B]ROKE|[N]OCOMMIT|[N]ORELEASE"
         nnoremap <leader>T :Todo<cr>
 
         " TODO: make work w/ devicons
-        " command! -bang -nargs=? -complete=dir FilesFlat call fzf#vim#files(<q-args>, {'source': '$FZF_DEFAULT_COMMAND --max-depth 1'})
-        command! FilesFlat call fzf#run(fzf#wrap({'source': '$FZF_DEFAULT_COMMAND --max-depth 1'}))
+        command! -bang -nargs=? -complete=dir FilesFlat call fzf#vim#files(<q-args>, fzf#vim#with_preview({'source': '$FZF_DEFAULT_COMMAND --max-depth 1'}), <bang>0)
         nnoremap <leader>fa :FilesFlat<CR>
 
         " TODO: make work w/ devicons
-        command! FilesShallow call fzf#run(fzf#wrap({'source': '$FZF_DEFAULT_COMMAND --max-depth 4'}))
+        command! -bang -nargs=? -complete=dir FilesShallow call fzf#vim#files(<q-args>, fzf#vim#with_preview({'source': '$FZF_DEFAULT_COMMAND --max-depth 4'}), <bang>0)
         nnoremap <leader>fw :FilesShallow<CR>
 
         " TODO: <leader>p bind for an all-in-one buffers/MRU/files/tags filter,
@@ -901,11 +1027,211 @@
 
     " }}}
 
-    " limelight.vim {{{
+    " goyo {{{
 
-        " TODO: augroup here?
-        autocmd! User GoyoEnter Limelight
-        autocmd! User GoyoLeave Limelight!
+        " TODO: more ideas https://github.com/junegunn/goyo.vim/wiki/Customization
+
+        let s:has_plug_limelight = exists('*limelight#execute')
+        let s:has_plug_numbers = get(g:, 'enable_numbers', 0)
+
+        function! s:goyo_enter()
+            " silent !tmux set status off
+            " silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
+            " set noshowmode
+            " set noshowcmd
+            " set scrolloff=999
+
+            if s:has_plug_limelight
+                Limelight
+            endif
+
+            if s:has_plug_numbers
+                " silent! NumbersDisable
+                call NumbersDisable()
+
+                if !get(g:, 'goyo_linenr', 0)
+                    setlocal nonu
+                    if exists('&rnu')
+                        setlocal nornu
+                    endif
+                endif
+            endif
+        endfunction
+
+        function! s:goyo_leave()
+            " silent !tmux set status on
+            " silent !tmux list-panes -F '\#F' | grep -q Z && tmux resize-pane -Z
+            " set showmode
+            " set showcmd
+            " set scrolloff=5
+
+            if s:has_plug_limelight
+                Limelight!
+            endif
+
+            if s:has_plug_numbers
+                " silent! NumbersEnable
+                call NumbersEnable()
+            endif
+        endfunction
+
+        augroup plug_goyo
+            autocmd!
+            " TODO: depends on https://github.com/junegunn/goyo.vim/pull/209
+            " autocmd BufLeave goyo_pad setlocal norelativenumber
+            autocmd! User GoyoEnter nested call <SID>goyo_enter()
+            autocmd! User GoyoLeave nested call <SID>goyo_leave()
+        augroup END
+
+    " }}}
+
+    " lightline {{{
+
+        let g:lightline = {}
+        " do NOT install shinchu/lightline-gruvbox.vim, use built-in
+        let g:lightline.colorscheme = 'gruvbox'
+        let g:lightline.separator = { 'left': '', 'right': '' }
+        let g:lightline.subseparator = { 'left': '', 'right': '' }
+        let g:lightline.active = {}
+        let g:lightline.active.left = [ [ 'mode', 'paste' ], [ 'fugitive', 'readonly', 'filename', 'modified' ] ]
+        let g:lightline.active.right = [ [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos' ], [ 'percent', 'lineinfo' ], [ 'filetype' ], [ 'search_status' ] ]
+        let g:lightline.tabline = {}
+        let g:lightline.tabline.left = [ [ 'buffers' ] ]
+        let g:lightline.tabline.right = [ [ 'close' ] ]
+        let g:lightline.component = {}
+        let g:lightline.component.lineinfo = ' %3l:%-2v'
+        let g:lightline.component_function = {}
+        let g:lightline.component_function.fugitive = 'LightlineFugitive'
+        let g:lightline.component_function.modified = 'LightlineModified'
+        let g:lightline.component_function.readonly = 'LightlineReadonly'
+        let g:lightline.component_function.search_status = 'anzu#search_status'
+        let g:lightline.component_type = {}
+        let g:lightline.component_type.buffers = 'tabsel'
+        let g:lightline.component_type.linter_checking = 'right'
+        let g:lightline.component_type.linter_infos = 'right'
+        let g:lightline.component_type.linter_warnings = 'warning'
+        let g:lightline.component_type.linter_errors = 'error'
+        let g:lightline.component_type.linter_ok = 'right'
+        let g:lightline.component_expand = {}
+        let g:lightline.component_expand.buffers = 'lightline#bufferline#buffers'
+        let g:lightline.component_expand.linter_checking = 'lightline#ale#checking'
+        let g:lightline.component_expand.linter_infos = 'lightline#ale#infos'
+        let g:lightline.component_expand.linter_warnings = 'lightline#ale#warnings'
+        let g:lightline.component_expand.linter_errors = 'lightline#ale#errors'
+        let g:lightline.component_expand.linter_ok = 'lightline#ale#ok'
+        let g:lightline.component_raw = {}
+        let g:lightline.component_raw.buffers = 1
+
+        let g:lightline#ale#indicator_checking = "\uf110"
+        let g:lightline#ale#indicator_infos = "\uf129"
+        let g:lightline#ale#indicator_warnings = "\uf071"
+        let g:lightline#ale#indicator_errors = "\uf05e"
+        let g:lightline#ale#indicator_ok = "\uf00c"
+
+        let g:lightline#bufferline#enable_devicons = 1
+        let g:lightline#bufferline#unicode_symbols = 1
+        let g:lightline#bufferline#clickable = 1
+
+        " TODO: virtualenv, language server status, search progress toggle visible, asyncrun status?
+        " Plug 'albertomontesg/lightline-asyncrun'
+
+        " let g:lightline = {
+        "       \ 'component_function': {
+        "       \   'filename': 'LightlineFilename',
+        "       \   'mode': 'LightlineMode',
+        "       \ },
+        "       \ 'component_type': {
+        "       \   'readonly': 'error',
+        "       \ },
+
+        function! LightlineModified()
+            return &ft =~# 'help\|vimfiler' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+        endfunction
+
+        " alternative RO symbols: '' '⭤'
+        function! LightlineReadonly()
+            return &ft !~? 'help\|vimfiler' && &readonly ? 'RO' : ''
+        endfunction
+
+        " function! LightLineGitGutter()
+        "   if ! exists('*GitGutterGetHunkSummary')
+        "         \ || ! get(g:, 'gitgutter_enabled', 0)
+        "         \ || winwidth('.') <= 90
+        "     return ''
+        "   endif
+        "   let symbols = [
+        "         \ g:gitgutter_sign_added,
+        "         \ g:gitgutter_sign_modified,
+        "         \ g:gitgutter_sign_removed
+        "         \ ]
+        "   let hunks = GitGutterGetHunkSummary()
+        "   let ret = []
+        "   for i in [0, 1, 2]
+        "     if hunks[i] > 0
+        "       call add(ret, symbols[i] . hunks[i])
+        "     endif
+        "   endfor
+        "   return join(ret, ' ')
+        " endfunction
+
+        " function! LightlineFilename()
+        "   let fname = expand('%:t')
+        "   return fname ==# 'ControlP' && has_key(g:lightline, 'ctrlp_item') ? g:lightline.ctrlp_item :
+        "         \ fname =~# '^__Tagbar__\|__Gundo\|NERD_tree' ? '' :
+        "         \ &ft ==# 'vimfiler' ? vimfiler#get_status_string() :
+        "         \ &ft ==# 'unite' ? unite#get_status_string() :
+        "         \ &ft ==# 'vimshell' ? vimshell#get_status_string() :
+        "         \ (LightlineReadonly() !=# '' ? LightlineReadonly() . ' ' : '') .
+        "         \ (fname !=# '' ? fname : '[No Name]') .
+        "         \ (LightlineModified() !=# '' ? ' ' . LightlineModified() : '')
+        " endfunction
+
+        function! LightlineFugitive()
+            try
+                if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*FugitiveHead')
+                    " TODO: also show hunk summary
+                    let mark = ''  " edit here for cool mark
+                    let branch = FugitiveHead()
+                    return branch !=# '' ? mark.branch : ''
+                endif
+            catch
+            endtry
+            return ''
+        endfunction
+
+        " function! LightlineMode()
+        "   let fname = expand('%:t')
+        "   return fname =~# '^__Tagbar__' ? 'Tagbar' :
+        "         \ fname ==# 'ControlP' ? 'CtrlP' :
+        "         \ fname ==# '__Gundo__' ? 'Gundo' :
+        "         \ fname ==# '__Gundo_Preview__' ? 'Gundo Preview' :
+        "         \ fname =~# 'NERD_tree' ? 'NERDTree' :
+        "         \ &ft ==# 'unite' ? 'Unite' :
+        "         \ &ft ==# 'vimfiler' ? 'VimFiler' :
+        "         \ &ft ==# 'vimshell' ? 'VimShell' :
+        "         \ winwidth(0) > 60 ? lightline#mode() : ''
+        " endfunction
+
+        " let g:tagbar_status_func = 'TagbarStatusFunc'
+
+        " function! TagbarStatusFunc(current, sort, fname, ...) abort
+        "     return lightline#statusline(0)
+        " endfunction
+
+        " augroup alestatus
+        "   au!
+        "   autocmd User ALELint call lightline#update()
+        " augroup end
+
+        " " Syntastic can call a post-check hook, let's update lightline there
+        " " For more information: :help syntastic-loclist-callback
+        " function! SyntasticCheckHook(errors)
+        "     call lightline#update()
+        " endfunction
+
+    " }}}
+
+    " limelight.vim {{{
 
     " }}}
 
@@ -929,6 +1255,31 @@
             autocmd!
             autocmd VimLeavePre * call QuitNetrw()
         augroup END
+
+    " }}}
+
+    " numbers {{{
+
+        " TODO: depends on https://github.com/junegunn/goyo.vim/pull/209
+        " let g:numbers_exclude = ['unite', 'tagbar', 'startify', 'gundo', 'vimshell', 'w3m', 'nerdtree', 'Mundo', 'MundoDiff', 'goyo_pad']
+
+    " }}}
+
+    " pear-tree {{{
+
+        let g:pear_tree_smart_openers = 1
+        let g:pear_tree_smart_closers = 1
+        let g:pear_tree_smart_backspace = 1
+
+    " }}}
+
+    " quick-scope {{{
+
+        " TODO: remove me after below issue fixed
+        let g:qs_lazy_highlight = 1
+        " TODO: conflicts with clever-f
+        " https://github.com/unblevable/quick-scope/issues/55
+        " let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
     " }}}
 
@@ -973,6 +1324,9 @@
 
         " think all the buggy behavior related to switching back to unlisted
         " buffers has been fixed, if not try out moll/vim-bbye
+        " TODO: still one last gotcha: when the buffer we're returning to after
+        "       closing has an ALE lint warning/error on the line its on,
+        "       requires an extra <CR> press to complete the buffer switch
         nnoremap <silent> <leader>bd :bp<bar>bd#<CR>
 
         " Edit text without adding it to the yank stack
@@ -999,6 +1353,18 @@
         " nnoremap Y yy
         " nnoremap D dd
 
+        " Improved splits movement
+        " set splitbelow
+        " set splitright
+        nnoremap <leader>\ <C-w>v<C-w>p
+        nnoremap <leader><bar> <C-w>v<C-w>p
+        nnoremap <leader>- <C-w>s<C-w>p
+        nnoremap <leader>_ <C-w>s<C-w>p
+        nnoremap <C-h> <C-w>h
+        nnoremap <C-j> <C-w>j
+        nnoremap <C-k> <C-w>k
+        nnoremap <C-l> <C-w>l
+
     " }}}
 
     " vim-better-whitespace {{{
@@ -1006,6 +1372,8 @@
         " Use ALEFix w/ trim_whitespace instead
         " But still want this plugin to highlight trailing whitespace
         let g:strip_whitespace_on_save = 0
+
+        nmap <leader>ys :StripWhitespace<CR>
 
     " }}}
 
@@ -1021,6 +1389,8 @@
     " vim-gutentags {{{
 
         let g:gutentags_cache_dir = expand('~/.cache/gutentags/')
+        " TODO: if still experiencing crashes after using vim to write git commit messages, see further potential config changes here: https://github.com/ludovicchabant/vim-gutentags/issues/178#issuecomment-575693926
+        let g:gutentags_exclude_filetypes = ['gitcommit', 'gitconfig', 'gitrebase', 'gitsendemail', 'git']
 
     " }}}
 
@@ -1034,6 +1404,64 @@
 
     " }}}
 
+    " vim-pencil {{{
+
+        nnoremap <leader>tP :TogglePencil
+
+        function! Prose()
+            call pencil#init()
+            call lexical#init()
+            call litecorrect#init()
+            call textobj#quote#init()
+            call textobj#sentence#init()
+
+            " force top correction on most recent misspelling
+            nnoremap <buffer> <c-s> [s1z=<c-o>
+            inoremap <buffer> <c-s> <c-g>u<Esc>[s1z=`]A<c-g>u
+
+            " replace common punctuation
+            iabbrev <buffer> -- –
+            iabbrev <buffer> --- —
+            iabbrev <buffer> << «
+            iabbrev <buffer> >> »
+
+            " open most folds
+            setlocal foldlevel=6
+
+            " replace typographical quotes
+            (reedes/vim-textobj-quote)
+            map <silent> <buffer> <leader>qc <Plug>ReplaceWithCurly
+            map <silent> <buffer> <leader>qs <Plug>ReplaceWithStraight
+
+            " highlight words
+            (reedes/vim-wordy)
+            noremap <silent> <buffer> <F8> :<C-u>NextWordy<cr>
+            xnoremap <silent> <buffer> <F8> :<C-u>NextWordy<cr>
+            inoremap <silent> <buffer> <F8> <C-o>:NextWordy<cr>
+
+        endfunction
+
+        " invoke manually by command for other file types
+        command! -nargs=0 Prose call Prose()
+
+        " augroup pencil
+        "     autocmd!
+        "     autocmd FileType markdown,mkd call Prose()
+        "     autocmd FileType text call Prose()
+        "     autocmd Filetype git,gitsendemail,*commit*,*COMMIT*
+        "                             \ call pencil#init({'wrap': 'hard', 'textwidth': 72})
+        "                             \ | call litecorrect#init()
+        "                             \ | setl spell spl=en_us et sw=2 ts=2 noai
+        "     autocmd Filetype mail call pencil#init({'wrap': 'hard', 'textwidth': 60})
+        "                             \ | call litecorrect#init()
+        "                             \ | setl spell spl=en_us et sw=2 ts=2 noai nonu nornu
+        "     autocmd Filetype html,xml call pencil#init({'wrap': 'soft'})
+        "                             \ | call litecorrect#init()
+        "                             \ | setl spell spl=en_us et sw=2 ts=2
+        " augroup END
+
+    " }}}
+
     " vim-surround {{{
 
         " let g:surround_{char2nr("b")} = "{% block\1 \r..*\r &\1%}\r{% endblock %}"
@@ -1041,6 +1469,18 @@
         " let g:surround_{char2nr("w")} = "{% with\1 \r..*\r &\1%}\r{% endwith %}"
         " let g:surround_{char2nr("c")} = "{% comment\1 \r..*\r &\1%}\r{% endcomment %}"
         " let g:surround_{char2nr("f")} = "{% for\1 \r..*\r &\1%}\r{% endfor %}"
+
+    " }}}
+
+    " vim-test {{{
+
+        nmap <silent> <leader>Tt :TestNearest<CR>
+        nmap <silent> <leader>Tf :TestFile<CR>
+        nmap <silent> <leader>Ta :TestSuite<CR>
+        nmap <silent> <leader>Tl :TestLast<CR>
+        nmap <silent> <leader>Tr :TestVisit<CR>
+
+        let test#strategy = 'asyncrun' " or 'asyncrun_background'
 
     " }}}
 
