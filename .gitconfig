@@ -81,6 +81,7 @@
     # hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short --all
     hist = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
     tagcommit = !sh -c 'git rev-list $0 | head -n 1'
+    brcleanup = !sh -c 'git branch --merged | grep -v "\\*" | xargs -n 1 git branch --delete'
 
     type = cat-file -t
     dump = cat-file -p
