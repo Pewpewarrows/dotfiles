@@ -35,6 +35,9 @@
     autoupdate = true
     enabled = true
 
+[pull]
+    rebase = false
+
 [push]
     default = current
 
@@ -88,6 +91,9 @@
     # (will also want a heatmap script for identifying file change frequency)
     # review = !vim -p $(git files) +\"tabdo Gdiff $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
     # reviewone = !vim -p +\"tabdo Gdiff $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
+    # todo = !git diff master... | rg -C 5 TODO
+    # todo-commit = !git diff --cached | rg -C 5 TODO
+    # squash-all = !git reset $(git commit-tree HEAD^{tree} -m "${1?Please enter a message}")
 
     type = cat-file -t
     dump = cat-file -p
