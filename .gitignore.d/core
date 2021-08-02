@@ -65,9 +65,6 @@
 !/.config/thefuck
 /.config/thefuck/*
 !/.config/thefuck/settings.py
-!/.config/RadareOrg
-/.config/RadareOrg/*
-!/.config/RadareOrg/Cutter.ini
 
 !/.csslintrc
 
@@ -77,6 +74,12 @@
 !/.default-gems
 !/.default-npm-packages
 !/.default-python-packages
+
+!/.doom.d
+/.doom.d/*
+!/.doom.d/init.el
+!/.doom.d/config.el
+!/.doom.d/packages.el
 
 !/.dotfiles-misc
 
@@ -92,8 +95,6 @@
 !/.inputrc
 
 !/.prospector.yaml
-
-!/.spacemacs
 
 !/.stylelintrc
 

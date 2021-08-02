@@ -701,12 +701,16 @@
 
         let g:ale_fixers = {}
         let g:ale_fixers['*'] = ['remove_trailing_lines', 'trim_whitespace']
+        let g:ale_fixers.c = ['clang-format']
         let g:ale_fixers.css = ['prettier', 'stylelint']
         let g:ale_fixers.html = ['prettier']
         let g:ale_fixers.json = ['prettier']
         let g:ale_fixers.markdown = ['prettier']
         let g:ale_fixers.python = ['black']
+        " TODO: consider also getting rufo, standardrb, sorbet
+        let g:ale_fixers.ruby = ['rubocop']
         let g:ale_fixers.rust = ['rustfmt']
+        let g:ale_fixers.swift = ['swiftformat']
         let g:ale_fixers.vim = ['ale_custom_linting_rules']
         let g:ale_fixers.yaml = ['prettier']
 
@@ -724,7 +728,12 @@
         let g:ale_markdown_mdl_options = '--rules ~MD013'
         " TODO: --doc-warnings --test-warnings --with-tool vulture
         let g:ale_python_prospector_options = '--profile $HOME/.prospector.yaml --with-tool mypy --with-tool pep257 --with-tool pyroma --with-tool bandit'
+        let g:ale_rust_cargo_check_all_targets = 1
+        let g:ale_rust_cargo_check_tests = 1
+        let g:ale_rust_cargo_check_examples = 1
         let g:ale_rust_cargo_use_clippy = executable('cargo-clippy')
+        " TODO: -W clippy::expect_used -W clippy::unwrap_in_result -W clippy::unwrap_used
+        let g:ale_rust_cargo_clippy_options = '-W clippy::all -W clippy::pedantic -W clippy::filetype_is_file -W clippy::indexing_slicing -W clippy::todo -W clippy::unimplemented -W clippy::unreachable'
         let g:ale_scss_stylelint_options = g:ale_css_stylelint_options
         let g:ale_stylelint_options = g:ale_css_stylelint_options
         " TODO: make headless work on macOS via noah or docker

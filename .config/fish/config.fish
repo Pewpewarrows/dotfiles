@@ -116,6 +116,7 @@ alias o="f -e open"
 # fd's color options being a nice addition
 
 # TODO: finish moving to https://github.com/patrickf3139/fzf.fish or own custom
+# TODO: add more custom fzf commands: https://news.ycombinator.com/item?id=26012632
 
 if set --query fzf_fish_custom_keybindings
     # \cf is ctrl+f, etc.

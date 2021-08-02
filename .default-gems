@@ -1,7 +1,11 @@
+brakeman
 bundler
 cocoapods
 mdl
 nomad-cli
 pry
+reek
+rubocop
+solargraph
 t
 tmuxinator
