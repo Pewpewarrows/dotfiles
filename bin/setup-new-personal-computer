@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+
+set -o pipefail -o errexit -o nounset -o errtrace
+
+# This is a self-contained script, drop it onto the target machine independent
+# of whatever repo this is currently living in. Transfers can be done via
+# Airdrop, ssh, rsync, USB drive, etc.
+
+# TODO: take out this safeguard once this script is idempotent
+exit
+
+# macOS, current as of Monterey
+
+read -p "initial setup wizard complete" __
+read -p "click prompt to finish setting up internet accounts" __
+
+/usr/bin/env bash -c "$(curl --fail --silent --show-error --location https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew analytics off
+sudo xcodebuild -license
+xcode-select --install
+brew update
+brew install mr vcsh
+
+read -p "myrepos bootstrap url" myrepo_url
+vcsh clone "${myrepo_url}" mr
+mr update
+
+brew bundle
+
+readonly fish_cmd="/usr/local/bin/fish"
+echo "sudo credentials required for adding fish to available shells"
+echo "${fish_cmd}" | sudo tee -a /etc/shells
+chsh -s "${fish_cmd}"
+env "${fish_cmd}" -c "fisher"
+
+asdf plugin-add elixir rust python ruby nodejs opam lua golang
+
+export GNUPGHOME="${ASDF_DIR:=\"$HOME/.asdf\"}/keyrings/nodejs"
+mkdir -p "${GNUPGHOME}"
+chmod 0700 "${GNUPGHOME}"
+bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
+export -n GNUPGHOME
+unset GNUPGHOME
+
+readonly py3="$(echo -n $(asdf latest python 3 | tail -n 1))"
+readonly py2="$(echo -n $(asdf latest python 2 | tail -n 1))"
+asdf install elixir latest
+asdf install rust latest
+asdf install python latest
+asdf install python "${py2}"
+asdf install ruby latest
+asdf install nodejs latest
+asdf global elixir latest
+asdf global rust latest
+# asdf python allows for both py3 and py2 as a global default, will use py3 first then fallback to py2
+asdf global python "${py3}" "${py2}"
+asdf global ruby latest
+asdf global nodejs latest
+asdf reshim
+
+echo black 'prospector[with_everything]' pyre-check youtube-dl proselint aws-shell doc2dash poetry restructuredtext_lint rstcheck httpie restview grip rst2rst yamllint ansible-lint ansible-base flawfinder fb-idb mypy | xargs -n1 pipx install
+pipx install virtualfish --include-deps
+vf install
+
+opam init
+opam install flowtype
+
+android update sdk --no-ui

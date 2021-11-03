@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+# vcs-repos-status
+# Scan through a directory recursively to look for vcs repos. For any that are
+# found, display a quick summary showing if it is safe to locally delete it.
+# This does so by determining if there are any uncommitted changes, unpushed
+# branches, or stash patches.
+
+SCAN_DIR="${1:-${HOME}/tmp/repos}"
+
+# TODO: this doesn't catch inner git submodules
+
+find "${SCAN_DIR}" -type d -name ".git" -prune -print0 | while read -rd $'\0' repo_dir; do
+    repo_dir="$(dirname "$(realpath "${repo_dir}")")"
+    pushd -- "${repo_dir}" >/dev/null
+    echo "====="
+    pwd
+    git remote -v
+    # git status --short --branch
+    # git branch -avvv
+    # git log --branches --not --remotes
+    # git stash list
+    echo
+    popd >/dev/null
+done
+
+find "${SCAN_DIR}" -type d -name ".hg" -prune -print0 | while read -rd $'\0' repo_dir; do
+    repo_dir="$(dirname "$(realpath "${repo_dir}")")"
+    pushd -- "${repo_dir}" >/dev/null
+    echo "====="
+    pwd
+    hg paths
+    # hg summary
+    # hg status
+    echo
+    popd >/dev/null
+done
+
+find "${SCAN_DIR}" -type d -name ".svn" -prune -print0 | while read -rd $'\0' repo_dir; do
+    repo_dir="$(dirname "$(realpath "${repo_dir}")")"
+    pushd -- "${repo_dir}" >/dev/null
+    echo "====="
+    pwd
+    svn info .
+    # svn status
+    echo
+    popd >/dev/null
+done

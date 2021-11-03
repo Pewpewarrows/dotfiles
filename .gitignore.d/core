@@ -20,12 +20,18 @@
 
 !/.config
 /.config/*
+# TODO: wtf is starfish for?
+!/.config/starfish.toml
 !/.config/alacritty
 /.config/alacritty/*
 !/.config/alacritty/alacritty.yml
 !/.config/bat
 /.config/bat/*
 !/.config/bat/config
+!/.config/cheat
+/.config/cheat/*
+!/.config/cheat/conf.yml
+# TODO: add all under .config/cheat/cheatsheets/personal/*
 !/.config/fish
 /.config/fish/*
 !/.config/fish/config.fish
@@ -40,6 +46,9 @@
 !/.config/fish/functions
 /.config/fish/functions/*
 !/.config/fish/functions/*.fish
+!/.config/gh
+/.config/gh/*
+!/.config/gh/config.yml
 !/.config/git
 /.config/git/*
 !/.config/git/ignore
@@ -136,15 +145,20 @@
 
 !/bin
 /bin/*
-!/bin/git-wtf
-!/bin/mvim
+!/bin/brew_list_diff
 !/bin/checkpatch.pl
 !/bin/git-svn-clone-externals
+!/bin/git-wtf
+!/bin/manual-backup
 !/bin/muttqt-sendmail
-!/bin/on_ac_power
+!/bin/mvim
 !/bin/npl
+!/bin/on_ac_power
+!/bin/pipx-repair-venvs
+!/bin/setup-new-personal-computer
+!/bin/vcs-repos-status
 !/bin/vimwiki-diary-entry-template
-!/bin/brew-list-diff
+!/bin/vwtags
 
 !/scripts
 /scripts/*

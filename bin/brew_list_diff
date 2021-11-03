@@ -1,0 +1,148 @@
+#!/usr/bin/env python3
+
+"""Compare homebrew list of packages and casks with Brewfile."""
+
+import dataclasses
+from os import path
+import re
+import subprocess
+import sys
+import typing
+
+
+BREWFILE_BREW_RE = re.compile(
+    r"""
+    ^\s*brew\s+['"](?P<name>[\w\-]+)['"].*$
+    """,
+    re.IGNORECASE | re.VERBOSE,
+)
+
+
+BREWFILE_CASK_RE = re.compile(
+    r"""
+    ^\s*cask\s+['"](?P<name>[\w\-]+)['"].*$
+    """,
+    re.IGNORECASE | re.VERBOSE,
+)
+
+
+@dataclasses.dataclass(frozen=True)
+class BrewStatus:
+    """TODO."""
+
+    missing_system_packages: typing.FrozenSet[str] = frozenset()
+    missing_brewfile_packages: typing.FrozenSet[str] = frozenset()
+    missing_system_casks: typing.FrozenSet[str] = frozenset()
+    missing_brewfile_casks: typing.FrozenSet[str] = frozenset()
+
+
+def get_brew_status() -> BrewStatus:
+    """TODO."""
+    # shell out to $(brew list)
+    proc = subprocess.run(("brew", "list"), check=True, capture_output=True)
+    brew_list = set(
+        filter(
+            None,
+            (
+                pkg.strip().decode("utf-8", errors="ignore")
+                for pkg in proc.stdout.split(b"\n")
+            ),
+        )
+    )
+
+    # shell out to $(brew cask list)
+    proc = subprocess.run(("brew", "cask", "list"), check=True, capture_output=True)
+    brew_cask_list = set(
+        filter(
+            None,
+            (
+                pkg.strip().decode("utf-8", errors="ignore")
+                for pkg in proc.stdout.split(b"\n")
+            ),
+        )
+    )
+
+    # read Brewfile from default location
+    brewfile_list = set()
+    brewfile_cask_list = set()
+
+    with open(path.expanduser("~/Brewfile")) as brewfile:
+        # match Brewfile lines against brew and cask lines to build lists
+        for line in brewfile:
+            match = BREWFILE_BREW_RE.search(line)
+
+            if match is not None:
+                brewfile_list.add(match.group("name"))
+                continue
+
+            match = BREWFILE_CASK_RE.search(line)
+
+            if match is not None:
+                brewfile_cask_list.add(match.group("name"))
+                continue
+
+    # diff package lists
+    # diff cask lists
+    missing_system_packages = brewfile_list - brew_list
+    missing_brewfile_packages = brew_list - brewfile_list
+    missing_system_casks = brewfile_cask_list - brew_cask_list
+    missing_brewfile_casks = brew_cask_list - brewfile_cask_list
+
+    return BrewStatus(
+        frozenset(missing_system_packages),
+        frozenset(missing_brewfile_packages),
+        frozenset(missing_system_casks),
+        frozenset(missing_brewfile_casks),
+    )
+
+
+def print_brew_status(brew_status: BrewStatus) -> None:
+    """TODO."""
+    sys.stdout.write("System packages not installed:\n")
+    do(
+        map(
+            sys.stdout.write,
+            map("{}\n".format, sorted(brew_status.missing_system_packages)),
+        )
+    )
+    sys.stdout.write("\n")
+    sys.stdout.write("System packages missing from Brewfile:\n")
+    do(
+        map(
+            sys.stdout.write,
+            map("{}\n".format, sorted(brew_status.missing_brewfile_packages)),
+        )
+    )
+    sys.stdout.write("\n")
+    sys.stdout.write("Casks not installed:\n")
+    do(
+        map(
+            sys.stdout.write,
+            map("{}\n".format, sorted(brew_status.missing_system_casks)),
+        )
+    )
+    sys.stdout.write("\n")
+    sys.stdout.write("Casks missing from Brewfile:\n")
+    do(
+        map(
+            sys.stdout.write,
+            map("{}\n".format, sorted(brew_status.missing_brewfile_casks)),
+        )
+    )
+    sys.stdout.write("\n")
+
+
+def do(gen):
+    """Consume a lazy iterable."""
+    for __ in gen:
+        pass
+
+
+def main() -> None:
+    """Run this script."""
+    # TODO: accept a list of Brewfile paths as positional args
+    print_brew_status(get_brew_status())
+
+
+if __name__ == "__main__":
+    main()

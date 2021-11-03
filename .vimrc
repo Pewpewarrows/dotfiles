@@ -1321,7 +1321,13 @@
         set directory=~/.vim/tmp/swap//,/tmp/vim/swap//
         set backupdir=~/.vim/tmp/backup//,/tmp/vim/backup//
         if has('persistent_undo')
-            set undodir=~/.vim/tmp/undo//,/tmp/vim/undo//
+            if has('nvim-0.5')
+                " New format in https://github.com/neovim/neovim/pull/13973 (f42e932, 2021-04-13).
+                " TODO: see if later versions of nvim will auto-migrate undo files
+                set undodir=~/.vim/tmp/undo2//,/tmp/vim/undo2//
+            else
+                set undodir=~/.vim/tmp/undo//,/tmp/vim/undo//
+            endif
         endif
 
         " do not persist backup after successful write

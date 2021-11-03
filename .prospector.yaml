@@ -9,7 +9,7 @@ pylint:
 
 pep8:
   options:
-    max-line-length: 88
+    max-line-length: 120
 
 pep257:
   disable:

@@ -9,8 +9,8 @@ npx
 prettier
 remark-lint
 stylelint
-stylelint-config-standard
 stylelint-config-sass-guidelines
+stylelint-config-standard
 stylelint-order
 textlint
 typescript

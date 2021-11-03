@@ -2,19 +2,12 @@
 # VERSION: 3.0
 SETUVAR --export CLICOLOR:1
 SETUVAR --export EDITOR:nvim
-SETUVAR --export FZF_CD_COMMAND:fd\x1e\x2d\x2dtype\x1edirectory\x1e\x2d\x2dexclude\x1e\x2egit\x1e\x2d\x2dcolor\x3dalways\x1e\x2d\x2dfull\x2dpath\x1e\x2d\x2dmax\x2ddepth\x1e5\x1e\x2e\x1e\x24dir
-SETUVAR --export FZF_CD_WITH_HIDDEN_COMMAND:fd\x1e\x2d\x2dtype\x1edirectory\x1e\x2d\x2dhidden\x1e\x2d\x2dfollow\x1e\x2d\x2dcolor\x3dalways\x1e\x2d\x2dfull\x2dpath\x1e\x2d\x2dmax\x2ddepth\x1e5\x1e\x2e\x1e\x24dir
-SETUVAR --export FZF_CTRL_T_COMMAND:fd\x1e\x2d\x2dtype\x1efile\x1e\x2d\x2dhidden\x1e\x2d\x2dfollow\x1e\x2d\x2dexclude\x1e\x2egit\x1e\x2d\x2dcolor\x3dalways
-SETUVAR --export FZF_DEFAULT_COMMAND:fd\x1e\x2d\x2dtype\x1efile\x1e\x2d\x2dhidden\x1e\x2d\x2dfollow\x1e\x2d\x2dexclude\x1e\x2egit\x1e\x2d\x2dcolor\x3dalways
-SETUVAR --export FZF_DEFAULT_OPTS:\x2d\x2dheight\x1e40\x25\x1e\x2d\x2dborder\x1e\x2d\x2dcycle\x1e\x2d\x2dreverse\x1e\x2d\x2dansi\x1e\x2d\x2dcolor\x1efg\x3a\x23ebdbb2\x2cbg\x3a\x23282828\x2chl\x3a\x23fabd2f\x2cfg\x2b\x3a\x23ebdbb2\x2cbg\x2b\x3a\x233c3836\x2chl\x2b\x3a\x23fabd2f\x1e\x2d\x2dcolor\x1einfo\x3a\x2383a598\x2cprompt\x3a\x23bdae93\x2cspinner\x3a\x23fabd2f\x2cpointer\x3a\x2383a598\x2cmarker\x3a\x23fe8019\x2cheader\x3a\x23665c54
-SETUVAR --export FZF_DISABLE_KEYBINDINGS:0
-SETUVAR --export FZF_ENABLE_OPEN_PREVIEW:1
-SETUVAR --export FZF_FIND_FILE_COMMAND:fd\x1e\x2d\x2dtype\x1efile\x1e\x2d\x2dhidden\x1e\x2d\x2dfollow\x1e\x2d\x2dexclude\x1e\x2egit\x1e\x2d\x2dcolor\x3dalways\x1e\x2d\x2dfull\x2dpath\x1e\x2e\x1e\x24dir
-SETUVAR --export FZF_LEGACY_KEYBINDINGS:1
-SETUVAR --export FZF_OPEN_COMMAND:fd\x1e\x2d\x2dtype\x1efile\x1e\x2d\x2dhidden\x1e\x2d\x2dfollow\x1e\x2d\x2dexclude\x1e\x2egit\x1e\x2d\x2dcolor\x3dalways\x1e\x2d\x2dfull\x2dpath\x1e\x2e\x1e\x24dir
-SETUVAR --export FZF_PREVIEW_DIR_CMD:exa
-SETUVAR --export FZF_PREVIEW_FILE_CMD:bat\x1e\x2d\x2dline\x2drange\x1e\x3a100\x1e\x2d\x2dplain\x1e\x2d\x2dcolor\x1ealways\x1e\x2d\x2dpager\x1enever
-SETUVAR --export FZF_TMUX_HEIGHT:40\x25
+SETUVAR FZF_DEFAULT_OPTS:\x2d\x2dheight\x2040\x25
+SETUVAR FZF_DISABLE_KEYBINDINGS:0
+SETUVAR FZF_LEGACY_KEYBINDINGS:1
+SETUVAR FZF_PREVIEW_DIR_CMD:ls
+SETUVAR FZF_PREVIEW_FILE_CMD:head\x20\x2dn\x2010
+SETUVAR FZF_TMUX_HEIGHT:40\x25
 SETUVAR --export GIT_EDITOR:nvim
 SETUVAR --export LSCOLORS:gxBxhxDxfxhxhxhxhxcxcx
 SETUVAR --export PAGER:less

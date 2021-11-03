@@ -3,13 +3,11 @@
 # Brews
 
 # Dotfile Management
-brew 'mr'
+brew 'mr'  # fine for now, but end-of-lifed, may want to migrate to: repo, gita, or vcstool
 brew 'vcsh'
 
 # Development Tools
 brew 'ant'
-brew 'android-ndk'
-brew 'android-sdk'
 brew 'asdf'
 brew 'bat'
 brew 'binutils'
@@ -29,14 +27,17 @@ brew 'hadolint'
 brew 'hg'
 brew 'hugo'
 brew 'ideviceinstaller', args: ['HEAD']
+brew 'jadx'
 brew 'libimobiledevice', args: ['HEAD']
 brew 'libplist'
 brew 'libvirt'
 brew 'llvm', args: ['with-clang', 'with-clang-extra-tools', 'with-lld', 'with-lldb', 'with-rtti', 'with-all-targets', 'with-python']
+# brew 'lua'  # TODO: is this managed by asdf now?
 brew 'maven'
 brew 'mono'
 brew 'nasm'
 brew 'neovim'
+# brew 'opam'  # TODO: is this managed by asdf now?
 brew 'pipx'
 brew 'radare2'
 brew 'shellcheck'
@@ -49,31 +50,35 @@ brew 'tig'
 brew 'usbmuxd', args: ['HEAD']
 brew 'valgrind'
 brew 'vim', args: ['override-system-vi', 'with-lua', 'with-luajit']
+brew 'whalebrew'
 brew 'xcproj'
 brew 'xctool'
 brew 'yarn', args: ['ignore-dependencies']
 
 # Workflow Tools
-brew 'boot2docker'
 brew 'brew-cask-completion'
+brew 'cheat'
 brew 'diff-so-fancy'
 brew 'docker'
+brew 'entr'
 brew 'fasd'
 brew 'fd'
 brew 'ffmpeg'
 brew 'fish'
 brew 'fzf'
 brew 'getmail'
+brew 'gh'
 brew 'gifsicle'
 brew 'grc'
-brew 'hh'
 brew 'htop'
-brew 'hub'
+brew 'lima'
+brew 'mas'
 brew 'ncdu'
 brew 'neofetch'
 brew 'nmap'
 brew 'notmuch'
 brew 'pandoc'
+brew 'podman'
 brew 'pstree'
 brew 'pv'
 brew 'ranger'
@@ -88,13 +93,17 @@ brew 'thefuck'
 brew 'tmux'
 brew 'tree'
 brew 'urlview'
-brew 'vcprompt'
+brew 'weechat'
 brew 'wget'
 
 # Writing
 brew 'languagetool'
 brew 'redpen'
 brew 'vale'
+
+# Android
+brew 'libusb'  # req for Heimdall
+brew 'pyqt5'  # req for Heimdall
 
 # For consideration
 # brew 'ghi'
@@ -143,13 +152,15 @@ brew 'idb-companion'
 
 # This extends brew with a "cu" subcommand, only need to tap, no further
 # installs
-tap 'buo/cask-upgrade'
+# TODO: is this still necessary?
+# tap 'buo/cask-upgrade'
 
 # Casks
-# cask '1password'  # TODO: consider this and its cli version
+cask '1password'
+cask '1password-cli'
 cask 'adium'
 cask 'adobe-acrobat-reader'
-# cask 'amazon-cloud-drive'
+cask 'alt-tab'
 cask 'anki'
 cask 'appcleaner'
 cask 'audacity'
@@ -164,11 +175,9 @@ cask 'discord'
 cask 'dropbox'
 cask 'firefox'
 # cask 'flash'  # was renamed to flash-npapi, may not want anymore anyway
-cask 'flux'
 cask 'focus'
 cask 'godot'
 cask 'google-drive'
-cask 'google-hangouts'
 # cask 'gpgtools'
 cask 'gpg-suite'
 cask 'handbrake'
@@ -178,35 +187,39 @@ cask 'keybase'
 cask 'krita'
 cask 'licecap'
 cask 'loading'
+cask 'logitech-options'
+cask 'microsoft-office'
+cask 'microsoft-teams'
 cask 'mixxx'
 cask 'natron'
 cask 'obs'
+# cask 'onedrive'  # not necessary if installing microsoft-office
+cask 'rectangle'
 cask 'resilio-sync'
-cask 'scroll-reverser'
-cask 'sensiblesidebuttons'
+# cask 'sensiblesidebuttons'  # TODO: maybe remove if logitech-options enough
 cask 'shotcut'
 cask 'signal'
 cask 'sketchbook'
 cask 'skype'
 cask 'slack'
-cask 'spectacle'
 cask 'spotify'
 cask 'stay'
 cask 'streamlink-twitch-gui'
 cask 'sublime-text'
+cask 'telegram'
 cask 'the-unarchiver'
 cask 'thingsmacsandboxhelper'
 cask 'torbrowser'
 cask 'transmission'
-cask 'tunnelblick'
+# cask 'tunnelblick'  # TODO: maybe remove for wireguard
+cask 'tweetbot'
 cask 'vlc'
 cask 'vnc-viewer'
 cask 'whatsapp'
+cask 'zoom'
 
 # Development
 cask 'adoptopenjdk'
-cask 'alacritty'
-cask 'android-ndk'
 cask 'android-studio'
 cask 'balsamiq-mockups'
 cask 'cutter'
@@ -214,16 +227,15 @@ cask 'dash'
 cask 'gas-mask'
 cask 'ghidra'
 cask 'github'
-cask 'haskell-platform'
+# cask 'haskell-platform'  # TODO: look into asdf versioning
+# cask 'heimdall-suite'  # does not build without PR 468, installed manually
 cask 'hex-fiend'
 cask 'hopper-disassembler'
-cask 'iterm2'
 cask 'java'
 cask 'kitty'
 cask 'mactex'
 cask 'oclint'
 cask 'osxfuse'
-cask 'touch-bar-simulator'
 cask 'vagrant'
 cask 'virtualbox'
 cask 'virtualbox-extension-pack'
@@ -249,9 +261,6 @@ cask 'font-firamono-nerd-font'
 # Unavailable
 # - office code pro
 # - proggy vector
-
-tap 'homebrew/cask-drivers/'
-# cask 'lg-onscreen-control'
 
 # For consideration
 # TODO: Postgres.app has an internal check that its real directory is
@@ -288,3 +297,29 @@ tap 'homebrew/cask-drivers/'
 # cask 'webpquicklook'
 # cask 'suspicious-package'
 # after installing these: $ qlmanage -r
+
+# Mac App Store
+
+mas 'AdGuard for Safari', id: 1440147259
+mas 'Dropover', id: 1355679052
+mas 'DuckDuckGo Privacy Essentials', id: 1482920575
+mas 'GarageBand', id: 682658836
+mas 'Honey', id: 1472777122
+mas 'Hush', id: 1544743900
+mas 'Keynote', id: 409183694
+mas 'OneTab', id: 1540160809
+mas 'Pages', id: 409201541
+mas 'PiPer', id: 1421915518
+mas 'Pomodoro Timer', id: 872515009
+mas 'Reddirect', id: 1479320952
+mas 'Things', id: 904280696
+mas 'Twitter', id: 1482454543
+mas 'VMware Remote Console', id: 1230249825
+mas 'Vimari', id: 1480933944
+mas 'Wayback Machine', id: 1472432422
+mas 'Wipr', id: 1320666476
+mas 'WireGuard', id: 1451685025
+mas 'Xcode', id: 497799835
+mas 'm-wiki', id: 1480168619
+
+# Whalebrews

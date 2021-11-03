@@ -1,0 +1,133 @@
+#!/usr/bin/env sh
+
+readonly LABEL="dev-laptop"
+readonly DATE=$(date +%Y-%m-%d_%H-%M-%S)
+readonly BACKUP_PARENT_DIR="${HOME}/Downloads/"
+readonly BACKUP_DIR="${BACKUP_PARENT_DIR}/backup_${LABEL}_${DATE}/"
+
+mkdir -p "${BACKUP_DIR}/"
+
+# TODO: ask user to manually inspect the following locations and confirm that
+#       everything in them that they want is placed in ~/Dropbox or ~/Private
+# - ~/Desktop
+# - ~/Documents
+# - ~/Downloads
+# - ~/Public
+
+# TODO: docker containers?
+# TODO: npx commands?
+# TODO: .vim/tmp/backup needs directory in path like swap/undo?
+# TODO: custom app launch flags?
+
+ls -la /Applications/ > "${BACKUP_DIR}/applications.txt"
+ls -la "${HOME}/Applications/" > "${BACKUP_DIR}/home_applications.txt"
+pushd "${BACKUP_DIR}"
+brew bundle dump
+popd
+
+tar czf "${BACKUP_DIR}/etc_cups.tar.gz" -C "/etc/" cups/
+tar czf "${BACKUP_DIR}/library_keychains.tar.gz" -C "/Library/" Keychains/
+tar czf "${BACKUP_DIR}/home_library_keychains.tar.gz" -C "${HOME}/Library/" Keychains/
+tar czf "${BACKUP_DIR}/tmux_resurrect.tar.gz" -C "${HOME}/.tmux/" resurrect/
+tar czf "${BACKUP_DIR}/vim_session.tar.gz" -C "${HOME}/.vim/" session/
+tar czf "${BACKUP_DIR}/vim_sessions.tar.gz" -C "${HOME}/.vim/" sessions/
+tar czf "${BACKUP_DIR}/vim_spell.tar.gz" -C "${HOME}/.vim/" spell/
+tar czf "${BACKUP_DIR}/vim_tmp_backup.tar.gz" -C "${HOME}/.vim/tmp/" backup/
+tar czf "${BACKUP_DIR}/vim_tmp_swap.tar.gz" -C "${HOME}/.vim/tmp/" swap/
+tar czf "${BACKUP_DIR}/vim_tmp_undo.tar.gz" -C "${HOME}/.vim/tmp/" undo/
+tar czf "${BACKUP_DIR}/vim_tmp_undo2.tar.gz" -C "${HOME}/.vim/tmp/" undo2/
+
+# NOTE: not doing automated backups of repos dir, but these are the cmds
+# sudo tar czf "${BACKUP_DIR}/tmp_repos.tar.gz" -C "${HOME}/tmp/" repos/
+# sudo chown Marco "${BACKUP_DIR}/tmp_repos.tar.gz"
+
+# TODO: chrome flags
+# echo "Marco: none; Work: none" > "${BACKUP_DIR}/chrome_flags.txt"
+
+# TODO: ask user to export Safari and Chrome OneTab data from all profiles into each:
+#       "${BACKUP_DIR}/safari_onetab.txt"
+#       "${BACKUP_DIR}/chrome_onetab_profilename.txt"
+
+ocaml -vnum > "${BACKUP_DIR}/ocaml_vnum.txt"
+opam list > "${BACKUP_DIR}/opam_list.txt"
+npm list -g > "${BACKUP_DIR}/npm_list_g.txt"
+pipx list > "${BACKUP_DIR}/pipx_list.txt"
+pip2 freeze > "${BACKUP_DIR}/pip2_freeze.txt"
+pip3 freeze > "${BACKUP_DIR}/pip3_freeze.txt"
+gem list > "${BACKUP_DIR}/gem_list.txt"
+
+# home/
+
+mkdir -p "${BACKUP_DIR}/home/"
+cp "${HOME}/.bash_history" "${BACKUP_DIR}/home/"
+cp "${HOME}/.bashrc_local" "${BACKUP_DIR}/home/"
+mkdir -p "${BACKUP_DIR}/home/.config/"
+mkdir -p "${BACKUP_DIR}/home/.config/gh/"
+# -AX are not present on BSD, if done manually may want -v --progress
+rsync -a --exclude extensions "${HOME}/.config/coc" "${BACKUP_DIR}/home/.config/"
+cp -R "${HOME}/.config/configstore" "${BACKUP_DIR}/home/.config/"
+cp -R "${HOME}/.config/containers" "${BACKUP_DIR}/home/.config/"
+cp -R "${HOME}/.config/darktable" "${BACKUP_DIR}/home/.config/"
+cp "${HOME}/.config/gh/hosts.yml" "${BACKUP_DIR}/home/.config/gh/"
+cp -R "${HOME}/.cups" "${BACKUP_DIR}/home/"
+cp "${HOME}/.fasd" "${BACKUP_DIR}/home/"
+cp -R "${HOME}/.getmail" "${BACKUP_DIR}/home/"
+cp "${HOME}/.gist-vim" "${BACKUP_DIR}/home/"
+cp "${HOME}/.gitconfig.local" "${BACKUP_DIR}/home/"
+cp -R "${HOME}/.gnupg" "${BACKUP_DIR}/home/"
+cp -R "${HOME}/.gnupg_pre_2.1" "${BACKUP_DIR}/home/"
+cp "${HOME}/.lesshst" "${BACKUP_DIR}/home/"
+cp -R "${HOME}/.lldb" "${BACKUP_DIR}/home/"
+mkdir -p "${BACKUP_DIR}/home/.local/share/"
+cp -R "${HOME}/.local/share/fish" "${BACKUP_DIR}/home/.local/share/"
+cp -R "${HOME}/.local/share/fzf-history" "${BACKUP_DIR}/home/.local/share/"
+cp -R "${HOME}/.local/share/ranger" "${BACKUP_DIR}/home/.local/share/"
+cp -R "${HOME}/.mail" "${BACKUP_DIR}/home/"
+cp -R "${HOME}/.mutt" "${BACKUP_DIR}/home/"
+cp -R "${HOME}/.muttqt" "${BACKUP_DIR}/home/"
+cp "${HOME}/.node_repl_history" "${BACKUP_DIR}/home/"
+# TODO: .notmuch?
+cp "${HOME}/.notmuch-config" "${BACKUP_DIR}/home/"
+cp "${HOME}/.psql_history" "${BACKUP_DIR}/home/"
+cp -R "${HOME}/.pylint.d" "${BACKUP_DIR}/home/"
+cp "${HOME}/.pythonhist" "${BACKUP_DIR}/home/"
+cp "${HOME}/.sqlite_history" "${BACKUP_DIR}/home/"
+cp -R "${HOME}/.ssh" "${BACKUP_DIR}/home/"
+cp -R "${HOME}/.themes" "${BACKUP_DIR}/home/"
+cp -R "${HOME}/.tmuxinator" "${BACKUP_DIR}/home/"
+cp "${HOME}/.viminfo" "${BACKUP_DIR}/home/"
+# TODO: .virtualenvs?
+cp "${HOME}/.zsh_history" "${BACKUP_DIR}/home/"
+cp "${HOME}/Brewfile.local" "${BACKUP_DIR}/home/"
+
+# Applications
+
+# TODO: SAFARI
+
+# TODO: Adium (chat logs if not OTR)
+# TODO: Battle.net (game saves, mods, configs)
+ls "${HOME}/Library/Application Support/Dash/DocSets/" > "${BACKUP_DIR}/dash_docsets.txt"
+ls "${HOME}/Library/Application Support/Dash/Cheat Sheets/" > "${BACKUP_DIR}/dash_docsets.txt"
+ls "${HOME}/Library/Application Support/Dash/User Contributed/" > "${BACKUP_DIR}/dash_docsets.txt"
+tar czf "${BACKUP_DIR}/lib_appsupport_davinci.tar.gz" -C "${HOME}/Library/Application Support/" "Blackmagic Design"
+# TODO: prompt user to just copy/paste their stickies text into a file
+tar czf "${BACKUP_DIR}/lib_containers_stickies.tar.gz" -C "${HOME}/Library/Containers/" "com.apple.Stickies"
+tar czf "${BACKUP_DIR}/lib_containers_stickiesmigration.tar.gz" -C "${HOME}/Library/Containers/" "com.apple.StickiesMigration"
+cp "${HOME}/Library/StickiesDatabase" "${BACKUP_DIR}"
+# TODO: Firefox (onetab export (should be none), open tabs, profile synced)
+tar czf "${BACKUP_DIR}/lib_appsupport_focus.tar.gz" -C "${HOME}/Library/Application Support/" "Focus"
+# TODO: GOG Galaxy (game saves, mods, configs)
+# TODO: Google Chrome (open tabs, profile synced)
+# TODO: prompt user to open GPG Keychain, select all, File->Export, name and drop in BACKUP_DIR, maybe check include secret keys?
+# TODO: iGlance
+# TODO: Keybase (chats?)
+# TODO: Mail (archive)
+# TODO: Music (local playlists not synced to Apple Music, such as genius ones)
+# TODO: Postgres (databases)
+# TODO: Safari (extension data, open tabs, onetab)
+mkdir -p "${BACKUP_DIR}/vimari/"
+cp "${HOME}/Library/Containers/net.televator.Vimari.SafariExtension/Data/Library/Application Support/userSettings.json" "${BACKUP_DIR}/vimari/"
+# TODO: Steam.app (game saves, mods, configs)
+# TODO: VirtualBox (vms)
+# TODO: VMware Fusion (vms)
+# TODO: prompt user to open Launchpad and take a screenshot, moving/saving it into BACKUP_DIR
