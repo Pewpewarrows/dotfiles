@@ -102,13 +102,11 @@ cp "${HOME}/Brewfile.local" "${BACKUP_DIR}/home/"
 
 # Applications
 
-# TODO: SAFARI
-
 # TODO: Adium (chat logs if not OTR)
 # TODO: Battle.net (game saves, mods, configs)
 ls "${HOME}/Library/Application Support/Dash/DocSets/" > "${BACKUP_DIR}/dash_docsets.txt"
-ls "${HOME}/Library/Application Support/Dash/Cheat Sheets/" > "${BACKUP_DIR}/dash_docsets.txt"
-ls "${HOME}/Library/Application Support/Dash/User Contributed/" > "${BACKUP_DIR}/dash_docsets.txt"
+ls "${HOME}/Library/Application Support/Dash/Cheat Sheets/" > "${BACKUP_DIR}/dash_cheatsheets.txt"
+ls "${HOME}/Library/Application Support/Dash/User Contributed/" > "${BACKUP_DIR}/dash_usercontributed.txt"
 tar czf "${BACKUP_DIR}/lib_appsupport_davinci.tar.gz" -C "${HOME}/Library/Application Support/" "Blackmagic Design"
 # TODO: prompt user to just copy/paste their stickies text into a file
 tar czf "${BACKUP_DIR}/lib_containers_stickies.tar.gz" -C "${HOME}/Library/Containers/" "com.apple.Stickies"
