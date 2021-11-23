@@ -12,9 +12,9 @@
     "editor.wordWrap": "on",
     "editor.wrappingIndent": "none",
     "files.insertFinalNewline": true,
-    "vscode-neovim.neovimPath": "/usr/local/bin/nvim",
     "workbench.iconTheme": "vscode-icons",
     "telemetry.enableTelemetry": false,
     "gitlens.codeLens.enabled": false,
-    "workbench.colorTheme": "Gruvbox Dark Medium"
+    "workbench.colorTheme": "Gruvbox Dark Medium",
+    "vscode-neovim.neovimExecutablePaths.darwin": "/opt/homebrew/bin/nvim"
 }

@@ -211,8 +211,9 @@
     " Plug 'numirias/semshi'
 
     " Navigation
-    " TODO: this is macOS/homebrew specific
-    Plug '/usr/local/opt/fzf'
+    " TODO: this is macOS/homebrew specific, and must swap based on apple silicon
+    " Plug '/usr/local/opt/fzf'
+    Plug '/opt/homebrew/opt/fzf'
     Plug 'junegunn/fzf.vim'
     Plug 'pbogut/fzf-mru.vim'
     Plug 'justinmk/vim-dirvish'
@@ -851,16 +852,17 @@
         endfunction
 
         " Highlight the symbol and its references when holding the cursor.
+        " TODO: only do this if coc is installed
         autocmd CursorHold * silent call CocActionAsync('highlight')
 
         " TODO: finish config from https://github.com/neoclide/coc.nvim#example-vim-configuration
 
+        " TODO: add coc-snippets back once py2/3 issue is resolved
         let g:coc_global_extensions = [
             \ 'coc-elixir',
             \ 'coc-json',
             \ 'coc-python',
             \ 'coc-rust-analyzer',
-            \ 'coc-snippets',
             \ 'coc-lists',
             \ 'coc-sourcekit',
         \ ]
@@ -1003,6 +1005,8 @@
 
         command! Todo execute ":Rg! [T]O[_ ]?DO|[F]IX[_ ]?ME|[X]XX|[H]ACK|[^(DE)|^_][B]UG|[R]EVIEW|[W]TF|[S]MELL|[B]ROKE|[N]OCOMMIT|[N]ORELEASE"
         nnoremap <leader>T :Todo<cr>
+
+        " TODO: shallow/flat are broken on monterey/silicon
 
         " TODO: make work w/ devicons
         command! -bang -nargs=? -complete=dir FilesFlat call fzf#vim#files(<q-args>, fzf#vim#with_preview({'source': '$FZF_DEFAULT_COMMAND --max-depth 1'}), <bang>0)

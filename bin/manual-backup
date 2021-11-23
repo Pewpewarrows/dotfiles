@@ -63,8 +63,11 @@ cp "${HOME}/.bash_history" "${BACKUP_DIR}/home/"
 cp "${HOME}/.bashrc_local" "${BACKUP_DIR}/home/"
 mkdir -p "${BACKUP_DIR}/home/.config/"
 mkdir -p "${BACKUP_DIR}/home/.config/gh/"
-# -AX are not present on BSD, if done manually may want -v --progress
-rsync -a --exclude extensions "${HOME}/.config/coc" "${BACKUP_DIR}/home/.config/"
+# -AX are not present on BSD, use -E instead, if done manually may want -vP --stats, maybe --info=progress2 if not BSD, may want to preceed with `caffeinate -s `, maybe --delete-after, only use -z on slow connections otherwise CPU becomes bottleneck or if bandwidth is more expensive, maybe disable spotlight/mdworker
+# run `ssh -Q cipher` on source and target machines, pick a cipher common to both that's more efficient but slightly less secure for a speedup, then use `-e "ssh -c <cipher>"`
+# consider an `--exclude-from "excludefile.txt"` with file contents at end of: https://apple.stackexchange.com/a/225905
+# remember, have a trailing slash on dest, but only have one on source if you want to copy the contents instead of the directory by name
+rsync -ahEH --exclude extensions "${HOME}/.config/coc" "${BACKUP_DIR}/home/.config/"
 cp -R "${HOME}/.config/configstore" "${BACKUP_DIR}/home/.config/"
 cp -R "${HOME}/.config/containers" "${BACKUP_DIR}/home/.config/"
 cp -R "${HOME}/.config/darktable" "${BACKUP_DIR}/home/.config/"
@@ -104,9 +107,7 @@ cp "${HOME}/Brewfile.local" "${BACKUP_DIR}/home/"
 
 # TODO: Adium (chat logs if not OTR)
 # TODO: Battle.net (game saves, mods, configs)
-ls "${HOME}/Library/Application Support/Dash/DocSets/" > "${BACKUP_DIR}/dash_docsets.txt"
-ls "${HOME}/Library/Application Support/Dash/Cheat Sheets/" > "${BACKUP_DIR}/dash_cheatsheets.txt"
-ls "${HOME}/Library/Application Support/Dash/User Contributed/" > "${BACKUP_DIR}/dash_usercontributed.txt"
+# N.B. Dash has built-in sync now for settings and docsets, no need to backup
 tar czf "${BACKUP_DIR}/lib_appsupport_davinci.tar.gz" -C "${HOME}/Library/Application Support/" "Blackmagic Design"
 # TODO: prompt user to just copy/paste their stickies text into a file
 tar czf "${BACKUP_DIR}/lib_containers_stickies.tar.gz" -C "${HOME}/Library/Containers/" "com.apple.Stickies"

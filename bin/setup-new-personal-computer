@@ -11,58 +11,141 @@ exit
 
 # macOS, current as of Monterey
 
-read -p "initial setup wizard complete" __
-read -p "click prompt to finish setting up internet accounts" __
+read -p "initial setup wizard complete (press ENTER to continue) " __
+read -p "click prompt to finish setting up internet accounts (press ENTER to continue) " __
 
 /usr/bin/env bash -c "$(curl --fail --silent --show-error --location https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 brew analytics off
 sudo xcodebuild -license
 xcode-select --install
+eval "$(/opt/homebrew/bin/brew shellenv)"
 brew update
 brew install mr vcsh
 
-read -p "myrepos bootstrap url" myrepo_url
+read -p "myrepos bootstrap url: " myrepo_url
 vcsh clone "${myrepo_url}" mr
 mr update
 
-brew bundle
+brew install mas
+read -p "Mac App Store username (Apple ID): " apple_id
+mas signin "${apple_id}"
+# TODO: may want to `mas lucky xcode` to get xcode pre-installed as many homebrew formula require a real xcode (not only cli tools) in order to install
+# echo "sudo credentials required for running xcode-select on real xcode installation"
+# sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+# TODO: use a script like this instead:
+# https://github.com/rtrouton/rtrouton_scripts/blob/main/rtrouton_scripts/install_rosetta_on_apple_silicon/install_rosetta_on_apple_silicon.sh
+/usr/sbin/softwareupdate --install-rosetta --agree-to-license
+brew bundle 2>&1 | tee -a ~/Downloads/brew_bundle.log
 
-readonly fish_cmd="/usr/local/bin/fish"
+# fish-ssh-agent requires an existing ssh config dir
+mkdir -p "${HOME}/.ssh"
+# TODO: apple silicon homebrew prefix is /opt/homebrew, intel prefix is /usr/local, should account for both, here and elsewhere in dotfiles
+readonly fish_cmd="/opt/homebrew/bin/fish"
 echo "sudo credentials required for adding fish to available shells"
 echo "${fish_cmd}" | sudo tee -a /etc/shells
 chsh -s "${fish_cmd}"
 env "${fish_cmd}" -c "fisher"
+# TODO: homebrew fish config?
+# TODO: investigate again which fisher plugin files should be checked in to dotfiles repo or not
+# TODO: see sanity check changes in ~/.config/fish/conf.d/virtualfish-loader.fis
 
-asdf plugin-add elixir rust python ruby nodejs opam lua golang
+echo elixir rust python ruby nodejs opam lua golang java | xargs -n1 asdf plugin-add
 
-export GNUPGHOME="${ASDF_DIR:=\"$HOME/.asdf\"}/keyrings/nodejs"
+export GNUPGHOME="${ASDF_DIR:="$HOME/.asdf"}/keyrings/nodejs"
 mkdir -p "${GNUPGHOME}"
 chmod 0700 "${GNUPGHOME}"
-bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
-export -n GNUPGHOME
+~/.asdf/plugins/nodejs/bin/import-release-team-keyring
+# `export -n` only for bash, so fail gracefully
+export -n GNUPGHOME || true
 unset GNUPGHOME
 
 readonly py3="$(echo -n $(asdf latest python 3 | tail -n 1))"
 readonly py2="$(echo -n $(asdf latest python 2 | tail -n 1))"
+# if receiving a message on each command prompt about "unknown command: java",
+# the latest temurin release may have only included static libs and not the
+# full sdk, so manually install the previous version
+readonly temurin="$(echo -n $(asdf list all java temurin | tail -n 1))"
 asdf install elixir latest
 asdf install rust latest
 asdf install python latest
 asdf install python "${py2}"
 asdf install ruby latest
 asdf install nodejs latest
+asdf install java "${temurin}"
 asdf global elixir latest
 asdf global rust latest
 # asdf python allows for both py3 and py2 as a global default, will use py3 first then fallback to py2
 asdf global python "${py3}" "${py2}"
 asdf global ruby latest
+# TODO: nomad-cli, nokogiri failed to install native extensions on apple silicon
 asdf global nodejs latest
+asdf global java "${temurin}"
 asdf reshim
+# TODO: cli "tools" shouldn't be installed every time on every language version, only once like how pipx does for python, what to do for the other languages?
 
 echo black 'prospector[with_everything]' pyre-check youtube-dl proselint aws-shell doc2dash poetry restructuredtext_lint rstcheck httpie restview grip rst2rst yamllint ansible-lint ansible-base flawfinder fb-idb mypy | xargs -n1 pipx install
 pipx install virtualfish --include-deps
-vf install
+env "${fish_cmd}" -c "vf install"
 
-opam init
-opam install flowtype
+# TODO: manage these via asdf?
+# opam init
+# opam install flowtype
 
-android update sdk --no-ui
+# TODO: this must run after Android Studio is launched and has installed its sdk
+# "${HOME}/Library/Android/sdk/tools/bin/sdkmanager" --update
+
+# TODO: attempt to fetch or push to a private github repo, then enter username and personal access token as the password
+
+vim +PlugUpgrade +PlugUpdate +PlugClean! +qall
+"${HOME}/.tmux/plugins/tpm/bin/install_plugins"
+"${HOME}/.tmux/plugins/tpm/bin/update_plugins all"
+"${HOME}/.tmux/plugins/tpm/bin/clean_plugins"
+
+mkdir -p "${HOME}/.config/cheat/cheatsheets/"{community,personal}
+git clone https://github.com/cheat/cheatsheets "${HOME}/.config/cheat/cheatsheets/community/"
+# TODO: move this to dotfiles
+curl --fail --silent --show-error --location --remote-name --remote-header-name --create-dirs --output-dir "${HOME}/.local/bin/" https://raw.githubusercontent.com/cheat/cheat/master/scripts/git/cheatsheets
+chmod +x "${HOME}/.local/bin/cheatsheets"
+cheatsheets pull
+
+# TODO: this appears to not be necessary anymore, the FiraMono Nerd Font is patched exactly necessary?
+# TODO: instead make this font a formula based on:
+# https://github.com/Homebrew/homebrew-cask-fonts/blob/master/Casks/font-powerline-symbols.rb
+# and add to Brewfile under cask-fonts
+# curl --fail --silent --show-error --location --create-dirs --output-dir "${HOME}/Library/Fonts/" --output "Symbols-2048-em Nerd Font Complete.ttf" https://github.com/ryanoasis/nerd-fonts/blob/master/src/glyphs/Symbols-2048-em%20Nerd%20Font%20Complete.ttf
+# fc-cache -fr
+
+# TODO: if this is a fresh install, restore ~/{Downloads,Private,tmp} from backup
+# TODO: if this is a fresh install, restore ~/{.tmuxinator} from backup
+
+# defaults
+
+# defaults domains | tr ',' '\n' | grep -i "<appname>"
+# defaults read <domain>
+# (may have to manually set a pref in the UI then come back to see its key exist)
+# defaults find <term>
+# defaults read-type <domain> <key>
+# defaults write <domain> <key> <type-flag> <value>
+# defaults delete <domain> <key>
+
+# General
+# appearance: dark
+# show scroll bars: when scrolling
+# click in the scroll bar to: jump to the spot that's clicked
+# prefer tabs: always
+# close windows when quitting an app: uncheck
+
+# Dock
+# magnification, dragged near the ":"
+# minimize windows using: scale effect
+# automatically hide and show the dock
+
+# Accessibility
+# pointer control: mouse & trackpad: trackpad options: enable dragging with three finger drag
+
+# Trackpad
+# point and click: tap to click
+# more gestures: swipe between pages, app expose
+
+# Sound
+# sound effects: play feedback when volume is changed

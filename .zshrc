@@ -26,7 +26,7 @@ ZSH_THEME="robbyrussell"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(git)
 
-source $ZSH/oh-my-zsh.sh
+[[ -f $ZSH/oh-my-zsh.sh ]] && source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
 export PATH=/Users/marcoc/.rbenv/shims:/usr/local/share/python:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/sbin:/sbin:/usr/local/sbin:/Users/marcoc/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/git/bin:/usr/X11/bin:/Library/PostgreSQL/9.0/bin/:/Users/marcoc/.gem/ruby/1.8/bin:/Users/marcoc/.rbenv/bin

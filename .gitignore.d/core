@@ -145,6 +145,7 @@
 
 !/bin
 /bin/*
+!/bin/apk-pull
 !/bin/brew_list_diff
 !/bin/checkpatch.pl
 !/bin/git-svn-clone-externals
@@ -155,6 +156,7 @@
 !/bin/npl
 !/bin/on_ac_power
 !/bin/pipx-repair-venvs
+!/bin/set-fzf-vars
 !/bin/setup-new-personal-computer
 !/bin/vcs-repos-status
 !/bin/vimwiki-diary-entry-template

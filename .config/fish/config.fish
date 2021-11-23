@@ -6,7 +6,7 @@ if not functions -q fisher
     fish -c fisher
 end
 
-# TODO: should certain things here be excluded if non-interactive?
+# TODO: should certain things here be excluded if non-interactive? what about is-login?
 
 # TODO: install these when some upstream issues are fixed
 # - oh-my-fish/plugin-git-flow
@@ -19,7 +19,7 @@ end
 # Variables
 
 # TODO: turn this back on after fixing grc/grcplugin_ls/colors, or stop caring
-#       since we alias ls to exa now
+#       since we abbr ls to exa now
 # if ls --color > /dev/null 2>&1
 #     # GNU ls
 #     set -gx grcplugin_ls "--color"
@@ -31,46 +31,50 @@ end
 # do NOT set $TERM here, it should be set within terminal app preferences or
 # tmux configuration
 
+# TODO: TERM on ssh connections to this machine show up as 'xterm-kitty' and falls back to 'ansi'
+
 set fish_greeting
 
-# Aliases
+# Abbrs/Aliases
 
-alias reload="source ~/.config/fish/config.fish"
+abbr reload "source ~/.config/fish/config.fish"
 # See for universal LSCOLORS: https://geoff.greer.fm/lscolors/
 # Explanation of options: https://apple.stackexchange.com/questions/282185/how-do-i-get-different-colors-for-directories-etc-in-iterm2
 # TODO: turn this back on after fixing grc/grcplugin_ls/colors
 # alias l="ls -lah"
 # alias l="command ls -lahG"
-alias e="exa"
-alias l="exa --binary --group --long --git"  # TODO: --group-directories-first ?
-alias la="l --all"
-alias r="ranger"
-# TODO: git, docker, vagrant, cargo, make, yarn, npm, pip, brew, nix, tmux aliases
+abbr e "exa"
+abbr l "exa --binary --group --long --git"  # TODO: --group-directories-first ?
+abbr la "exa --binary --group --long --git --all"
+abbr tree "exa --tree"
+abbr r "ranger"
+abbr cat "bat"
+# TODO: git, docker, vagrant, cargo, make, yarn, npm, pip, brew, nix, tmux abbrs
 # TODO: maybe:
 # bind \e\[A 'history --merge ; up-or-search'
-alias hr="history --merge"
+abbr hr "history --merge"
 if type -q nvim
-    alias vim="nvim"
-    alias vimdiff="nvim -d"
-    alias view="nvim -R"
+    abbr vim "nvim"
+    abbr vimdiff "nvim -d"
+    abbr view "nvim -R"
 end
-alias ports="lsof -i -P | grep -i 'listen'"
-alias fix="reset; ssty sane; tput rs1; clear; echo -e \"\033c\""
-alias be="bundle exec"
-alias myip="curl icanhazip.com"  # TODO: ifconfig.co ?
-alias ..="cd .."
-alias ...="cd ../.."
-alias ....="cd ../../.."
-alias .....="cd ../../../.."
-alias ......="cd ../../../../.."
+abbr ports "lsof -i -P | grep -i 'listen'"
+abbr fix "reset; ssty sane; tput rs1; clear; echo -e \"\033c\""
+abbr be "bundle exec"
+abbr myip "curl icanhazip.com"  # TODO: ifconfig.co ?
+abbr .. "cd .."
+abbr ... "cd ../.."
+abbr .... "cd ../../.."
+abbr ..... "cd ../../../.."
+abbr ...... "cd ../../../../.."
 # TODO: alternatively, ..3 or .3
-alias 1=".."
-alias 2="..."
-alias 3="...."
-alias 4="....."
-alias 5="......"
-alias todo="rg \"[T]O[_ ]?DO|[F]IX[_ ]?ME|[X]XX|[H]ACK|[^(DE)|^_][B]UG|[R]EVIEW|[W]TF|[S]MELL|[B]ROKE|[N]OCOMMIT|[N]ORELEASE\""
-alias flushdns="sudo killall -HUP mDNSResponder"
+abbr 1 ".."
+abbr 2 "..."
+abbr 3 "...."
+abbr 4 "....."
+abbr 5 "......"
+abbr todo "rg \"[T]O[_ ]?DO|[F]IX[_ ]?ME|[X]XX|[H]ACK|[^(DE)|^_][B]UG|[R]EVIEW|[W]TF|[S]MELL|[B]ROKE|[N]OCOMMIT|[N]ORELEASE\""
+abbr flushdns "sudo killall -HUP mDNSResponder"
 # TODO: this might not work
 # alias -="cd -"
 # TODO: from bash
@@ -83,10 +87,25 @@ alias flushdns="sudo killall -HUP mDNSResponder"
 # spl () {
 #     aspell -a <<< "$1"
 # }
+# set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
+
+# set variables once without requiring them to be in fish_variables?
+# if not set -q fish_initialized
+#     set fish_initialized
+# end
 
 # Mini Functions
 
+# TODO: remove from fish_user_paths like in: https://github.com/fish-shell/fish-shell/issues/2639#issuecomment-301896209
+
 # Package Configuration
+
+# homebrew
+
+# homebrew's bin and sbin were manually added to fish_user_paths even though they're re-added here, due to many custom functions from fisher plugins testing for binary existence before this config file is sourced
+if status is-interactive; and test -x /opt/homebrew/bin/brew
+    eval (/opt/homebrew/bin/brew shellenv)
+end
 
 # starship
 
@@ -99,14 +118,16 @@ type -q starship; and starship init fish | source
 # TODO: these are macOS/homebrew specific
 # while running (brew --prefix asdf) would be cleaner, it adds a huge amount of
 # time to this test, so hardcode the path
-test -d /usr/local/opt/asdf; and source /usr/local/opt/asdf/asdf.fish
+# TODO: may want to go back to brew prefix after this is only ran while interactive?
+test -d /opt/homebrew/opt/asdf; and source /opt/homebrew/opt/asdf/asdf.fish
 # TODO: still need this?
 # test -f /usr/local/share/fish/vendor_completions.d/asdf.fish; and source /usr/local/share/fish/vendor_completions.d/asdf.fish
+test -f ~/.asdf/plugins/java/set-java-home.fish; and source ~/.asdf/plugins/java/set-java-home.fish
 
 # fasd
 
-alias v="f -e vim"
-alias o="f -e open"
+abbr v "f -e vim"
+abbr o "f -e open"
 
 # fzf
 

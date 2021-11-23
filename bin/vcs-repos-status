@@ -8,9 +8,8 @@
 
 SCAN_DIR="${1:-${HOME}/tmp/repos}"
 
-# TODO: this doesn't catch inner git submodules
-
-find "${SCAN_DIR}" -type d -name ".git" -prune -print0 | while read -rd $'\0' repo_dir; do
+# don't restrict type to directory, as submodules are expressed as a .git file
+find "${SCAN_DIR}" -name ".git" -prune -print0 | while read -rd $'\0' repo_dir; do
     repo_dir="$(dirname "$(realpath "${repo_dir}")")"
     pushd -- "${repo_dir}" >/dev/null
     echo "====="

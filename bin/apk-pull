@@ -1,0 +1,44 @@
+#!/usr/bin/env sh
+
+set -o pipefail -o errexit -o nounset -o errtrace
+
+# first arg: (optional) package name (full or partial) to pull from the device, if not provided or found then all packages will be listed instead
+# second arg: (optional) device id to pull apk from, will default to first listed by `adb devices`
+
+ADB="${ADB:-'adb'}"
+if ! [ -x "$(command -v "${ADB}")" ]; then
+    echo 'could not find adb, set ADB environment variable to its path and try again' >&2
+    exit 1
+fi
+
+# TODO: if there are no devices the grep will fail, want to output a nicer message for user
+device_id="$("${ADB}" devices | grep "device$" | sed -e "s/device//g" | head --lines=1 | xargs echo -n)"
+readonly device_id
+
+if [ -n "${1+set}" ]; then
+    package_info="$("${ADB}" -s "${device_id}" shell pm list packages -f | grep "${1}")"
+    readonly package_info
+else
+    "${ADB}" -s "${device_id}" shell pm list packages
+    exit
+fi
+
+# If the package name is non-obvious, launch the app manually and inspect the output of:
+# adb shell dumpsys activity top | grep ACTIVITY
+
+# Android Package Browser (https://play.google.com/store/apps/details?id=by4a.reflect) may reveal a naming scheme similar to:
+# folders+ base name + guid({g6xTrW...})+ "==/base.apk"
+# package:/data/app/com.samsung.android.videolist-g6xTrW8SV-TC1mpyial9WA==/base.apk=com.samsung.android.videolist
+
+package_path="$(echo "${package_info}" | head --lines=1 | sed "s/package://" | sed "s/\.apk=.*$/.apk/")"
+readonly package_path
+
+package_basename="$(basename "${package_path}")"
+readonly package_basename
+
+# Some apk source directories cannot be pulled from, but copying works fine, so setup an intermediary location
+readonly package_stopgap="/storage/emulated/0/Download/${package_basename}"
+
+"${ADB}" shell cp "${package_path}" "${package_stopgap}"
+"${ADB}" pull "${package_stopgap}"
+"${ADB}" shell rm -f "${package_stopgap}"
