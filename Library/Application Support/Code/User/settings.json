@@ -16,5 +16,6 @@
     "telemetry.enableTelemetry": false,
     "gitlens.codeLens.enabled": false,
     "workbench.colorTheme": "Gruvbox Dark Medium",
-    "vscode-neovim.neovimExecutablePaths.darwin": "/opt/homebrew/bin/nvim"
+    "vscode-neovim.neovimExecutablePaths.darwin": "/opt/homebrew/bin/nvim",
+    "editor.bracketPairColorization.enabled": true
 }

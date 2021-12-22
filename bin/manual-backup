@@ -18,6 +18,7 @@ mkdir -p "${BACKUP_DIR}/"
 # TODO: npx commands?
 # TODO: .vim/tmp/backup needs directory in path like swap/undo?
 # TODO: custom app launch flags?
+# TODO: finder favorite servers
 
 ls -la /Applications/ > "${BACKUP_DIR}/applications.txt"
 ls -la "${HOME}/Applications/" > "${BACKUP_DIR}/home_applications.txt"

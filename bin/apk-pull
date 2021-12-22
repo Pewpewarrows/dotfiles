@@ -5,14 +5,15 @@ set -o pipefail -o errexit -o nounset -o errtrace
 # first arg: (optional) package name (full or partial) to pull from the device, if not provided or found then all packages will be listed instead
 # second arg: (optional) device id to pull apk from, will default to first listed by `adb devices`
 
-ADB="${ADB:-'adb'}"
+ADB="${ADB:-"adb"}"
 if ! [ -x "$(command -v "${ADB}")" ]; then
     echo 'could not find adb, set ADB environment variable to its path and try again' >&2
     exit 1
 fi
 
 # TODO: if there are no devices the grep will fail, want to output a nicer message for user
-device_id="$("${ADB}" devices | grep "device$" | sed -e "s/device//g" | head --lines=1 | xargs echo -n)"
+# TODO: recovery adb doesn't have any of the necessary commands below
+device_id="$("${ADB}" devices | grep -E "(device|recovery)$" | sed -e "s/device//g" | sed -e "s/recovery//g" | head --lines=1 | xargs echo -n)"
 readonly device_id
 
 if [ -n "${1+set}" ]; then

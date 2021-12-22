@@ -28,10 +28,15 @@ end
 #     set -gx grcplugin_ls "-G"
 # end
 
+# TODO: there are some hardcoded home directory paths in fish_variables with my
+# username, for it to be portable should add those paths in dynamically here if
+# this is interactive
+
+# TODO: android's platform-tools was already added to path, but may also want
+# to do the same for tools and tools/bin
+
 # do NOT set $TERM here, it should be set within terminal app preferences or
 # tmux configuration
-
-# TODO: TERM on ssh connections to this machine show up as 'xterm-kitty' and falls back to 'ansi'
 
 set fish_greeting
 
@@ -88,6 +93,16 @@ abbr flushdns "sudo killall -HUP mDNSResponder"
 #     aspell -a <<< "$1"
 # }
 # set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
+# TODO: this fixes outbound ssh, but TERM on ssh connections inbound to this machine show up as 'xterm-kitty' and falls back to 'ansi', this still true?
+# TODO: this should also only be the abbr if currently in a kitty shell
+type -q kitty; and abbr ssh "kitty +kitten ssh"
+# TODO: if word dict file is unavailable, use this for a less-secure option:
+# man sudoers | tr ' ' '\n' | egrep '^[a-z]{4,}$' | sort | uniq | wc -l
+# TODO: read word count as env var
+abbr mempass "LC_ALL=C grep -x '[a-z]*' /usr/share/dict/words | shuf --head-count=3 --random-source=/dev/urandom | paste -sd '-' -"
+# TODO: complex version that includes random number and symbols at end, and capitalizes one word randomly
+# shuf --input-range=0-999 --head-count=1
+# LC_ALL=C tr -dc '!"#$%&'\''()*+,-./:;<=>?@[\]^_`{|}~' < /dev/urandom | head --bytes=3; echo
 
 # set variables once without requiring them to be in fish_variables?
 # if not set -q fish_initialized
@@ -97,6 +112,13 @@ abbr flushdns "sudo killall -HUP mDNSResponder"
 # Mini Functions
 
 # TODO: remove from fish_user_paths like in: https://github.com/fish-shell/fish-shell/issues/2639#issuecomment-301896209
+
+# TODO: remove safari HSTS cache per domain
+# HSTS_DOMAIN=example.com
+# killall nsurlstoraged
+# /usr/libexec/PlistBuddy -c "Delete :com.apple.CFNetwork.defaultStorageSession:${HSTS_DOMAIN}" ~/Library/Cookies/HSTS.plist
+# defaults read ~/Library/Cookies/HSTS.plist  # maybe import instead?
+# launchctl start /System/Library/LaunchAgents/com.apple.nsurlstoraged.plist
 
 # Package Configuration
 

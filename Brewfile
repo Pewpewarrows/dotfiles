@@ -18,6 +18,7 @@ brew 'clang-format'
 brew 'cmake'
 brew 'cppcheck'
 brew 'cpputest'
+brew 'dtc'  # for https://github.com/cfig/Android_boot_image_editor until made into Docker container
 brew 'exa'
 brew 'git'
 brew 'git-flow'  # TODO: vs git-flow-avh
@@ -30,6 +31,8 @@ brew 'hugo'
 brew 'jadx'
 brew 'libimobiledevice', args: ['HEAD']
 brew 'libplist'
+# TODO: also find a virt-manager to install as alternative to UTM, see: https://www.arthurkoziel.com/running-virt-manager-and-libvirt-on-macos/
+# see also: https://stackoverflow.com/questions/3921814/is-there-a-virt-manager-alternative-for-mac-os-x
 brew 'libvirt'
 # TODO: decide if llvm formula is still necessary
 # brew 'llvm', args: ['with-clang', 'with-clang-extra-tools', 'with-lld', 'with-lldb', 'with-rtti', 'with-all-targets', 'with-python']
@@ -73,6 +76,7 @@ brew 'gifsicle'
 brew 'grc'
 brew 'htop'
 brew 'lima'
+brew 'lz4'
 brew 'mas'
 brew 'ncdu'
 brew 'neofetch'
@@ -96,6 +100,7 @@ brew 'tmux'
 brew 'urlview'
 brew 'weechat'
 brew 'wget'
+brew 'xz'
 brew 'yt-dlp'
 
 # Writing
@@ -171,6 +176,9 @@ brew 'cdrtools'
 # tap 'sidneys/homebrew'
 tap 'minacle/chntpw'
 brew 'chntpw'
+
+tap 'gromgit/fuse'
+brew 'sshfs-mac'
 
 # Casks
 cask '1password'

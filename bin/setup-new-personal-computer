@@ -11,6 +11,11 @@ exit
 
 # macOS, current as of Monterey
 
+# TODO: cache the sudo authorization by asking once up-front, see discussions:
+# https://serverfault.com/questions/266039/temporarily-increasing-sudos-timeout-for-the-duration-of-an-install-script
+# https://gist.github.com/cowboy/3118588
+# https://gist.github.com/cowboy/6733297
+
 read -p "initial setup wizard complete (press ENTER to continue) " __
 read -p "click prompt to finish setting up internet accounts (press ENTER to continue) " __
 
@@ -37,8 +42,15 @@ mas signin "${apple_id}"
 /usr/sbin/softwareupdate --install-rosetta --agree-to-license
 brew bundle 2>&1 | tee -a ~/Downloads/brew_bundle.log
 
+# TODO: brew services
+# TODO: according to https://www.naut.ca/blog/2020/08/26/ubuntu-vm-on-macos-with-libvirt-qemu/ may need to configure /opt/homebrew/etc/libvirt/qemu.conf with:
+# echo 'security_driver = "none"' >> /usr/local/etc/libvirt/qemu.conf
+# echo "dynamic_ownership = 0" >> /usr/local/etc/libvirt/qemu.conf
+# echo "remember_owner = 0" >> /usr/local/etc/libvirt/qemu.conf
+# brew services start libvirt
+
 # fish-ssh-agent requires an existing ssh config dir
-mkdir -p "${HOME}/.ssh"
+mkdir -p "${HOME}/.ssh/"{config.d,hosts.d,keys,control}
 # TODO: apple silicon homebrew prefix is /opt/homebrew, intel prefix is /usr/local, should account for both, here and elsewhere in dotfiles
 readonly fish_cmd="/opt/homebrew/bin/fish"
 echo "sudo credentials required for adding fish to available shells"
@@ -71,6 +83,7 @@ asdf install python latest
 asdf install python "${py2}"
 asdf install ruby latest
 asdf install nodejs latest
+asdf install golang latest
 asdf install java "${temurin}"
 asdf global elixir latest
 asdf global rust latest
@@ -79,11 +92,14 @@ asdf global python "${py3}" "${py2}"
 asdf global ruby latest
 # TODO: nomad-cli, nokogiri failed to install native extensions on apple silicon
 asdf global nodejs latest
+asdf global golang latest
 asdf global java "${temurin}"
 asdf reshim
 # TODO: cli "tools" shouldn't be installed every time on every language version, only once like how pipx does for python, what to do for the other languages?
 
-echo black 'prospector[with_everything]' pyre-check youtube-dl proselint aws-shell doc2dash poetry restructuredtext_lint rstcheck httpie restview grip rst2rst yamllint ansible-lint ansible-base flawfinder fb-idb mypy | xargs -n1 pipx install
+echo black 'prospector[with_everything]' pyre-check youtube-dl proselint aws-shell doc2dash poetry restructuredtext_lint rstcheck httpie restview grip rst2rst yamllint 'ansible-lint[community]' flawfinder fb-idb mypy | xargs -n1 pipx install
+pipx install ansible --include-deps
+pipx inject ansible paramiko
 pipx install virtualfish --include-deps
 env "${fish_cmd}" -c "vf install"
 
@@ -101,12 +117,17 @@ vim +PlugUpgrade +PlugUpdate +PlugClean! +qall
 "${HOME}/.tmux/plugins/tpm/bin/update_plugins all"
 "${HOME}/.tmux/plugins/tpm/bin/clean_plugins"
 
+# see: https://github.com/vagrant-libvirt/vagrant-libvirt/issues/497
+# TODO: env CONFIGURE_ARGS="with-libvirt-lib=$(brew --prefix libvirt)/lib with-libvirt-include=$(brew --prefix libvirt)/include" vagrant plugin install vagrant-libvirt
+
 mkdir -p "${HOME}/.config/cheat/cheatsheets/"{community,personal}
 git clone https://github.com/cheat/cheatsheets "${HOME}/.config/cheat/cheatsheets/community/"
 # TODO: move this to dotfiles
 curl --fail --silent --show-error --location --remote-name --remote-header-name --create-dirs --output-dir "${HOME}/.local/bin/" https://raw.githubusercontent.com/cheat/cheat/master/scripts/git/cheatsheets
 chmod +x "${HOME}/.local/bin/cheatsheets"
 cheatsheets pull
+
+# TODO: doom-emacs, init, sync, etc
 
 # TODO: this appears to not be necessary anymore, the FiraMono Nerd Font is patched exactly necessary?
 # TODO: instead make this font a formula based on:
@@ -117,6 +138,12 @@ cheatsheets pull
 
 # TODO: if this is a fresh install, restore ~/{Downloads,Private,tmp} from backup
 # TODO: if this is a fresh install, restore ~/{.tmuxinator} from backup
+
+# note that the dotfiles' .tigrc was acquired from this repo, but should
+# probably be moved into mr/vcsh as a symlink at some point...
+# https://github.com/ninjabreakbot/tig-gruvbox
+
+gh auth login
 
 # defaults
 
@@ -149,3 +176,10 @@ cheatsheets pull
 
 # Sound
 # sound effects: play feedback when volume is changed
+
+# Keyboard
+# Key Repeat: Fast (furthest to right)
+# Delay Until Repeat: Short (furthest to right)
+
+# Displays
+# Night Shift: Schedule: Sunset to Sunrise

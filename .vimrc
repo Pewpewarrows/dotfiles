@@ -676,6 +676,7 @@
         autocmd BufNewFile,BufRead {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru} setfiletype ruby
         " TODO: hardcoded paths
         autocmd BufNewFile ~/tmp/repos/github.com/Pewpewarrows/notebook/diary/*.md :silent 0r !vimwiki-diary-entry-template "$HOME/tmp/repos/github.com/Pewpewarrows/notebook/diary/template.md" --destination-filename '%'
+        autocmd BufNewFile,BufRead ~/ssh/{config.d,hosts.d}/* setfiletype sshconfig
     augroup END
 
     " TODO: consider this for ensuring dirs exist to new file
@@ -704,6 +705,8 @@
         let g:ale_fixers['*'] = ['remove_trailing_lines', 'trim_whitespace']
         let g:ale_fixers.c = ['clang-format']
         let g:ale_fixers.css = ['prettier', 'stylelint']
+        " golines will run goimports after it is done, which in turn will run gofmt as a final step
+        let g:ale_fixers.go = ['golines']
         let g:ale_fixers.html = ['prettier']
         let g:ale_fixers.json = ['prettier']
         let g:ale_fixers.markdown = ['prettier']
@@ -865,6 +868,7 @@
             \ 'coc-rust-analyzer',
             \ 'coc-lists',
             \ 'coc-sourcekit',
+            \ 'coc-go',
         \ ]
 
         " TODO: color highlighted suggestions like https://i.redd.it/yz5xnpl0d7g51.jpg
