@@ -23,6 +23,8 @@ read -p "click prompt to finish setting up internet accounts (press ENTER to con
 brew analytics off
 sudo xcodebuild -license
 xcode-select --install
+# sudo /usr/sbin/DevToolsSecurity -enable
+# sudo dscl . append /Groups/_developer GroupMembership $(whoami)
 eval "$(/opt/homebrew/bin/brew shellenv)"
 brew update
 brew install mr vcsh
@@ -61,7 +63,8 @@ env "${fish_cmd}" -c "fisher"
 # TODO: investigate again which fisher plugin files should be checked in to dotfiles repo or not
 # TODO: see sanity check changes in ~/.config/fish/conf.d/virtualfish-loader.fis
 
-echo elixir rust python ruby nodejs opam lua golang java | xargs -n1 asdf plugin-add
+# TODO: deno?
+echo elixir rust python ruby nodejs opam lua golang java direnv | xargs -n1 asdf plugin-add
 
 export GNUPGHOME="${ASDF_DIR:="$HOME/.asdf"}/keyrings/nodejs"
 mkdir -p "${GNUPGHOME}"
@@ -85,6 +88,7 @@ asdf install ruby latest
 asdf install nodejs latest
 asdf install golang latest
 asdf install java "${temurin}"
+asdf install direnv latest
 asdf global elixir latest
 asdf global rust latest
 # asdf python allows for both py3 and py2 as a global default, will use py3 first then fallback to py2
@@ -94,6 +98,7 @@ asdf global ruby latest
 asdf global nodejs latest
 asdf global golang latest
 asdf global java "${temurin}"
+asdf global direnv latest
 asdf reshim
 # TODO: cli "tools" shouldn't be installed every time on every language version, only once like how pipx does for python, what to do for the other languages?
 
@@ -109,6 +114,13 @@ env "${fish_cmd}" -c "vf install"
 
 # TODO: this must run after Android Studio is launched and has installed its sdk
 # "${HOME}/Library/Android/sdk/tools/bin/sdkmanager" --update
+
+# TODO: after installing the NDK via sdkmanager, until v24 releases must edit
+# the ndk-build script to support Rosetta x86 on Apple Silicon as seen on:
+# https://stackoverflow.com/questions/69541831/unknown-host-cpu-architecture-arm64-android-ndk-siliconm1-apple-macbook-pro
+# The bash shell running within fish also didn't have its $SHELL set correctly,
+# so had to explicitly set it from within the ndk-build script:
+# env SHELL=/bin/bash arch -x86_64 /bin/bash $DIR/build/ndk-build "$@"
 
 # TODO: attempt to fetch or push to a private github repo, then enter username and personal access token as the password
 
@@ -127,7 +139,10 @@ curl --fail --silent --show-error --location --remote-name --remote-header-name 
 chmod +x "${HOME}/.local/bin/cheatsheets"
 cheatsheets pull
 
-# TODO: doom-emacs, init, sync, etc
+# TODO: add .emacs.d/bin/ to path?
+vcsh run doom-emacs "${HOME}/.emacs.d/bin/doom upgrade --yes"
+vcsh run doom-emacs "${HOME}/.emacs.d/bin/doom install --yes"
+vcsh run doom-emacs "${HOME}/.emacs.d/bin/doom sync --yes"
 
 # TODO: this appears to not be necessary anymore, the FiraMono Nerd Font is patched exactly necessary?
 # TODO: instead make this font a formula based on:
@@ -162,17 +177,57 @@ gh auth login
 # prefer tabs: always
 # close windows when quitting an app: uncheck
 
-# Dock
+# Desktop & Screen Saver
+# Start Screen Saver after 5 minutes
+# Monterey
+# Alternatively, install the Aerial Screen Saver: <https://github.com/JohnCoates/Aerial>
+# Hot Corners:
+#   Top Left: Launchpad
+#   Top Right: Desktop (Notification Center is easily also reached by clicking Date here)
+#   Bottom Left: Start Screen Saver
+#   Bottom Right: Quick Note
+
+# Dock & Menu Bar
 # magnification, dragged near the ":"
 # minimize windows using: scale effect
 # automatically hide and show the dock
+# might want to move almost everything from the menu bar to control center?
+# (?) Minimize windows into application icon
+
+# Mission Control
+# uncheck Automatically rearrange Spaces
+
+# Siri
+# uncheck Listen for "Hey Siri"
+
+# Language & Region
+# add any currently learning
+# Advanced
+# First day of week: Monday
+
+# Users & Groups
+# Change avatar image
+# Login Options
+# (?) Display login window as: Name and password
 
 # Accessibility
 # pointer control: mouse & trackpad: trackpad options: enable dragging with three finger drag
+# zoom: check use scroll gesture with modifier keys to zoom: ^ Control
+# Display
+# Cursor size: halfway between the first two ticks
 
-# Trackpad
-# point and click: tap to click
-# more gestures: swipe between pages, app expose
+# Extensions
+# Share Menu
+# check: Add to Dropover, Add to Things, Telegram, Tweetbot, Twitter
+
+# Security & Privacy
+# Require password 5 seconds after sleep or screen saver begins
+# Show a message when the screen is locked: "Property of X. If found, please call ###-###-#### for reward."
+# Use your Apple Watch to unlock apps and your Mac
+# Allow apps downloaded from: App Store and identified developers
+# FileVault on
+# Firewall on
+# Enable stealth mode
 
 # Sound
 # sound effects: play feedback when volume is changed
@@ -180,6 +235,11 @@ gh auth login
 # Keyboard
 # Key Repeat: Fast (furthest to right)
 # Delay Until Repeat: Short (furthest to right)
+# Text: uncheck all of: Correct spelling automatically, Captialize words automatically, Use smart quotes and dashes
+
+# Trackpad
+# point and click: tap to click
+# more gestures: swipe between pages, app expose
 
 # Displays
 # Night Shift: Schedule: Sunset to Sunrise

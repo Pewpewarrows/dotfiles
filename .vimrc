@@ -153,9 +153,8 @@
     " - version control
     Plug 'tpope/vim-fugitive'
     " Plug 'rbong/vim-flog'
-    " TODO: choose either
-    " Plug 'airblade/vim-gitgutter'
-    " Plug 'mhinz/vim-signify'
+    Plug 'mhinz/vim-signify'
+    " Plug 'tpope/vim-rhubarb'
     " Plug 'mattn/gist-vim'
     " Plug 'jreybert/vimagit'
     Plug 'rhysd/git-messenger.vim'
@@ -202,6 +201,7 @@
     " Plug 'plasticboy/vim-markdown'
     " Plug 'mogelbrod/vim-jsonpath'
     " Plug 'tpope/vim-dadbod'
+    " Plug 'faith/vim-go'
     Plug 'reedes/vim-pencil' " collection of tiny tweaks for prose writing
     " - python
     " Plug 'python-mode/python-mode'

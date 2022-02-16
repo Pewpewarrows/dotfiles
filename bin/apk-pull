@@ -27,9 +27,18 @@ fi
 # If the package name is non-obvious, launch the app manually and inspect the output of:
 # adb shell dumpsys activity top | grep ACTIVITY
 
+# Can alternatively do:
+# adb shell pm path <package-name>
+
 # Android Package Browser (https://play.google.com/store/apps/details?id=by4a.reflect) may reveal a naming scheme similar to:
 # folders+ base name + guid({g6xTrW...})+ "==/base.apk"
 # package:/data/app/com.samsung.android.videolist-g6xTrW8SV-TC1mpyial9WA==/base.apk=com.samsung.android.videolist
+
+# Some other possible directories include:
+# /data/app
+# /data/app-private
+# /system/app
+# /mnt/asec
 
 package_path="$(echo "${package_info}" | head --lines=1 | sed "s/package://" | sed "s/\.apk=.*$/.apk/")"
 readonly package_path

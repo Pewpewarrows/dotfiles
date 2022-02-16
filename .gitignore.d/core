@@ -165,6 +165,7 @@
 !/bin/pipx-repair-venvs
 !/bin/set-fzf-vars
 !/bin/setup-new-personal-computer
+!/bin/setup-windows-computer.ps1
 !/bin/vcs-repos-status
 !/bin/vimwiki-diary-entry-template
 !/bin/vwtags

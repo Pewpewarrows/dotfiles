@@ -34,6 +34,7 @@ end
 
 # TODO: android's platform-tools was already added to path, but may also want
 # to do the same for tools and tools/bin
+set -x ANDROID_HOME "$HOME/Library/Android/sdk/"
 
 # do NOT set $TERM here, it should be set within terminal app preferences or
 # tmux configuration
@@ -94,8 +95,8 @@ abbr flushdns "sudo killall -HUP mDNSResponder"
 # }
 # set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
 # TODO: this fixes outbound ssh, but TERM on ssh connections inbound to this machine show up as 'xterm-kitty' and falls back to 'ansi', this still true?
-# TODO: this should also only be the abbr if currently in a kitty shell
-type -q kitty; and abbr ssh "kitty +kitten ssh"
+# TODO: abbrs are saved in fish_variables, the KITT_WINDOW_ID check won't work yet
+type -q kitty; and set -q KITTY_WINDOW_ID; and abbr ssh "kitty +kitten ssh"
 # TODO: if word dict file is unavailable, use this for a less-secure option:
 # man sudoers | tr ' ' '\n' | egrep '^[a-z]{4,}$' | sort | uniq | wc -l
 # TODO: read word count as env var
@@ -103,6 +104,13 @@ abbr mempass "LC_ALL=C grep -x '[a-z]*' /usr/share/dict/words | shuf --head-coun
 # TODO: complex version that includes random number and symbols at end, and capitalizes one word randomly
 # shuf --input-range=0-999 --head-count=1
 # LC_ALL=C tr -dc '!"#$%&'\''()*+,-./:;<=>?@[\]^_`{|}~' < /dev/urandom | head --bytes=3; echo
+# TODO: may want to do (progn (magit-status) (delete-other-windows))
+abbr magit "emacs -nw --eval \(magit-status\)"
+
+# TODO: may need some more emacs/magit config from:
+# https://gist.github.com/railwaycat/4043945
+# https://gist.github.com/railwaycat/3498096
+# https://emacsformacosx.com/tips
 
 # set variables once without requiring them to be in fish_variables?
 # if not set -q fish_initialized
@@ -145,6 +153,7 @@ test -d /opt/homebrew/opt/asdf; and source /opt/homebrew/opt/asdf/asdf.fish
 # TODO: still need this?
 # test -f /usr/local/share/fish/vendor_completions.d/asdf.fish; and source /usr/local/share/fish/vendor_completions.d/asdf.fish
 test -f ~/.asdf/plugins/java/set-java-home.fish; and source ~/.asdf/plugins/java/set-java-home.fish
+type -q direnv; and direnv hook fish | source
 
 # fasd
 

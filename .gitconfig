@@ -67,7 +67,7 @@
     latest = for-each-ref --count=10 --sort=-committerdate --format='%(committerdate:short) %(refname:short)'
     co = checkout
 
-    it = !git init && git commit -m "Hello world" --allow-empty
+    it = !git init && git commit --allow-empty -m \"Hello world\"
     f = fetch --all --prune
     pullff = pull --ff-only
     pullr = rebase --rebase-merges

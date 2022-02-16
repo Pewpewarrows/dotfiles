@@ -78,6 +78,7 @@ brew 'htop'
 brew 'lima'
 brew 'lz4'
 brew 'mas'
+brew 'mosh'
 brew 'ncdu'
 brew 'neofetch'
 brew 'nmap'
@@ -111,6 +112,13 @@ brew 'vale'
 # Android
 brew 'libusb'  # req for Heimdall
 brew 'pyqt5'  # req for Heimdall
+brew 'simg2img'
+# brew 'ext4fuse'  # TODO: deprecated due to dependency on closed-source macfuse, follow instructions below
+
+# https://github.com/gerard/ext4fuse/issues/66#issuecomment-997398243
+# curl -s -o ext4fuse.rb https://gist.githubusercontent.com/n-stone/413e407c8fd73683e7e926e10e27dd4e/raw/12b463eb0be3421bdda5db8ef967bfafbaa915c5/ext4fuse.rb
+# brew install --formula --build-from-source ./ext4fuse.rb
+# rm ./ext4fuse.rb
 
 # For consideration
 # brew 'ghi'
@@ -193,6 +201,7 @@ cask 'audacity'
 cask 'balenaetcher'
 cask 'beardedspice'
 cask 'blender'
+cask 'chatterino'
 cask 'cheatsheet'
 cask 'darktable'
 cask 'discord'
@@ -239,9 +248,9 @@ cask 'the-unarchiver'
 cask 'thingsmacsandboxhelper'
 cask 'tor-browser'
 cask 'transmission'
-# cask 'tunnelblick'  # TODO: maybe remove for wireguard
 cask 'tweetbot'
 cask 'utm'
+cask 'viscosity'
 cask 'vlc'
 cask 'vnc-viewer'
 cask 'whatsapp'
@@ -259,6 +268,7 @@ cask 'github'
 # cask 'heimdall-suite'  # does not build without PR 468, installed manually
 cask 'hex-fiend'
 # cask 'hopper-disassembler'  # TODO: no longer exists?
+cask 'insomnia'
 cask 'kitty'
 cask 'macfuse'
 cask 'mactex'
