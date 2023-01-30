@@ -1,0 +1,5 @@
+local.hex
+archive.install hex bunt
+archive.install hex credo
+archive.install hex dialyxir
+archive.install hex dogma

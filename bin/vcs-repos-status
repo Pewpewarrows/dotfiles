@@ -15,7 +15,7 @@ find "${SCAN_DIR}" -name ".git" -prune -print0 | while read -rd $'\0' repo_dir; 
     echo "====="
     pwd
     git remote -v
-    # git status --short --branch
+    git status --short --branch
     # git branch -avvv
     # git log --branches --not --remotes
     # git stash list

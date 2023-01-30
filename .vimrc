@@ -142,8 +142,10 @@
 
     " Project Management
     " - sessions
-    Plug 'tpope/vim-obsession'
-    Plug 'dhruvasagar/vim-prosession'
+    if !s:vscode
+        Plug 'tpope/vim-obsession'
+        Plug 'dhruvasagar/vim-prosession'
+    endif
     " Plug 'mhinz/vim-startify'
     " - external commands (build, run, test)
     Plug 'skywind3000/asyncrun.vim'
@@ -183,6 +185,7 @@
     " Plug 'habamax/vim-godot'
     Plug 'sheerun/vim-polyglot'
     if has('nvim')
+        " TODO: vim-markdown-composer?
         Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install' }
     endif
     Plug 'arzg/vim-rust-syntax-ext', { 'for': 'rust' }
@@ -324,7 +327,7 @@
     " TODO: local mode only
     " Plug 'codota/tabnine-vim'
     " TODO: vs local/offline kite? kite's company doesn't have a great track record
-    " Plug 'desmap/ale-sensible'
+    " TODO: crib the highlight colors from 'desmap/ale-sensible' ?
     " Plug 'jackguo380/vim-lsp-cxx-highlight'
     " These don't go through LSP but are diagnostics for prose
     Plug 'jamestomasino/vim-writingsyntax' " highlight adjectives, passive language, weasel words
@@ -336,7 +339,7 @@
     " Plug 'AndrewRadev/exercism.vim'
     " Plug 'segeljakt/vim-silicon'
 
-    endif
+    endif  " !s:minimode
 
     call plug#end()
 
@@ -701,10 +704,20 @@
 
     " ale {{{
 
+        let g:ale_lint_delay = 0
+        " TODO: these settings aren't working properly, floating preview has
+        "       border but no message
+        " let g:ale_echo_cursor = 0
+        " let g:ale_cursor_detail = 1
+        " let g:ale_floating_preview = 1
+        " let g:ale_detail_to_floating_preview = 1
+        " let g:ale_set_balloons = 0
+
         let g:ale_fixers = {}
         let g:ale_fixers['*'] = ['remove_trailing_lines', 'trim_whitespace']
         let g:ale_fixers.c = ['clang-format']
         let g:ale_fixers.css = ['prettier', 'stylelint']
+        let g:ale_fixers.elixir = ['mix_format']
         " golines will run goimports after it is done, which in turn will run gofmt as a final step
         let g:ale_fixers.go = ['golines']
         let g:ale_fixers.html = ['prettier']
@@ -719,6 +732,7 @@
         let g:ale_fixers.yaml = ['prettier']
 
         let g:ale_linters = {}
+        let g:ale_linters.elixir = ['credo', 'dialyxir', 'dogma', 'mix']
         let g:ale_linters.html = ['fecs', 'htmlhint', 'stylelint', 'tidy']
         " languagetool is slow and clunky, run it manually outside of vim
         let g:ale_linters.markdown = ['markdownlint', 'mdl', 'remark_lint']
@@ -804,12 +818,12 @@
 
         " Trigger completion with characters ahead and navigate.
         inoremap <silent><expr> <TAB>
-                    \ pumvisible() ? "\<C-n>" :
-                    \ <SID>check_back_space() ? "\<TAB>" :
+                    \ coc#pum#visible() ? coc#pum#next(1) :
+                    \ <SID>check_backspace() ? "\<Tab>" :
                     \ coc#refresh()
-        inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+        inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
-        function! s:check_back_space() abort
+        function! s:check_backspace() abort
             let col = col('.') - 1
             return !col || getline('.')[col - 1]  =~# '\s'
         endfunction
@@ -861,14 +875,16 @@
         " TODO: finish config from https://github.com/neoclide/coc.nvim#example-vim-configuration
 
         " TODO: add coc-snippets back once py2/3 issue is resolved
+        " TODO: https://github.com/elixir-lsp/coc-elixir/issues/46
+            " \ 'coc-elixir',
         let g:coc_global_extensions = [
-            \ 'coc-elixir',
             \ 'coc-json',
             \ 'coc-python',
             \ 'coc-rust-analyzer',
             \ 'coc-lists',
             \ 'coc-sourcekit',
             \ 'coc-go',
+            \ 'coc-java',
         \ ]
 
         " TODO: color highlighted suggestions like https://i.redd.it/yz5xnpl0d7g51.jpg

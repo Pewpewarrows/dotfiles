@@ -74,6 +74,7 @@ brew 'gh'
 brew 'gifsicle'
 brew 'grc'
 brew 'htop'
+brew 'imagemagick'
 brew 'lima'
 brew 'lz4'
 brew 'mas'
@@ -82,6 +83,7 @@ brew 'ncdu'
 brew 'neofetch'
 brew 'nmap'
 brew 'notmuch'
+brew 'pam-reattach'
 brew 'pandoc'
 brew 'podman'
 brew 'pstree'
@@ -98,6 +100,7 @@ brew 'terminal-notifier'
 brew 'thefuck'
 brew 'tmux'
 brew 'urlview'
+brew 'wakeonlan'
 brew 'weechat'
 brew 'wget'
 brew 'xz'
@@ -109,6 +112,8 @@ brew 'redpen'
 brew 'vale'
 
 # Android
+brew 'apktool'
+brew 'jadx'
 brew 'libusb'  # req for Heimdall
 brew 'pyqt5'  # req for Heimdall
 brew 'simg2img'
@@ -149,7 +154,7 @@ brew 'liftoff'
 tap 'universal-ctags/homebrew-universal-ctags'
 # brew 'universal-ctags', args: ['HEAD']  # TODO: this doesn't have an apple silicon bottle yet
 
-# TODO: this is an empty installation
+# TODO: this is an empty installation, try tapping 'zph/homebrew-cervezas' instead
 # tap 'turforlag/homebrew-cervezas'
 # brew 'pdftk'
 
@@ -204,6 +209,7 @@ cask 'blackhole-16ch'
 cask 'blender'
 cask 'chatterino'
 cask 'cheatsheet'
+cask 'cron'
 cask 'darktable'
 cask 'discord'
 cask 'dozer'
@@ -226,6 +232,7 @@ cask 'krita'
 cask 'licecap'
 cask 'loading'
 cask 'microsoft-office'
+cask 'microsoft-remote-desktop'
 cask 'microsoft-teams'
 cask 'mixxx'
 cask 'natron'
@@ -250,7 +257,6 @@ cask 'the-unarchiver'
 cask 'thingsmacsandboxhelper'
 cask 'tor-browser'
 cask 'transmission'
-cask 'tweetbot'
 cask 'utm'
 cask 'viscosity'
 cask 'vlc'
@@ -263,6 +269,7 @@ cask 'android-studio'
 cask 'balsamiq-wireframes'
 cask 'cutter'
 cask 'dash'
+# TODO: maybe swap out for rancher, and delete lima/podman above
 cask 'docker'  # after first launch/installation it will provide CLI tools, do not install non-cask docker formula
 cask 'gas-mask'
 cask 'ghidra'
@@ -275,6 +282,7 @@ cask 'insomnia'
 cask 'kitty'
 cask 'macfuse'
 cask 'mactex'
+cask 'metasploit'
 cask 'oclint'
 cask 'vagrant'
 # TODO: the oracle kernel extensions aren't working on apple silicon yet
@@ -298,7 +306,7 @@ cask 'font-fira-mono-nerd-font'
 # - proggy vector
 
 tap 'homebrew/cask-drivers'
-cask 'logitech-options'
+cask 'logi-options-plus'
 
 # For consideration
 # TODO: Postgres.app has an internal check that its real directory is
@@ -336,29 +344,18 @@ cask 'logitech-options'
 # Mac App Store
 
 # TODO: add Flow
-# TODO: add Tweaks for Reddit
 # TODO: add DaVinci Resolve
 # TODO: how to handle iPadOS apps: Apollo, Overcast
 # TODO: add Amphetamine
-# TODO: add SponsorBlock
 mas 'AdGuard for Safari', id: 1440147259
 mas 'Dropover', id: 1355679052
-mas 'DuckDuckGo Privacy Essentials', id: 1482920575
 mas 'GarageBand', id: 682658836
-mas 'Honey', id: 1472777122
-mas 'Hush', id: 1544743900
 mas 'Keynote', id: 409183694
-mas 'OneTab', id: 1540160809
 mas 'Pages', id: 409201541
-mas 'PiPer', id: 1421915518
 mas 'Things', id: 904280696
 mas 'Twitter', id: 1482454543
 mas 'VMware Remote Console', id: 1230249825
-mas 'Vimari', id: 1480933944
-mas 'Wayback Machine', id: 1472432422
-mas 'Wipr', id: 1320666476
 mas 'WireGuard', id: 1451685025
 mas 'Xcode', id: 497799835
-mas 'm-wiki', id: 1480168619
 
 # Whalebrews

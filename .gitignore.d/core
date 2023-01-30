@@ -82,6 +82,7 @@
 !/.default-cargo-crates
 !/.default-gems
 !/.default-golang-pkgs
+!/.default-mix-commands
 !/.default-npm-packages
 !/.default-python-packages
 

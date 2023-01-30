@@ -113,6 +113,7 @@ $wapps.Add(@{name = "Piriform.Defraggler"})
 $wapps.Add(@{name = "Piriform.Recuva"})
 $wapps.Add(@{name = "RevoUninstaller.RevoUninstaller"})
 $wapps.Add(@{name = "Netflix"; id = "9WZDNCRFJ3TJ"; source = "msstore"})
+# foobar2000
 
 # Artistry:
 $wapps.Add(@{name = "Inkscape.Inkscape"})
@@ -281,6 +282,48 @@ Foreach ($app in $capps) {
     # --ignore-checksum --allow-empty-checksums --allow-empty-checksums-secure
 }
 
+# OpenSSH
+
+# TODO: check output from
+# Get-WindowsCapability -Online | Where-Object Name -like 'OpenSSH*'
+Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0
+Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
+# Install-Module -Force OpenSSHUtils
+Start-Service sshd
+Set-Service -Name sshd -StartupType 'Automatic'
+
+# Confirm the Firewall rule is configured, even though it should be created automatically by setup.
+if (!(Get-NetFirewallRule -Name "OpenSSH-Server-In-TCP" -ErrorAction SilentlyContinue | Select-Object Name, Enabled)) {
+    New-NetFirewallRule -Name 'OpenSSH-Server-In-TCP' -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22
+}
+
+mkdir "$env:USERPROFILE\.ssh"
+New-Item "$env:USERPROFILE\.ssh\authorized_keys"
+# TODO: convert this to Get-Acl | Set-Acl, see how it's used below
+# also didn't work as-is, removed all user/admin perms
+# icacls "$env:USERPROFILE\.ssh\authorized_keys" /inheritance:r /remove “NT AUTHORITY\Authenticated Users”
+
+New-Item "$env:ProgramData\ssh\administrators_authorized_keys"
+$acl = Get-Acl "$env:ProgramData\ssh\administrators_authorized_keys"
+$acl.SetAccessRuleProtection($true, $false)
+$administratorsRule = New-Object system.security.accesscontrol.filesystemaccessrule("Administrators","FullControl","Allow")
+$systemRule = New-Object system.security.accesscontrol.filesystemaccessrule("SYSTEM","FullControl","Allow")
+$acl.SetAccessRule($administratorsRule)
+$acl.SetAccessRule($systemRule)
+$acl | Set-Acl
+
+New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "$env:WINDIR\System32\WindowsPowerShell\v1.0\powershell.exe" -PropertyType String -Force
+
+# TODO: configure sshd @ %programdata%\ssh\ssh_config
+# apply recommended settings, minus https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_server_configuration#not-supported
+
+# $sshd_config="$env:ProgramData\ssh\sshd_config"
+# (Get-Content $sshd_config) -replace '#PubkeyAuthentication', 'PubkeyAuthentication' | Out-File -encoding ASCII $sshd_config
+# Restart-Service sshd
+
+# TODO: consider tunnelling rdp over ssh:
+# https://dev.to/rkttu/set-up-an-ssh-server-in-windows-10-native-way-22d9
+
 # winget upgrade
 # winget upgrade -all
 # winget import -i <list.json>
@@ -337,6 +380,14 @@ Enable-UAC
 # Uncheck Show my taskbar on all displays
 # TODO: can't do above until 11 allows taskbar to be moved, so until then:
 # When using multiple displays, show my taskbar apps on: All taskbars
+
+# Control Panel
+# Device Manager
+# Right-click Ethernet (and any others such as Wi-Fi) under Network Adapters, Properties
+# Advanced -> Wake on Magic Packet / Wake on Pattern Match -> Enabled
+
+# Power & sleep
+# Sleep -> When plugged in, PC goes to sleep after: 30 mins (gaming PC) or Never (RDP target w/o WOL)
 
 # Desktop App Groups/Folders:
 # - Game

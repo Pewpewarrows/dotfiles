@@ -19,6 +19,10 @@ mkdir -p "${BACKUP_DIR}/"
 # TODO: .vim/tmp/backup needs directory in path like swap/undo?
 # TODO: custom app launch flags?
 # TODO: finder favorite servers
+# TODO: backup ~/Private without the inner Backups dir?
+# TODO: prompt to run vcs-repos-status beforehand and commit/push
+# TODO: same as above but for all mr repos (primarily dotfiles)
+# TODO: backup ~/tmp just in case?
 
 ls -la /Applications/ > "${BACKUP_DIR}/applications.txt"
 ls -la "${HOME}/Applications/" > "${BACKUP_DIR}/home_applications.txt"
@@ -45,9 +49,8 @@ tar czf "${BACKUP_DIR}/vim_tmp_undo2.tar.gz" -C "${HOME}/.vim/tmp/" undo2/
 # TODO: chrome flags
 # echo "Marco: none; Work: none" > "${BACKUP_DIR}/chrome_flags.txt"
 
-# TODO: ask user to export Safari and Chrome OneTab data from all profiles into each:
-#       "${BACKUP_DIR}/safari_onetab.txt"
-#       "${BACKUP_DIR}/chrome_onetab_profilename.txt"
+# TODO: ask user to export Firefox OneTab data:
+#       "${BACKUP_DIR}/firefox_onetab.txt"
 
 ocaml -vnum > "${BACKUP_DIR}/ocaml_vnum.txt"
 opam list > "${BACKUP_DIR}/opam_list.txt"
@@ -114,7 +117,7 @@ tar czf "${BACKUP_DIR}/lib_appsupport_davinci.tar.gz" -C "${HOME}/Library/Applic
 tar czf "${BACKUP_DIR}/lib_containers_stickies.tar.gz" -C "${HOME}/Library/Containers/" "com.apple.Stickies"
 tar czf "${BACKUP_DIR}/lib_containers_stickiesmigration.tar.gz" -C "${HOME}/Library/Containers/" "com.apple.StickiesMigration"
 cp "${HOME}/Library/StickiesDatabase" "${BACKUP_DIR}"
-# TODO: Firefox (onetab export (should be none), open tabs, profile synced)
+# TODO: Firefox (extension data, onetab export (should be none), open tabs, profile synced)
 tar czf "${BACKUP_DIR}/lib_appsupport_focus.tar.gz" -C "${HOME}/Library/Application Support/" "Focus"
 # TODO: GOG Galaxy (game saves, mods, configs)
 # TODO: Google Chrome (open tabs, profile synced)
@@ -124,9 +127,7 @@ tar czf "${BACKUP_DIR}/lib_appsupport_focus.tar.gz" -C "${HOME}/Library/Applicat
 # TODO: Mail (archive)
 # TODO: Music (local playlists not synced to Apple Music, such as genius ones)
 # TODO: Postgres (databases)
-# TODO: Safari (extension data, open tabs, onetab)
-mkdir -p "${BACKUP_DIR}/vimari/"
-cp "${HOME}/Library/Containers/net.televator.Vimari.SafariExtension/Data/Library/Application Support/userSettings.json" "${BACKUP_DIR}/vimari/"
+# TODO: Safari (open tabs)
 # TODO: Steam.app (game saves, mods, configs)
 # TODO: VirtualBox (vms)
 # TODO: VMware Fusion (vms)

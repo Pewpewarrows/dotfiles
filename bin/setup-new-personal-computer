@@ -64,7 +64,7 @@ env "${fish_cmd}" -c "fisher"
 # TODO: see sanity check changes in ~/.config/fish/conf.d/virtualfish-loader.fis
 
 # TODO: deno?
-echo elixir rust python ruby nodejs opam lua golang java direnv | xargs -n1 asdf plugin-add
+echo erlang elixir rust python ruby nodejs opam lua golang java direnv | xargs -n1 asdf plugin-add
 
 export GNUPGHOME="${ASDF_DIR:="$HOME/.asdf"}/keyrings/nodejs"
 mkdir -p "${GNUPGHOME}"
@@ -80,6 +80,7 @@ readonly py2="$(echo -n $(asdf latest python 2 | tail -n 1))"
 # the latest temurin release may have only included static libs and not the
 # full sdk, so manually install the previous version
 readonly temurin="$(echo -n $(asdf list all java temurin | tail -n 1))"
+asdf install erlang latest
 asdf install elixir latest
 asdf install rust latest
 asdf install python latest
@@ -102,7 +103,7 @@ asdf global direnv latest
 asdf reshim
 # TODO: cli "tools" shouldn't be installed every time on every language version, only once like how pipx does for python, what to do for the other languages?
 
-echo black 'prospector[with_everything]' pyre-check youtube-dl proselint aws-shell doc2dash poetry restructuredtext_lint rstcheck httpie restview grip rst2rst yamllint 'ansible-lint[community]' flawfinder fb-idb mypy | xargs -n1 pipx install
+echo apkleaks black 'prospector[with_everything]' pyre-check youtube-dl proselint aws-shell doc2dash poetry restructuredtext_lint rstcheck httpie restview grip rst2rst yamllint 'ansible-lint[community]' flawfinder fb-idb mypy | xargs -n1 pipx install
 pipx install ansible --include-deps
 pipx inject ansible paramiko
 pipx install virtualfish --include-deps
@@ -157,6 +158,10 @@ vcsh run doom-emacs "${HOME}/.emacs.d/bin/doom sync --yes"
 # note that the dotfiles' .tigrc was acquired from this repo, but should
 # probably be moved into mr/vcsh as a symlink at some point...
 # https://github.com/ninjabreakbot/tig-gruvbox
+
+# TODO: must edit /etc/pam.d/sudo to add these lines to the top:
+# auth optional /opt/homebrew/lib/pam/pam_reattach.so
+# auth sufficient pam_tid.so
 
 gh auth login
 
@@ -243,3 +248,8 @@ gh auth login
 
 # Displays
 # Night Shift: Schedule: Sunset to Sunrise
+
+# Control Center
+# Hearing: Show in Control Center
+# Spotlight: Don't Show
+# Siri: Don't Show
