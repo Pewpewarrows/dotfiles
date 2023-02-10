@@ -22,7 +22,6 @@ mkdir -p "${BACKUP_DIR}/"
 # TODO: backup ~/Private without the inner Backups dir?
 # TODO: prompt to run vcs-repos-status beforehand and commit/push
 # TODO: same as above but for all mr repos (primarily dotfiles)
-# TODO: backup ~/tmp just in case?
 
 ls -la /Applications/ > "${BACKUP_DIR}/applications.txt"
 ls -la "${HOME}/Applications/" > "${BACKUP_DIR}/home_applications.txt"
@@ -42,9 +41,10 @@ tar czf "${BACKUP_DIR}/vim_tmp_swap.tar.gz" -C "${HOME}/.vim/tmp/" swap/
 tar czf "${BACKUP_DIR}/vim_tmp_undo.tar.gz" -C "${HOME}/.vim/tmp/" undo/
 tar czf "${BACKUP_DIR}/vim_tmp_undo2.tar.gz" -C "${HOME}/.vim/tmp/" undo2/
 
+# TODO: backup ~/tmp just in case?
 # NOTE: not doing automated backups of repos dir, but these are the cmds
 # sudo tar czf "${BACKUP_DIR}/tmp_repos.tar.gz" -C "${HOME}/tmp/" repos/
-# sudo chown Marco "${BACKUP_DIR}/tmp_repos.tar.gz"
+# sudo chown marco "${BACKUP_DIR}/tmp_repos.tar.gz"
 
 # TODO: chrome flags
 # echo "Marco: none; Work: none" > "${BACKUP_DIR}/chrome_flags.txt"
@@ -117,7 +117,7 @@ tar czf "${BACKUP_DIR}/lib_appsupport_davinci.tar.gz" -C "${HOME}/Library/Applic
 tar czf "${BACKUP_DIR}/lib_containers_stickies.tar.gz" -C "${HOME}/Library/Containers/" "com.apple.Stickies"
 tar czf "${BACKUP_DIR}/lib_containers_stickiesmigration.tar.gz" -C "${HOME}/Library/Containers/" "com.apple.StickiesMigration"
 cp "${HOME}/Library/StickiesDatabase" "${BACKUP_DIR}"
-# TODO: Firefox (extension data, onetab export (should be none), open tabs, profile synced)
+# TODO: Firefox (extension data, onetab export (should be none), open tabs, profile synced, bookmarks backup)
 tar czf "${BACKUP_DIR}/lib_appsupport_focus.tar.gz" -C "${HOME}/Library/Application Support/" "Focus"
 # TODO: GOG Galaxy (game saves, mods, configs)
 # TODO: Google Chrome (open tabs, profile synced)
