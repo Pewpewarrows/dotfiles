@@ -78,7 +78,7 @@ $wapps.Add(@{name = "AntibodySoftware.WizTree"})
 $wapps.Add(@{name = "QL-Win.QuickLook"})
 $wapps.Add(@{name = "Streamlink.Streamlink"})
 $wapps.Add(@{name = "Streamlink.Streamlink.TwitchGui"})
-# TODO: chatterino
+$wapps.Add(@{name = "ChatterinoTeam.Chatterino"})
 # winget install --exact Twitch.Twitch
 $wapps.Add(@{name = "GPSoftware.DirectoryOpus"})
 # TODO: decide if PowerToys Run is good enough
@@ -100,9 +100,7 @@ $wapps.Add(@{name = "TorProject.TorBrowser"})
 # vpn
 # backups
 $wapps.Add(@{name = "WireGuard.WireGuard"})
-# using choco's 1password for v7.x
-$capps.Add("1password")
-# $wapps.Add(@{name = "AgileBits.1Password"})
+$wapps.Add(@{name = "AgileBits.1Password"})
 $wapps.Add(@{name = "Anki.Anki"})
 $wapps.Add(@{name = "DelugeTeam.Deluge"})
 $wapps.Add(@{name = "flux.flux"})
@@ -113,6 +111,8 @@ $wapps.Add(@{name = "Piriform.Defraggler"})
 $wapps.Add(@{name = "Piriform.Recuva"})
 $wapps.Add(@{name = "RevoUninstaller.RevoUninstaller"})
 $wapps.Add(@{name = "Netflix"; id = "9WZDNCRFJ3TJ"; source = "msstore"})
+$wapps.Add(@{name = "OpenWhisperSystems.Signal"})
+$wapps.Add(@{name = "iCloud"; id = "9PKTQ5699M62"; source = "msstore"})
 # foobar2000
 
 # Artistry:
@@ -164,13 +164,14 @@ $wapps.Add(@{name = "WinSCP.WinSCP"})
 $wapps.Add(@{name = "AndreasWascher.RepoZ"})
 $capps.Add("godot")
 $wapps.Add(@{name = "UnityTechnologies.Unity.2021"})
-# dash/zeal
-# ghidra
-# vmware workstation
+$wapps.Add(@{name = "OlegShparber.Zeal"})
+$capps.Add("ghidra")
+$wapps.Add(@{name = "VMware.WorkstationPro"})
 # Some tools are duplicated in Windows and WSL, due to their need in native development
 $wapps.Add(@{name = "Git.Git"})
-# jdk
+$wapps.Add(@{name = "EclipseAdoptium.Temurin.21.JDK"})
 # python
+# cursor.sh editor (experimental)
 
 # WSL:
 # see available distros with: wsl --list --online
@@ -179,6 +180,17 @@ $wapps.Add(@{name = "Git.Git"})
 # wsl --set-default-version 2
 # wsl --setdefault Debian
 # TODO: setup initial username/password besides root, window will prompt after install
+# wsl --update
+
+# TODO: have real inner config/script files for WSL distro setup, but until then did some ad-hoc installs of:
+# sudo apt install -y python3 python3-pip pipx git zip texlive-full file wget netcat-traditional ipython ipykernel binwalk pigz qemu-system-x86 command-not-found dosfstools bind9-dnsutils
+# pipx ensurepath
+# pipx install poetry tox
+# (.gitconfig is setup with name/email)
+# git config --global credential.helper "/mnt/c/Program\ Files/Git/mingw64/bin/git-credential-manager-core.exe"
+# cd ~/tmp/scratch
+# python3 -m venv .venv
+# ./.venv/bin/pip install pwntools scapy
 
 # Gaming:
 $capps.Add("gamesavemanager")
@@ -206,6 +218,8 @@ $wapps.Add(@{name = "Xbox Console Companion"; id = "9WZDNCRFJBD8"; source = "mss
 # zam minion
 # gamecompanion
 # playnite
+# 17lands client
+# untapped.gg client
 $wapps.Add(@{name = "FlawlessWidescreen.FlawlessWidescreen"})
 $wapps.Add(@{name = "LOOT.LOOT"})  # TODO: boss?
 $wapps.Add(@{name = "Mumble.Mumble"})
@@ -325,10 +339,10 @@ New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "$env:
 # https://dev.to/rkttu/set-up-an-ssh-server-in-windows-10-native-way-22d9
 
 # winget upgrade
-# winget upgrade -all
+# winget upgrade --all
 # winget import -i <list.json>
-# cup all
-# choco upgrade all
+# cup all --yes
+# choco upgrade all --yes
 
 Enable-UAC
 
