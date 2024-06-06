@@ -8,7 +8,6 @@ brew 'vcsh'
 
 # Development Tools
 brew 'ant'
-brew 'asdf'
 brew 'bat'
 brew 'binutils'
 brew 'checkbashisms'

@@ -22,40 +22,7 @@ SETUVAR --export VISUAL:nvim
 SETUVAR --export __fish_init_2_39_8:\x1d
 SETUVAR --export __fish_init_2_3_0:\x1d
 SETUVAR --export __fish_init_3_x:\x1d
-SETUVAR --export __fish_initialized:3100
-SETUVAR _fish_abbr_1:\x2e\x2e
-SETUVAR _fish_abbr_2:\x2e\x2e\x2e
-SETUVAR _fish_abbr_3:\x2e\x2e\x2e\x2e
-SETUVAR _fish_abbr_4:\x2e\x2e\x2e\x2e\x2e
-SETUVAR _fish_abbr_5:\x2e\x2e\x2e\x2e\x2e\x2e
-SETUVAR _fish_abbr__2E_2E_:cd\x20\x2e\x2e
-SETUVAR _fish_abbr__2E_2E_2E_:cd\x20\x2e\x2e/\x2e\x2e
-SETUVAR _fish_abbr__2E_2E_2E_2E_:cd\x20\x2e\x2e/\x2e\x2e/\x2e\x2e
-SETUVAR _fish_abbr__2E_2E_2E_2E_2E_:cd\x20\x2e\x2e/\x2e\x2e/\x2e\x2e/\x2e\x2e
-SETUVAR _fish_abbr__2E_2E_2E_2E_2E_2E_:cd\x20\x2e\x2e/\x2e\x2e/\x2e\x2e/\x2e\x2e/\x2e\x2e
-SETUVAR _fish_abbr_be:bundle\x20exec
-SETUVAR _fish_abbr_cat:bat
-SETUVAR _fish_abbr_e:exa
-SETUVAR _fish_abbr_fix:reset\x3b\x20ssty\x20sane\x3b\x20tput\x20rs1\x3b\x20clear\x3b\x20echo\x20\x2de\x20\x22\x5c033c\x22
-SETUVAR _fish_abbr_flushdns:sudo\x20killall\x20\x2dHUP\x20mDNSResponder
-SETUVAR _fish_abbr_hr:history\x20\x2d\x2dmerge
-SETUVAR _fish_abbr_l:exa\x20\x2d\x2dbinary\x20\x2d\x2dgroup\x20\x2d\x2dlong\x20\x2d\x2dgit
-SETUVAR _fish_abbr_la:exa\x20\x2d\x2dbinary\x20\x2d\x2dgroup\x20\x2d\x2dlong\x20\x2d\x2dgit\x20\x2d\x2dall
-SETUVAR _fish_abbr_magit:emacs\x20\x2dnw\x20\x2d\x2deval\x20\x5c\x28magit\x2dstatus\x5c\x29
-SETUVAR _fish_abbr_mempass:LC_ALL\x3dC\x20grep\x20\x2dx\x20\x27\x5ba\x2dz\x5d\x2a\x27\x20/usr/share/dict/words\x20\x7c\x20shuf\x20\x2d\x2dhead\x2dcount\x3d3\x20\x2d\x2drandom\x2dsource\x3d/dev/urandom\x20\x7c\x20paste\x20\x2dsd\x20\x27\x2d\x27\x20\x2d
-SETUVAR --export _fish_abbr_mux:tmuxinator
-SETUVAR _fish_abbr_myip:curl\x20icanhazip\x2ecom
-SETUVAR _fish_abbr_o:f\x20\x2de\x20open
-SETUVAR _fish_abbr_ports:lsof\x20\x2di\x20\x2dP\x20\x7c\x20grep\x20\x2di\x20\x27listen\x27
-SETUVAR _fish_abbr_r:ranger
-SETUVAR _fish_abbr_reload:source\x20\x7e/\x2econfig/fish/config\x2efish
-SETUVAR _fish_abbr_ssh:kitty\x20\x2bkitten\x20ssh
-SETUVAR _fish_abbr_todo:rg\x20\x22\x5bT\x5dO\x5b_\x20\x5d\x3fDO\x7c\x5bF\x5dIX\x5b_\x20\x5d\x3fME\x7c\x5bX\x5dXX\x7c\x5bH\x5dACK\x7c\x5b\x5e\x28DE\x29\x7c\x5e_\x5d\x5bB\x5dUG\x7c\x5bR\x5dEVIEW\x7c\x5bW\x5dTF\x7c\x5bS\x5dMELL\x7c\x5bB\x5dROKE\x7c\x5bN\x5dOCOMMIT\x7c\x5bN\x5dORELEASE\x22
-SETUVAR _fish_abbr_tree:exa\x20\x2d\x2dtree
-SETUVAR _fish_abbr_v:f\x20\x2de\x20vim
-SETUVAR _fish_abbr_view:nvim\x20\x2dR
-SETUVAR _fish_abbr_vim:nvim
-SETUVAR _fish_abbr_vimdiff:nvim\x20\x2dd
+SETUVAR --export __fish_initialized:3400
 SETUVAR --export fish_color_autosuggestion:BD93F9
 SETUVAR --export fish_color_cancel:\x2dr
 SETUVAR --export fish_color_command:F8F8F2
@@ -85,6 +52,7 @@ SETUVAR --export fish_pager_color_completion:normal
 SETUVAR --export fish_pager_color_description:B3A06D\x1eyellow
 SETUVAR --export fish_pager_color_prefix:white\x1e\x2d\x2dbold\x1e\x2d\x2dunderline
 SETUVAR --export fish_pager_color_progress:brwhite\x1e\x2d\x2dbackground\x3dcyan
+SETUVAR fish_pager_color_selected_background:\x2dr
 SETUVAR --export fish_user_paths:/Users/marco/Library/Android/sdk/platform\x2dtools\x1e/opt/homebrew/bin/\x1e/opt/homebrew/sbin/\x1e/Users/marco/bin\x1e/Users/marco/\x2elocal/bin
 SETUVAR --export fzf_fish_custom_keybindings:\x1d
 SETUVAR pisces_pairs:\x28\x2c\x29\x1e\x5b\x2c\x5d\x1e\x7b\x2c\x7d\x1e\x22\x2c\x22\x1e\x27\x2c\x27

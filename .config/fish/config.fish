@@ -43,44 +43,46 @@ set fish_greeting
 
 # Abbrs/Aliases
 
-abbr reload "source ~/.config/fish/config.fish"
+abbr --add reload "source ~/.config/fish/config.fish"
 # See for universal LSCOLORS: https://geoff.greer.fm/lscolors/
 # Explanation of options: https://apple.stackexchange.com/questions/282185/how-do-i-get-different-colors-for-directories-etc-in-iterm2
 # TODO: turn this back on after fixing grc/grcplugin_ls/colors
 # alias l="ls -lah"
 # alias l="command ls -lahG"
-abbr e "exa"
-abbr l "exa --binary --group --long --git"  # TODO: --group-directories-first ?
-abbr la "exa --binary --group --long --git --all"
-abbr tree "exa --tree"
-abbr r "ranger"
-abbr cat "bat"
+if type -q exa
+    abbr --add e "exa"
+    abbr --add l "exa --binary --group --long --git"  # TODO: --group-directories-first ?
+    abbr --add la "exa --binary --group --long --git --all"
+    abbr --add tree "exa --tree"
+end
+type -q ranger; and abbr --add r "ranger"
+type -q bar; and abbr --add cat "bat"
 # TODO: git, docker, vagrant, cargo, make, yarn, npm, pip, brew, nix, tmux abbrs
 # TODO: maybe:
 # bind \e\[A 'history --merge ; up-or-search'
-abbr hr "history --merge"
+abbr --add hr "history --merge"
 if type -q nvim
-    abbr vim "nvim"
-    abbr vimdiff "nvim -d"
-    abbr view "nvim -R"
+    abbr --add vim "nvim"
+    abbr --add vimdiff "nvim -d"
+    abbr --add view "nvim -R"
 end
-abbr ports "lsof -i -P | grep -i 'listen'"
-abbr fix "reset; ssty sane; tput rs1; clear; echo -e \"\033c\""
-abbr be "bundle exec"
-abbr myip "curl icanhazip.com"  # TODO: ifconfig.co ?
-abbr .. "cd .."
-abbr ... "cd ../.."
-abbr .... "cd ../../.."
-abbr ..... "cd ../../../.."
-abbr ...... "cd ../../../../.."
+abbr --add ports "lsof -i -P | grep -i 'listen'"
+abbr --add fix "reset; ssty sane; tput rs1; clear; echo -e \"\033c\""
+abbr --add be "bundle exec"
+abbr --add myip "curl icanhazip.com"  # TODO: ifconfig.co ?
+abbr --add .. "cd .."
+abbr --add ... "cd ../.."
+abbr --add .... "cd ../../.."
+abbr --add ..... "cd ../../../.."
+abbr --add ...... "cd ../../../../.."
 # TODO: alternatively, ..3 or .3
-abbr 1 ".."
-abbr 2 "..."
-abbr 3 "...."
-abbr 4 "....."
-abbr 5 "......"
-abbr todo "rg \"[T]O[_ ]?DO|[F]IX[_ ]?ME|[X]XX|[H]ACK|[^(DE)|^_][B]UG|[R]EVIEW|[W]TF|[S]MELL|[B]ROKE|[N]OCOMMIT|[N]ORELEASE\""
-abbr flushdns "sudo killall -HUP mDNSResponder"
+abbr --add 1 ".."
+abbr --add 2 "..."
+abbr --add 3 "...."
+abbr --add 4 "....."
+abbr --add 5 "......"
+type -q rg; and abbr --add todo "rg \"[T]O[_ ]?DO|[F]IX[_ ]?ME|[X]XX|[H]ACK|[^(DE)|^_][B]UG|[R]EVIEW|[W]TF|[S]MELL|[B]ROKE|[N]OCOMMIT|[N]ORELEASE\""
+abbr --add flushdns "sudo killall -HUP mDNSResponder"
 # TODO: this might not work
 # alias -="cd -"
 # TODO: from bash
@@ -96,16 +98,17 @@ abbr flushdns "sudo killall -HUP mDNSResponder"
 # set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
 # TODO: this fixes outbound ssh, but TERM on ssh connections inbound to this machine show up as 'xterm-kitty' and falls back to 'ansi', this still true?
 # TODO: abbrs are saved in fish_variables, the KITT_WINDOW_ID check won't work yet
-type -q kitty; and set -q KITTY_WINDOW_ID; and abbr ssh "kitty +kitten ssh"
+type -q kitty; and set -q KITTY_WINDOW_ID; and abbr --add ssh "kitty +kitten ssh"
 # TODO: if word dict file is unavailable, use this for a less-secure option:
 # man sudoers | tr ' ' '\n' | egrep '^[a-z]{4,}$' | sort | uniq | wc -l
 # TODO: read word count as env var
-abbr mempass "LC_ALL=C grep -x '[a-z]*' /usr/share/dict/words | shuf --head-count=3 --random-source=/dev/urandom | paste -sd '-' -"
+abbr --add mempass "LC_ALL=C grep -x '[a-z]*' /usr/share/dict/words | shuf --head-count=3 --random-source=/dev/urandom | paste -sd '-' -"
 # TODO: complex version that includes random number and symbols at end, and capitalizes one word randomly
 # shuf --input-range=0-999 --head-count=1
 # LC_ALL=C tr -dc '!"#$%&'\''()*+,-./:;<=>?@[\]^_`{|}~' < /dev/urandom | head --bytes=3; echo
 # TODO: may want to do (progn (magit-status) (delete-other-windows))
-abbr magit "emacs -nw --eval \(magit-status\)"
+type -q emacs; and abbr --add magit "emacs -nw --eval \(magit-status\)"
+type -q tmuxinator; and abbr --add mux tmuxinator
 
 # TODO: may need some more emacs/magit config from:
 # https://gist.github.com/railwaycat/4043945
@@ -137,6 +140,19 @@ if status is-interactive; and test -x /opt/homebrew/bin/brew
     eval (/opt/homebrew/bin/brew shellenv)
 end
 
+# flatpak
+# something about /etc/profile not being sourced correctly all the time, see:
+# https://github.com/flatpak/flatpak/issues/3109
+if command -vq flatpak
+    set -ga fish_user_paths ~/.local/share/flatpak/exports/bin /var/lib/flatpak/exports/bin
+    set -gx --path XDG_DATA_DIRS /usr/local/share/ /usr/share/ ~/.local/share/flatpak/exports/share
+    # TODO: my setup also had these in there...
+    set -ga --path XDG_DATA_DIRS /usr/share/ubuntu /usr/share/gnome /var/lib/snapd/desktop
+    for install_dir in (flatpak --installations)
+        set -gxa XDG_DATA_DIRS $install_dir/exports/share
+    end
+end
+
 # starship
 
 type -q starship; and starship init fish | source
@@ -150,15 +166,19 @@ type -q starship; and starship init fish | source
 # time to this test, so hardcode the path
 # TODO: may want to go back to brew prefix after this is only ran while interactive?
 test -d /opt/homebrew/opt/asdf; and source /opt/homebrew/opt/asdf/asdf.fish
+test -e ~/.asdf/asdf.fish; and source ~/.asdf/asdf.fish
 # TODO: still need this?
-# test -f /usr/local/share/fish/vendor_completions.d/asdf.fish; and source /usr/local/share/fish/vendor_completions.d/asdf.fish
-test -f ~/.asdf/plugins/java/set-java-home.fish; and source ~/.asdf/plugins/java/set-java-home.fish
+# test -e /usr/local/share/fish/vendor_completions.d/asdf.fish; and source /usr/local/share/fish/vendor_completions.d/asdf.fish
+test -e ~/.asdf/plugins/java/set-java-home.fish; and source ~/.asdf/plugins/java/set-java-home.fish
+
+# direnv
+
 type -q direnv; and direnv hook fish | source
 
 # fasd
 
-abbr v "f -e vim"
-abbr o "f -e open"
+abbr --add v "f -e vim"
+abbr --add o "f -e open"
 
 # fzf
 

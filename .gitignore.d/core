@@ -40,6 +40,7 @@
 !/.config/fish/completions
 /.config/fish/completions/*
 !/.config/fish/completions/*.fish
+/.config/fish/completions/asdf.fish
 !/.config/fish/conf.d
 /.config/fish/conf.d/*
 !/.config/fish/conf.d/*.fish
@@ -94,6 +95,8 @@
 
 !/.dotfiles-misc
 
+!/.flat-packages
+
 !/.gdbinit
 
 !/.gitconfig
@@ -105,7 +108,11 @@
 
 !/.inputrc
 
+!/.nix-apt-packages
+
 !/.prospector.yaml
+
+!/.snap-packages
 
 !/.ssh
 /.ssh/*

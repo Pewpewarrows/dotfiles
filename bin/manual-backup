@@ -29,6 +29,10 @@ pushd "${BACKUP_DIR}"
 brew bundle dump
 popd
 
+# TODO: linux only
+# snap list > .snap-packages
+# flatpak list > .flat-packages
+
 tar czf "${BACKUP_DIR}/etc_cups.tar.gz" -C "/etc/" cups/
 tar czf "${BACKUP_DIR}/library_keychains.tar.gz" -C "/Library/" Keychains/
 tar czf "${BACKUP_DIR}/home_library_keychains.tar.gz" -C "${HOME}/Library/" Keychains/

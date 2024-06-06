@@ -13,7 +13,8 @@
     # http://stackoverflow.com/questions/136178/git-diff-handling-long-lines
     # For seeing color (via control chars), but not interpreting others:
     # TODO: check if diff-so-fancy exists before defaulting to it
-    pager = diff-so-fancy | less --tabs=4 --RAW-CONTROL-CHARS --quit-if-one-screen --no-init
+    # pager = "if command -v diff-so-fancy &> /dev/null; then BIN='diff-so-fancy | less --tabs=4 --RAW-CONTROL-CHARS --quit-if-one-screen --no-init'; else BIN='less -FX'; fi; $BIN"
+    pager = less -FX
     # excludesfile defaults to $HOME/.config/git/ignore
     editor = nvim
 
@@ -26,11 +27,13 @@
 	cmd = nvim -f -c \"Gdiffsplit!\" \"$MERGED\"
 
 [credential]
-    # TODO: change this based on OS
-    helper = osxkeychain
+    # TODO: better OS detection
+    # helper = osxkeychain
+    helper = "!f() { if [ \"$(uname -s)\" = Linux ]; then git credential-oauth \"$@\"; else git credential-osxkeychain \"$@\"; fi; };f"
+    # helper = "!f() { if [ \"$(uname -s)\" = Linux ]; then git credential-cache --timeout 3600 \"$@\"; else git credential-osxkeychain \"$@\"; fi; };f"
 
 [help]
-    autocorrect = true
+    autocorrect = 30
 
 [rerere]
     autoupdate = true

@@ -31,6 +31,7 @@ brew install mr vcsh
 
 read -p "myrepos bootstrap url: " myrepo_url
 vcsh clone "${myrepo_url}" mr
+# TODO: ensure that this command gets run out of the home directory
 mr update
 
 brew install mas
@@ -43,6 +44,15 @@ mas signin "${apple_id}"
 # https://github.com/rtrouton/rtrouton_scripts/blob/main/rtrouton_scripts/install_rosetta_on_apple_silicon/install_rosetta_on_apple_silicon.sh
 /usr/sbin/softwareupdate --install-rosetta --agree-to-license
 brew bundle 2>&1 | tee -a ~/Downloads/brew_bundle.log
+
+# TODO: linux only
+# bash VMware-Workstation-Full-*.bundle
+# vmware-modconfig --console --install-all
+# flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+# sudo apt-add-repository ppa:fish-shell/release-3
+# sudo add-apt-repository ppa:neovim-ppa/unstable
+# sudo add-apt-repository ppa:hickford/git-credential-oauth
+# setting fish to default login shell can be buggy on many linux distros, so instead configure terminal emulator app to launch /usr/bin/fish directly
 
 # TODO: brew services
 # TODO: according to https://www.naut.ca/blog/2020/08/26/ubuntu-vm-on-macos-with-libvirt-qemu/ may need to configure /opt/homebrew/etc/libvirt/qemu.conf with:
@@ -64,6 +74,7 @@ env "${fish_cmd}" -c "fisher"
 # TODO: see sanity check changes in ~/.config/fish/conf.d/virtualfish-loader.fis
 
 # TODO: deno?
+mkdir -p ~/.config/fish/completions; and ln -s ~/.asdf/completions/asdf.fish ~/.config/fish/completions
 echo erlang elixir rust python ruby nodejs opam lua golang java direnv | xargs -n1 asdf plugin-add
 
 export GNUPGHOME="${ASDF_DIR:="$HOME/.asdf"}/keyrings/nodejs"
@@ -125,7 +136,7 @@ env "${fish_cmd}" -c "vf install"
 
 # TODO: attempt to fetch or push to a private github repo, then enter username and personal access token as the password
 
-vim +PlugUpgrade +PlugUpdate +PlugClean! +qall
+vim +PlugUpgrade +PlugUpdate +PlugInstall +PlugClean! +qall
 "${HOME}/.tmux/plugins/tpm/bin/install_plugins"
 "${HOME}/.tmux/plugins/tpm/bin/update_plugins all"
 "${HOME}/.tmux/plugins/tpm/bin/clean_plugins"
@@ -150,6 +161,13 @@ vcsh run doom-emacs "${HOME}/.emacs.d/bin/doom sync --yes"
 # https://github.com/Homebrew/homebrew-cask-fonts/blob/master/Casks/font-powerline-symbols.rb
 # and add to Brewfile under cask-fonts
 # curl --fail --silent --show-error --location --create-dirs --output-dir "${HOME}/Library/Fonts/" --output "Symbols-2048-em Nerd Font Complete.ttf" https://github.com/ryanoasis/nerd-fonts/blob/master/src/glyphs/Symbols-2048-em%20Nerd%20Font%20Complete.ttf
+# fc-cache -fr
+# TODO: linux only
+# see https://github.com/mcarvalho1/Simple-NerdFonts-Downloader for a more robust installation script
+# mkdir -p "${HOME}/.local/share/fonts"
+# wget --quiet https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/FiraMono.tar.xz -O /tmp/FiraMono.tar.xz
+# tar -xf /tmp/FiraMono.tar.xz -C "${HOME}/.local/share/fonts"
+# rm -f /tmp/FiraMono.tar.xz
 # fc-cache -fr
 
 # TODO: if this is a fresh install, restore ~/{Downloads,Private,tmp} from backup

@@ -870,7 +870,9 @@
 
         " Highlight the symbol and its references when holding the cursor.
         " TODO: only do this if coc is installed
-        autocmd CursorHold * silent call CocActionAsync('highlight')
+	if exists('*CocActionAsync')
+	    autocmd CursorHold * silent call CocActionAsync('highlight')
+        endif
 
         " TODO: finish config from https://github.com/neoclide/coc.nvim#example-vim-configuration
 
@@ -1427,6 +1429,7 @@
     "
     " vim-gutentags {{{
 
+        let g:gutentags_dont_load = !executable('ctags')
         let g:gutentags_cache_dir = expand('~/.cache/gutentags/')
         " TODO: if still experiencing crashes after using vim to write git commit messages, see further potential config changes here: https://github.com/ludovicchabant/vim-gutentags/issues/178#issuecomment-575693926
         let g:gutentags_exclude_filetypes = ['gitcommit', 'gitconfig', 'gitrebase', 'gitsendemail', 'git']

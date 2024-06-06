@@ -3,7 +3,7 @@ elixir 1.14.2-otp-25
 rust 1.56.1
 ruby 3.0.2
 nodejs 17.0.1
-python 3.10.0 2.7.18
+python 3.12.3 2.7.18
 java temurin-17.0.0+35
 golang 1.17.5
 direnv 2.30.3
