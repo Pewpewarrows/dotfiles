@@ -3,13 +3,13 @@ function __fish_list_current_token --description 'List contents of token under t
     set val (eval echo (commandline -t))
     printf "\n"
     if test -d $val
-        exa $val
+        eza $val
     else
         set dir (dirname -- $val)
         if test $dir != . -a -d $dir
-            exa $dir
+            eza $dir
         else
-            exa
+            eza
         end
     end
 

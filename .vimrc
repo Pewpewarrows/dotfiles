@@ -85,7 +85,10 @@
     if !s:minimode
 
     " Help
-    " Plug 'liuchengxu/vim-which-key'
+    " Plug 'liuchengxu/vim-which-key' " TODO: remove unless need backup w/o nvim?
+    if has('nvim')
+        Plug 'folke/which-key.nvim'
+    endif
     " Plug 'rizzatti/dash.vim'
     " Plug 'lifepillar/vim-cheat40'
     " Plug 'Shougo/echodoc.vim' " TODO: necessary given coc's preview popup?
@@ -214,9 +217,14 @@
     " Plug 'numirias/semshi'
 
     " Navigation
-    " TODO: this is macOS/homebrew specific, and must swap based on apple silicon
-    " Plug '/usr/local/opt/fzf'
-    Plug '/opt/homebrew/opt/fzf'
+    if OSX()
+        " TODO: swap based on apple silicon to '/usr/local/opt/fzf'
+        " Plug 'junegunn/fzf', { 'dir': '/opt/homebrew/opt/fzf' }
+        Plug '/opt/homebrew/opt/fzf'
+    elseif LINUX()
+        " Plug 'junegunn/fzf', { 'dir': '/usr/share/doc/fzf/examples/plugin/' }
+        Plug '/usr/share/doc/fzf/examples/'
+    endif
     Plug 'junegunn/fzf.vim'
     Plug 'pbogut/fzf-mru.vim'
     Plug 'justinmk/vim-dirvish'
@@ -275,6 +283,7 @@
     Plug 'tpope/vim-repeat'
     " TODO: maybe not, no use cases left not already covered by builtins
     " Plug 'terryma/vim-multiple-cursors'
+    " TODO: remove peekaboo since which-keys includes this functionality too?
     Plug 'junegunn/vim-peekaboo' " peek at contents of registers
     " Plug 'vim-scripts/YankRing.vim'
     " Plug 'svermeulen/vim-easyclip' " improved clipboard
@@ -317,7 +326,7 @@
     " Plug 'jeetsukumaran/vim-indentwise'
     " Plug 'christoomey/vim-sort-motion'
 
-    " Language Server Protocol
+    " Language Server Protocol (and similar engines)
     " (Diagnostics, Code Completion, References, Formatting)
     Plug 'w0rp/ale'
     if has('nvim')
@@ -333,6 +342,12 @@
     Plug 'jamestomasino/vim-writingsyntax' " highlight adjectives, passive language, weasel words
     Plug 'reedes/vim-wordy' " collection of prose linting, not through ALE
     Plug 'dbmrq/vim-ditto' " highlight overused/repeated words
+    if has('nvim')
+        " TODO: compare vs:
+        "       https://github.com/frankroeder/parrot.nvim
+        "       https://github.com/pasky/claude.vim
+        Plug 'robitx/gp.nvim'
+    endif
 
     " Apps
     Plug 'vimwiki/vimwiki'
@@ -870,8 +885,8 @@
 
         " Highlight the symbol and its references when holding the cursor.
         " TODO: only do this if coc is installed
-	if exists('*CocActionAsync')
-	    autocmd CursorHold * silent call CocActionAsync('highlight')
+        if exists('*CocActionAsync')
+            autocmd CursorHold * silent call CocActionAsync('highlight')
         endif
 
         " TODO: finish config from https://github.com/neoclide/coc.nvim#example-vim-configuration
@@ -1120,6 +1135,51 @@
 
     " }}}
 
+    " gp {{{
+
+        lua << EOF
+        local gp_conf = {
+            providers = {
+                openai = {
+                    disable = true,
+                    endpoint = 'https://api.openai.com/v1/chat/completions',
+                    -- secret = {'op', 'item', 'get', 'OpenAI Dev ENV Key (phoenix)', '--vault', 'Private', '--field', 'api key', '--reveal',},
+                    secret = os.getenv('OPENAI_API_KEY'),
+                },
+                anthropic = {
+                    disable = true,
+                    endpoint = 'https://api.anthropic.com/v1/messages',
+                    secret = {'TODO', '1PASS', 'GET', 'ANTHROPIC_API_KEY',},
+                },
+                copilot = {
+                    disable = true,
+                    endpoint = "https://api.githubcopilot.com/chat/completions",
+                    secret = {
+                        "bash",
+                        "-c",
+                        "cat ~/.config/github-copilot/hosts.json | sed -e 's/.*oauth_token...//;s/\".*//'",
+                    },
+                },
+                googleai = {
+                    endpoint = "https://generativelanguage.googleapis.com/v1beta/models/{{model}}:streamGenerateContent?key={{secret}}",
+                    secret = os.getenv("GOOGLEAI_API_KEY"),
+                },
+            },
+        }
+
+        require("gp").setup(gp_conf)
+EOF
+
+        nnoremap <silent> <C-g>c :GpChatNew<CR>
+        nnoremap <silent> <C-g>t :GpChatToggle<CR>
+        nnoremap <silent> <C-g>f :GpChatFinder<CR>
+        nnoremap <silent> <C-g>r :GpRewrite<CR>
+
+        vnoremap <C-g>p :<C-u>'<,'>GpChatPaste<CR>
+        vnoremap <C-g>r :<C-u>'<,'>GpRewrite<CR>
+
+    " }}}
+
     " lightline {{{
 
         let g:lightline = {}
@@ -1335,7 +1395,9 @@
 
         " Override some of its options
         " TODO: move these options to an "after" config instead?
-        runtime! plugin/default.vim
+        " TODO: silence E519 since neovim removed termencoding option, but may
+        "       also be suppressing other important error messages
+        silent! runtime! plugin/default.vim
 
         set scrolljump=1
         set wrap

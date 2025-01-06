@@ -46,13 +46,69 @@ mas signin "${apple_id}"
 brew bundle 2>&1 | tee -a ~/Downloads/brew_bundle.log
 
 # TODO: linux only
+# sudo apt update
+# sudo apt install -y gpg
+# export APT_KEYRING="/etc/apt/keyrings"
+# sudo mkdir -p "${APT_KEYRING}"
+# sudo chmod 0755 "${APT_KEYRING}"
+# wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | sudo gpg --dearmor -o "${APT_KEYRING}/gierens.gpg"
+# echo "deb [signed-by=${APT_KEYRING}/gierens.gpg] http://deb.gierens.de stable main" | sudo tee /etc/apt/sources.list.d/gierens.list
+# sudo chmod 644 "${APT_KEYRING}/gierens.gpg" /etc/apt/sources.list.d/gierens.list
+# # `export -n` only for bash, so fail gracefully
+# export -n APT_KEYRING || true
+# unset APT_KEYRING
 # bash VMware-Workstation-Full-*.bundle
 # vmware-modconfig --console --install-all
 # flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-# sudo apt-add-repository ppa:fish-shell/release-3
-# sudo add-apt-repository ppa:neovim-ppa/unstable
-# sudo add-apt-repository ppa:hickford/git-credential-oauth
+# sudo add-apt-repository --yes ppa:fish-shell/release-3
+# sudo add-apt-repository --yes ppa:neovim-ppa/unstable
+# sudo add-apt-repository --yes ppa:hickford/git-credential-oauth
+# sudo apt update
 # setting fish to default login shell can be buggy on many linux distros, so instead configure terminal emulator app to launch /usr/bin/fish directly
+# TODO: ensure docker group exists
+# sudo usermod -aG docker (whoami)
+# (must log out and in again to persist the new group, but can also run on a per-shell basis until then:)
+# newgrp docker
+# TODO: only do this if debian-based distro, others don't have fdclone considerations
+# apologies to fdclone...
+# sudo ln -s /usr/bin/fdfind /usr/bin/fd
+# TODO: parse .nix-apt-packages and `sudo apt install -y` each
+# TODO: zeal/dash docsets: ~/.local/share/Zeal/Zeal/docsets/ or from flatpak: ~/.var/app/org.zealdocs.Zeal/data/Zeal/Zeal/docsets
+# https://github.com/perroboc/godot-dash
+# https://perroboc.github.io/godot-dash/godot-stable.xml
+# (above hangs when attempting to Add Feed, so download manually...)
+# wget -qO- https://perroboc.github.io/godot-dash/godot-stable.tgz | tar xz -C ~/.var/app/org.zealdocs.Zeal/data/Zeal/Zeal/docsets
+# TODO: only install lutris/steam on certain machines (not all)
+# (for native steam, otherwise use lutris' steam for certain emulations)
+# cp /var/lib/snapd/desktop/applications/steam_steam.desktop ~/.local/share/applications/
+# vim ~/.local/share/applications/steam_steam.desktop
+# (edit the first Exec= line to include this before the final substituted var %U: -forcedesktopscaling 2)
+# cp /var/lib/flatpak/exports/share/applications/org.wezfurlong.wezterm.desktop ~/.local/share/applications/
+# vim ~/.local/share/applications/org.wezfurlong.wezterm.desktop
+# (edit the first Exec= line to include this before the final open-ended list of positional "--command=" args: --filesystem=host --socket=pulseaudio)
+# TODO: https://httptoolkit.com/download/linux-deb/
+# TODO: these are too out of date and spit out critical errors due to kernel
+#       driver incompatibilities, had to download latest versions manually from:
+#       https://www.virtualbox.org/wiki/Linux_Downloads
+# - virtualbox
+# - virtualbox-dkms
+# - virtualbox-ext-pack
+# - virtualbox-guest-additions-iso
+# TODO: flatpak jadx doesn't play nice with apkleaks, launches the gui, but if
+#       that gets fixed then do: sudo ln -s /var/lib/flatpak/exports/bin/com.github.skylot.jadx /usr/bin/jadx
+# TODO: change keybinds to switch to exact numbered workspace N with super-N:
+#       https://askubuntu.com/questions/1511378/is-it-possible-to-switch-between-workspaces-using-supernumber
+#       and disable the default dock super-N keybinds:
+#       https://askubuntu.com/questions/968103/disable-the-default-app-key-supernum-functionality-on-ubuntu-17-10-and-later
+# gsettings set org.gnome.shell.extensions.dash-to-dock hot-keys false
+# for i in (seq 1 9); gsettings set org.gnome.shell.keybindings switch-to-application-{$i} '[]'; end
+# TODO: ensure wireshark group exists
+# sudo usermod -aG wireshark (whoami)
+# TODO: https://apktool.org/docs/install/
+# TODO: https://support.1password.com/install-linux/
+#       (note that some of the instructions overlap with the cli ones below)
+# TODO: https://developer.1password.com/docs/cli/get-started/
+# op plugin init openai
 
 # TODO: brew services
 # TODO: according to https://www.naut.ca/blog/2020/08/26/ubuntu-vm-on-macos-with-libvirt-qemu/ may need to configure /opt/homebrew/etc/libvirt/qemu.conf with:
@@ -64,18 +120,20 @@ brew bundle 2>&1 | tee -a ~/Downloads/brew_bundle.log
 # fish-ssh-agent requires an existing ssh config dir
 mkdir -p "${HOME}/.ssh/"{config.d,hosts.d,keys,control}
 # TODO: apple silicon homebrew prefix is /opt/homebrew, intel prefix is /usr/local, should account for both, here and elsewhere in dotfiles
+# TODO: on linux it's /usr/bin/fish
 readonly fish_cmd="/opt/homebrew/bin/fish"
 echo "sudo credentials required for adding fish to available shells"
 echo "${fish_cmd}" | sudo tee -a /etc/shells
 chsh -s "${fish_cmd}"
-env "${fish_cmd}" -c "fisher"
+env "${fish_cmd}" -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source; and fisher update"
 # TODO: homebrew fish config?
-# TODO: investigate again which fisher plugin files should be checked in to dotfiles repo or not
-# TODO: see sanity check changes in ~/.config/fish/conf.d/virtualfish-loader.fis
+# TODO: see sanity check changes in ~/.config/fish/conf.d/virtualfish-loader.fish
+echo set --global --export OPENAI_API_KEY $(op item get "OpenAI Dev ENV Key (phoenix)" --vault "Private" --field "api key" --reveal) >> "${HOME}/.config/fish/local.fish"
+echo set --global --export GOOGLEAI_API_KEY $(op item get "Google Gemini Dev ENV Key (phoenix)" --vault "Private" --field "api key" --reveal) >> "${HOME}/.config/fish/local.fish"
 
 # TODO: deno?
 mkdir -p ~/.config/fish/completions; and ln -s ~/.asdf/completions/asdf.fish ~/.config/fish/completions
-echo erlang elixir rust python ruby nodejs opam lua golang java direnv | xargs -n1 asdf plugin-add
+echo erlang elixir rust python ruby nodejs opam lua golang java maven direnv | xargs -n1 asdf plugin-add
 
 export GNUPGHOME="${ASDF_DIR:="$HOME/.asdf"}/keyrings/nodejs"
 mkdir -p "${GNUPGHOME}"
@@ -90,7 +148,7 @@ readonly py2="$(echo -n $(asdf latest python 2 | tail -n 1))"
 # if receiving a message on each command prompt about "unknown command: java",
 # the latest temurin release may have only included static libs and not the
 # full sdk, so manually install the previous version
-readonly temurin="$(echo -n $(asdf list all java temurin | tail -n 1))"
+readonly temurin="$(echo -n $(asdf list all java temurin | grep -v jre | tail -n 1))"
 asdf install erlang latest
 asdf install elixir latest
 asdf install rust latest
@@ -100,6 +158,7 @@ asdf install ruby latest
 asdf install nodejs latest
 asdf install golang latest
 asdf install java "${temurin}"
+asdf install maven latest
 asdf install direnv latest
 asdf global elixir latest
 asdf global rust latest
@@ -110,11 +169,12 @@ asdf global ruby latest
 asdf global nodejs latest
 asdf global golang latest
 asdf global java "${temurin}"
+asdf global maven latest
 asdf global direnv latest
 asdf reshim
 # TODO: cli "tools" shouldn't be installed every time on every language version, only once like how pipx does for python, what to do for the other languages?
 
-echo apkleaks black 'prospector[with_everything]' pyre-check youtube-dl proselint aws-shell doc2dash poetry restructuredtext_lint rstcheck httpie restview grip rst2rst yamllint 'ansible-lint[community]' flawfinder fb-idb mypy | xargs -n1 pipx install
+echo apkleaks black 'prospector[with_everything]' pyre-check youtube-dl proselint aws-shell doc2dash poetry restructuredtext_lint rstcheck httpie restview grip rst2rst yamllint 'ansible-lint[community]' flawfinder fb-idb mypy termdown openai | xargs -n1 pipx install
 pipx install ansible --include-deps
 pipx inject ansible paramiko
 pipx install virtualfish --include-deps
@@ -182,6 +242,7 @@ vcsh run doom-emacs "${HOME}/.emacs.d/bin/doom sync --yes"
 # auth sufficient pam_tid.so
 
 gh auth login
+gh extension install github/gh-copilot
 
 # defaults
 

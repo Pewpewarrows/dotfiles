@@ -5,8 +5,10 @@ function server --argument port
     end
 
     if test -z "$SSH_TTY"
-        command open "http://localhost:$port" &
+        # fish does not yet natively support backgrounding of blocks of code,
+        # so fake it by re-shelling out
+        fish --command "sleep 0.25; and open 'http://localhost:$port'" &
     end
 
-    command python -m SimpleHTTPServer $port
+    command python -m (python -c 'import sys; print("http.server" if sys.version_info[:2] >= (3,0) else "SimpleHTTPServer")') $port
 end

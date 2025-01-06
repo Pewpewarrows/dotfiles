@@ -1,11 +1,3 @@
-# Bootstrap fisher
-
-if not functions -q fisher
-    set -q XDG_CONFIG_HOME; or set XDG_CONFIG_HOME "~/.config"
-    curl "https://git.io/fisher" --create-dirs -sLo "$XDG_CONFIG_HOME/fish/functions/fisher.fish"
-    fish -c fisher
-end
-
 # TODO: should certain things here be excluded if non-interactive? what about is-login?
 
 # TODO: install these when some upstream issues are fixed
@@ -18,8 +10,15 @@ end
 
 # Variables
 
+set -gx CLICOLOR 1
+set -gx EDITOR nvim
+set -gx GIT_EDITOR nvim
+# set -gx LSCOLORS gxBxhxDxfxhxhxhxhxcxcx
+set -gx PAGER less
+set -gx VISUAL nvim
+
 # TODO: turn this back on after fixing grc/grcplugin_ls/colors, or stop caring
-#       since we abbr ls to exa now
+#       since we abbr ls to eza now
 # if ls --color > /dev/null 2>&1
 #     # GNU ls
 #     set -gx grcplugin_ls "--color"
@@ -28,13 +27,21 @@ end
 #     set -gx grcplugin_ls "-G"
 # end
 
+# TODO: need to still add homebrew bin paths here manually, see note below?
 # TODO: there are some hardcoded home directory paths in fish_variables with my
 # username, for it to be portable should add those paths in dynamically here if
 # this is interactive
+test -d ~/bin; and set -ga fish_user_paths ~/bin
+test -d ~/.local/bin; and set -ga fish_user_paths ~/.local/bin
 
-# TODO: android's platform-tools was already added to path, but may also want
-# to do the same for tools and tools/bin
-set -x ANDROID_HOME "$HOME/Library/Android/sdk/"
+# TODO: platform-tools is added to path, but may also want tools and tools/bin
+if test -d "$HOME/Library/Android/sdk/"
+    set -gx ANDROID_HOME "$HOME/Library/Android/sdk/"
+    set -ga fish_user_paths "$ANDROID_HOME/platform-tools"
+else if test -d "$HOME/Android/sdk/"
+    set -gx ANDROID_HOME "$HOME/Android/sdk/"
+    set -ga fish_user_paths "$ANDROID_HOME/platform-tools"
+end
 
 # do NOT set $TERM here, it should be set within terminal app preferences or
 # tmux configuration
@@ -49,14 +56,18 @@ abbr --add reload "source ~/.config/fish/config.fish"
 # TODO: turn this back on after fixing grc/grcplugin_ls/colors
 # alias l="ls -lah"
 # alias l="command ls -lahG"
-if type -q exa
-    abbr --add e "exa"
-    abbr --add l "exa --binary --group --long --git"  # TODO: --group-directories-first ?
-    abbr --add la "exa --binary --group --long --git --all"
-    abbr --add tree "exa --tree"
+if type -q eza
+    abbr --add e "eza"
+    abbr --add l "eza --binary --group --long --git"  # TODO: --group-directories-first ?
+    abbr --add la "eza --binary --group --long --git --all"
+    abbr --add tree "eza --tree"
 end
 type -q ranger; and abbr --add r "ranger"
-type -q bar; and abbr --add cat "bat"
+if type -q bat
+    abbr --add cat "bat"
+else if type -q batcat
+    abbr --add cat "batcat"
+end
 # TODO: git, docker, vagrant, cargo, make, yarn, npm, pip, brew, nix, tmux abbrs
 # TODO: maybe:
 # bind \e\[A 'history --merge ; up-or-search'
@@ -210,6 +221,10 @@ end
 
 # TODO: leaving this line uncommented causes vim/ale to error out when linting
 # type -q npx; and source (npx --shell-auto-fallback fish | psub)
+
+# op
+
+type -q op; and source ~/.config/op/plugins.sh
 
 # thefuck
 

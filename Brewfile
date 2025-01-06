@@ -18,7 +18,8 @@ brew 'cmake'
 brew 'cppcheck'
 brew 'cpputest'
 brew 'dtc'  # for https://github.com/cfig/Android_boot_image_editor until made into Docker container
-brew 'exa'
+# TODO: consider lsd instead of eza for backwards-compatible ticks
+brew 'eza'
 brew 'git'
 brew 'git-flow'  # TODO: vs git-flow-avh
 brew 'git-lfs'

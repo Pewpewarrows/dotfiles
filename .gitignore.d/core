@@ -35,18 +35,23 @@
 !/.config/fish
 /.config/fish/*
 !/.config/fish/config.fish
-!/.config/fish/fish_variables
-!/.config/fish/fishfile
+!/.config/fish/fish_plugins
 !/.config/fish/completions
 /.config/fish/completions/*
-!/.config/fish/completions/*.fish
-/.config/fish/completions/asdf.fish
+!/.config/fish/completions/mux.fish
+!/.config/fish/completions/tmuxinator.fish
 !/.config/fish/conf.d
 /.config/fish/conf.d/*
-!/.config/fish/conf.d/*.fish
+!/.config/fish/conf.d/virtualfish-loader.fish
 !/.config/fish/functions
 /.config/fish/functions/*
-!/.config/fish/functions/*.fish
+!/.config/fish/functions/__fish_list_current_token.fish
+!/.config/fish/functions/fish_user_key_bindings.fish
+!/.config/fish/functions/fuck.fish
+!/.config/fish/functions/mkcd.fish
+!/.config/fish/functions/mktgz.fish
+!/.config/fish/functions/server.fish
+!/.config/fish/functions/tempdir.fish
 !/.config/gh
 /.config/gh/*
 !/.config/gh/config.yml
@@ -75,6 +80,9 @@
 !/.config/thefuck
 /.config/thefuck/*
 !/.config/thefuck/settings.py
+!/.config/wezterm
+/.config/wezterm/*
+!/.config/wezterm/wezterm.lua
 
 !/.csslintrc
 

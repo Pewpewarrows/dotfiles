@@ -2,8 +2,9 @@ erlang 25.1.2
 elixir 1.14.2-otp-25
 rust 1.56.1
 ruby 3.0.2
-nodejs 17.0.1
+nodejs 23.5.0
 python 3.12.3 2.7.18
-java temurin-17.0.0+35
+java temurin-22.0.1+8
 golang 1.17.5
 direnv 2.30.3
+maven 3.9.7

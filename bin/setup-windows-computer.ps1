@@ -114,6 +114,7 @@ $wapps.Add(@{name = "Netflix"; id = "9WZDNCRFJ3TJ"; source = "msstore"})
 $wapps.Add(@{name = "OpenWhisperSystems.Signal"})
 $wapps.Add(@{name = "iCloud"; id = "9PKTQ5699M62"; source = "msstore"})
 # foobar2000
+# jdownloader
 
 # Artistry:
 $wapps.Add(@{name = "Inkscape.Inkscape"})
