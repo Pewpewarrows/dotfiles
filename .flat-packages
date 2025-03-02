@@ -1,16 +1,19 @@
+Discord Inc.	com.discordapp.Discord	0.0.74	stable	system
 skylot	com.github.skylot.jadx	1.5.0	stable	system
 Android Open Source Project	com.google.AndroidStudio	2024.2.1.11	stable	system
-Google	com.google.Chrome	130.0.6723.69-1	stable	system
+Google	com.google.Chrome	131.0.6778.264-1	stable	system
 Freedesktop Platform	org.freedesktop.Platform	22.08.24	22.08	system
 Freedesktop SDK	org.freedesktop.Platform	freedesktop-sdk-23.08.25	23.08	system
+Freedesktop SDK	org.freedesktop.Platform	freedesktop-sdk-24.08.10	24.08	system
 Mesa	org.freedesktop.Platform.GL.default	24.0.4	22.08	system
 Mesa (Extra)	org.freedesktop.Platform.GL.default	24.0.4	22.08-extra	system
-Freedesktop SDK	org.freedesktop.Platform.GL.default	24.2.5	23.08	system
-Freedesktop SDK	org.freedesktop.Platform.GL.default	24.2.5	23.08-extra	system
-Freedesktop SDK	org.freedesktop.Platform.GL.default	24.2.5	24.08	system
-Freedesktop SDK	org.freedesktop.Platform.GL.default	24.2.5	24.08extra	system
+Freedesktop SDK	org.freedesktop.Platform.GL.default	24.3.1	23.08	system
+Freedesktop SDK	org.freedesktop.Platform.GL.default	24.3.1	23.08-extra	system
+Freedesktop SDK	org.freedesktop.Platform.GL.default	24.3.1	24.08	system
+Freedesktop SDK	org.freedesktop.Platform.GL.default	24.3.1	24.08extra	system
 nvidia-535-171-04	org.freedesktop.Platform.GL.nvidia-535-171-04		1.4	system
 nvidia-535-183-01	org.freedesktop.Platform.GL.nvidia-535-183-01		1.4	system
+nvidia-550-120	org.freedesktop.Platform.GL.nvidia-550-120		1.4	system
 Mesa	org.freedesktop.Platform.GL32.default	24.1.1	23.08	system
 nvidia-535-171-04	org.freedesktop.Platform.GL32.nvidia-535-171-04		1.4	system
 Intel	org.freedesktop.Platform.VAAPI.Intel		22.08	system
@@ -20,10 +23,10 @@ ffmpeg-full	org.freedesktop.Platform.ffmpeg-full		23.08	system
 i386	org.freedesktop.Platform.ffmpeg_full.i386		23.08	system
 openh264	org.freedesktop.Platform.openh264	2.1.0	2.2.0	system
 openh264	org.freedesktop.Platform.openh264	2.4.1	2.4.1	system
-Freedesktop SDK	org.freedesktop.Sdk	23.08.19	23.08	system
+Freedesktop SDK	org.freedesktop.Sdk	freedesktop-sdk-23.08.27	23.08	system
 Freedesktop SDK	org.freedesktop.Sdk	freedesktop-sdk-24.08.5	24.08	system
 OpenJDK 17 SDK Extension	org.freedesktop.Sdk.Extension.openjdk17		23.08	system
-National Security Agency	org.ghidra_sre.Ghidra	11.0.3	stable	system
+National Security Agency	org.ghidra_sre.Ghidra	11.3	stable	system
 GNOME Application Platform version 45	org.gnome.Platform		45	system
 i386	org.gnome.Platform.Compat.i386		45	system
 The Godot Engine Community	org.godotengine.Godot	4.2.2	stable	system

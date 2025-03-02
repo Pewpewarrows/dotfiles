@@ -52,6 +52,7 @@ brew 'swiftlint'
 brew 'testssl'
 brew 'tig'
 brew 'usbmuxd', args: ['HEAD']
+brew 'uv'
 # brew 'valgrind'  # TODO: this doesn't have an apple silicon bottle yet
 brew 'vim'
 brew 'whalebrew'
@@ -104,7 +105,6 @@ brew 'wakeonlan'
 brew 'weechat'
 brew 'wget'
 brew 'xz'
-brew 'yt-dlp'
 
 # Writing
 # brew 'languagetool'  # TODO: this doesn't have an apple silicon bottle yet

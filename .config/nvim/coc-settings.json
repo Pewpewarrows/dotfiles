@@ -1,4 +1,6 @@
 {
+    "pyright.inlayHints.parameterTypes": false,
+    "pyright.inlayHints.variableTypes": false,
     "python.analysis.diagnosticEnabled": false,
     "python.jediEnabled": false,
     "python.linting.enabled": false,

@@ -78,6 +78,7 @@ brew bundle 2>&1 | tee -a ~/Downloads/brew_bundle.log
 # https://perroboc.github.io/godot-dash/godot-stable.xml
 # (above hangs when attempting to Add Feed, so download manually...)
 # wget -qO- https://perroboc.github.io/godot-dash/godot-stable.tgz | tar xz -C ~/.var/app/org.zealdocs.Zeal/data/Zeal/Zeal/docsets
+# TODO: linux manpage zeal docset: https://github.com/zealdocs/zeal/issues/115
 # TODO: only install lutris/steam on certain machines (not all)
 # (for native steam, otherwise use lutris' steam for certain emulations)
 # cp /var/lib/snapd/desktop/applications/steam_steam.desktop ~/.local/share/applications/
@@ -109,6 +110,12 @@ brew bundle 2>&1 | tee -a ~/Downloads/brew_bundle.log
 #       (note that some of the instructions overlap with the cli ones below)
 # TODO: https://developer.1password.com/docs/cli/get-started/
 # op plugin init openai
+# TODO: no snap for ollama
+# curl -fsSL https://ollama.com/install.sh | sh
+# (best for 32GB RAM and RTX 3050 Mobile? consider :32b over :7b ?)
+# ollama run deepseek-r1:7b
+# curl -LsSf https://astral.sh/uv/install.sh | sh
+# TODO: https://cdn.binary.ninja/installers/binaryninja_free_linux.zip
 
 # TODO: brew services
 # TODO: according to https://www.naut.ca/blog/2020/08/26/ubuntu-vm-on-macos-with-libvirt-qemu/ may need to configure /opt/homebrew/etc/libvirt/qemu.conf with:
@@ -116,6 +123,8 @@ brew bundle 2>&1 | tee -a ~/Downloads/brew_bundle.log
 # echo "dynamic_ownership = 0" >> /usr/local/etc/libvirt/qemu.conf
 # echo "remember_owner = 0" >> /usr/local/etc/libvirt/qemu.conf
 # brew services start libvirt
+# TODO: ensure dialout group exists
+# sudo usermod -aG dialout (whoami)
 
 # fish-ssh-agent requires an existing ssh config dir
 mkdir -p "${HOME}/.ssh/"{config.d,hosts.d,keys,control}
@@ -132,7 +141,7 @@ echo set --global --export OPENAI_API_KEY $(op item get "OpenAI Dev ENV Key (pho
 echo set --global --export GOOGLEAI_API_KEY $(op item get "Google Gemini Dev ENV Key (phoenix)" --vault "Private" --field "api key" --reveal) >> "${HOME}/.config/fish/local.fish"
 
 # TODO: deno?
-mkdir -p ~/.config/fish/completions; and ln -s ~/.asdf/completions/asdf.fish ~/.config/fish/completions
+mkdir -p ~/.config/fish/completions && ln -s ~/.asdf/completions/asdf.fish ~/.config/fish/completions
 echo erlang elixir rust python ruby nodejs opam lua golang java maven direnv | xargs -n1 asdf plugin-add
 
 export GNUPGHOME="${ASDF_DIR:="$HOME/.asdf"}/keyrings/nodejs"
@@ -174,11 +183,13 @@ asdf global direnv latest
 asdf reshim
 # TODO: cli "tools" shouldn't be installed every time on every language version, only once like how pipx does for python, what to do for the other languages?
 
-echo apkleaks black 'prospector[with_everything]' pyre-check youtube-dl proselint aws-shell doc2dash poetry restructuredtext_lint rstcheck httpie restview grip rst2rst yamllint 'ansible-lint[community]' flawfinder fb-idb mypy termdown openai | xargs -n1 pipx install
+echo apkleaks black 'prospector[with_everything]' pyre-check youtube-dl proselint aws-shell doc2dash poetry restructuredtext_lint rstcheck httpie restview grip rst2rst yamllint 'ansible-lint[community]' flawfinder fb-idb mypy termdown openai yt-dlp rshell | xargs -n1 pipx install
 pipx install ansible --include-deps
 pipx inject ansible paramiko
 pipx install virtualfish --include-deps
 env "${fish_cmd}" -c "vf install"
+# TODO: move all tools above from pipx to uv, then remove pipx itself
+uv tool install --force --python python3.12 aider-chat@latest
 
 # TODO: manage these via asdf?
 # opam init
@@ -194,6 +205,13 @@ env "${fish_cmd}" -c "vf install"
 # so had to explicitly set it from within the ndk-build script:
 # env SHELL=/bin/bash arch -x86_64 /bin/bash $DIR/build/ndk-build "$@"
 
+# TODO: until apt fzf becomes more up-to-date, use golang to install
+# this isn't placed in .default-golang-pkgs since it should only be temporary
+go install github.com/junegunn/fzf@latest
+# same goes for cheat
+go install github.com/cheat/cheat/cmd/cheat@latest
+asdf reshim
+
 # TODO: attempt to fetch or push to a private github repo, then enter username and personal access token as the password
 
 vim +PlugUpgrade +PlugUpdate +PlugInstall +PlugClean! +qall
@@ -204,6 +222,8 @@ vim +PlugUpgrade +PlugUpdate +PlugInstall +PlugClean! +qall
 # see: https://github.com/vagrant-libvirt/vagrant-libvirt/issues/497
 # TODO: env CONFIGURE_ARGS="with-libvirt-lib=$(brew --prefix libvirt)/lib with-libvirt-include=$(brew --prefix libvirt)/include" vagrant plugin install vagrant-libvirt
 
+# go list -m -f '{{.Dir}}' github.com/cheat/cheat@latest
+# mkdir -p ~/.config/fish/completions && ln -s /TODO/SOME/PATH/TO/cheat/scripts/cheat.fish ~/.config/fish/completions
 mkdir -p "${HOME}/.config/cheat/cheatsheets/"{community,personal}
 git clone https://github.com/cheat/cheatsheets "${HOME}/.config/cheat/cheatsheets/community/"
 # TODO: move this to dotfiles

@@ -1,0 +1,6 @@
+gitignore: false
+architect: true
+model: ollama_chat/deepseek-r1:7b
+editor-model: claude-3-5-sonnet-20241022
+cache-prompts: true
+# vim: true

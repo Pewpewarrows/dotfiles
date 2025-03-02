@@ -38,8 +38,8 @@ test -d ~/.local/bin; and set -ga fish_user_paths ~/.local/bin
 if test -d "$HOME/Library/Android/sdk/"
     set -gx ANDROID_HOME "$HOME/Library/Android/sdk/"
     set -ga fish_user_paths "$ANDROID_HOME/platform-tools"
-else if test -d "$HOME/Android/sdk/"
-    set -gx ANDROID_HOME "$HOME/Android/sdk/"
+else if test -d "$HOME/Android/Sdk/"
+    set -gx ANDROID_HOME "$HOME/Android/Sdk/"
     set -ga fish_user_paths "$ANDROID_HOME/platform-tools"
 end
 
@@ -181,6 +181,12 @@ test -e ~/.asdf/asdf.fish; and source ~/.asdf/asdf.fish
 # TODO: still need this?
 # test -e /usr/local/share/fish/vendor_completions.d/asdf.fish; and source /usr/local/share/fish/vendor_completions.d/asdf.fish
 test -e ~/.asdf/plugins/java/set-java-home.fish; and source ~/.asdf/plugins/java/set-java-home.fish
+test -e ~/.asdf/plugins/golang/set-env.fish; and source ~/.asdf/plugins/golang/set-env.fish
+set -gx ASDF_GOLANG_MOD_VERSION_ENABLED true
+
+# cheat
+
+set -gx CHEAT_USE_FZF true
 
 # direnv
 
@@ -221,6 +227,10 @@ end
 
 # TODO: leaving this line uncommented causes vim/ale to error out when linting
 # type -q npx; and source (npx --shell-auto-fallback fish | psub)
+
+# ollama
+
+set -gx OLLAMA_API_BASE http://localhost:11434
 
 # op
 

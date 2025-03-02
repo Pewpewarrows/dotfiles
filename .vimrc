@@ -223,7 +223,10 @@
         Plug '/opt/homebrew/opt/fzf'
     elseif LINUX()
         " Plug 'junegunn/fzf', { 'dir': '/usr/share/doc/fzf/examples/plugin/' }
-        Plug '/usr/share/doc/fzf/examples/'
+        " Plug '/usr/share/doc/fzf/examples/'
+        " TODO: revert back to above once apt repo is more up to date
+        " $ go list -m -f '{{.Dir}}' github.com/junegunn/fzf@latest
+        Plug '~/.asdf/installs/golang/1.23.4/packages/pkg/mod/github.com/junegunn/fzf@v0.57.0/'
     endif
     Plug 'junegunn/fzf.vim'
     Plug 'pbogut/fzf-mru.vim'
@@ -866,7 +869,8 @@
 
         " GoTo code navigation.
         " TODO: don't clobber built-in gd, find another bind
-        " nmap <silent> gd <Plug>(coc-definition)
+        nmap <silent> gd <Plug>(coc-definition)
+        nnoremap <silent> <leader>gd gd
         nmap <silent> gy <Plug>(coc-type-definition)
         nmap <silent> gi <Plug>(coc-implementation)
         nmap <silent> gr <Plug>(coc-references)
@@ -884,24 +888,25 @@
         endfunction
 
         " Highlight the symbol and its references when holding the cursor.
-        " TODO: only do this if coc is installed
         if exists('*CocActionAsync')
             autocmd CursorHold * silent call CocActionAsync('highlight')
         endif
+
+        nmap <leader>rn <Plug>(coc-rename)
 
         " TODO: finish config from https://github.com/neoclide/coc.nvim#example-vim-configuration
 
         " TODO: add coc-snippets back once py2/3 issue is resolved
         " TODO: https://github.com/elixir-lsp/coc-elixir/issues/46
             " \ 'coc-elixir',
+            " \ 'coc-java',
         let g:coc_global_extensions = [
             \ 'coc-json',
-            \ 'coc-python',
+            \ 'coc-pyright',
             \ 'coc-rust-analyzer',
             \ 'coc-lists',
             \ 'coc-sourcekit',
             \ 'coc-go',
-            \ 'coc-java',
         \ ]
 
         " TODO: color highlighted suggestions like https://i.redd.it/yz5xnpl0d7g51.jpg
@@ -1140,6 +1145,9 @@
         lua << EOF
         local gp_conf = {
             providers = {
+                ollama = {
+                    endpoint = "http://localhost:11434/v1/chat/completions",
+                },
                 openai = {
                     disable = true,
                     endpoint = 'https://api.openai.com/v1/chat/completions',
@@ -1149,7 +1157,7 @@
                 anthropic = {
                     disable = true,
                     endpoint = 'https://api.anthropic.com/v1/messages',
-                    secret = {'TODO', '1PASS', 'GET', 'ANTHROPIC_API_KEY',},
+                    secret = os.getenv('ANTHROPIC_API_KEY'),
                 },
                 copilot = {
                     disable = true,
@@ -1161,8 +1169,40 @@
                     },
                 },
                 googleai = {
+                    disable = true,
                     endpoint = "https://generativelanguage.googleapis.com/v1beta/models/{{model}}:streamGenerateContent?key={{secret}}",
                     secret = os.getenv("GOOGLEAI_API_KEY"),
+                },
+            },
+            agents = {
+                {name = "ChatOllamaLlama3.1-8B", disable = true},
+                {name = "CodeOllamaLlama3.1-8B", disable = true},
+                {
+                    provider = "ollama",
+                    name = "ChatOllamaDeepseekR1",
+                    chat = true,
+                    command = false,
+                    model = {
+                        model = "deepseek-r1:7b",
+                        num_ctx = 8192,
+                    },
+                    -- TODO: where to globally define this?
+                    system_prompt = "You are a general AI assistant.",
+                },
+                {
+                    provider = "ollama",
+                    name = "CodeOllamaDeepseekR1",
+                    chat = false,
+                    command = true,
+                    model = {
+                        -- TODO: check if a deepseek-coder-v3 arrives using r1
+                        model = "deepseek-r1:7b",
+                        -- temperature = 1.9,
+                        -- top_p = 1,
+                        num_ctx = 8192,
+                    },
+                    -- TODO: where to globally define this?
+                    system_prompt = require("gp.defaults").code_system_prompt,
                 },
             },
         }
@@ -1183,10 +1223,13 @@ EOF
     " lightline {{{
 
         let g:lightline = {}
+        " gruvbox theme leaves much to be desired, seoul256 fits well and looks
+        " a lot better
+        let g:lightline.colorscheme = 'seoul256'
         " do NOT install shinchu/lightline-gruvbox.vim, use built-in
-        let g:lightline.colorscheme = 'gruvbox'
-        let g:lightline.separator = { 'left': '', 'right': '' }
-        let g:lightline.subseparator = { 'left': '', 'right': '' }
+        " let g:lightline.colorscheme = 'gruvbox'
+        " let g:lightline.separator = { 'left': '', 'right': '' }
+        " let g:lightline.subseparator = { 'left': '', 'right': '' }
         let g:lightline.active = {}
         let g:lightline.active.left = [ [ 'mode', 'paste' ], [ 'fugitive', 'readonly', 'filename', 'modified' ] ]
         let g:lightline.active.right = [ [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos' ], [ 'percent', 'lineinfo' ], [ 'filetype' ], [ 'search_status' ] ]
