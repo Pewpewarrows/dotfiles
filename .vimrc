@@ -333,9 +333,18 @@
     " (Diagnostics, Code Completion, References, Formatting)
     Plug 'w0rp/ale'
     if has('nvim')
-        Plug 'neoclide/coc.nvim', {'branch': 'release'}
+        Plug 'mason-org/mason.nvim'
+        Plug 'mason-org/mason-lspconfig.nvim'
+        Plug 'neovim/nvim-lspconfig'
     endif
-    " Plug 'antoinemadec/coc-fzf'
+    if has('nvim')
+        Plug 'saghen/blink.cmp', { 'do': 'cargo build --release' }
+    endif
+    if has('nvim')
+        Plug 'nvim-lua/plenary.nvim'
+        Plug 'nvimtools/none-ls.nvim'
+        Plug 'jay-babu/mason-null-ls.nvim'
+    endif
     " TODO: local mode only
     " Plug 'codota/tabnine-vim'
     " TODO: vs local/offline kite? kite's company doesn't have a great track record
@@ -731,6 +740,13 @@
         " let g:ale_detail_to_floating_preview = 1
         " let g:ale_set_balloons = 0
 
+        " TODO: temp disabled ALE, remove completely after setting up none-ls and conform.nvim
+        let g:ale_lint_on_text_changed = 0
+        let g:ale_lint_on_insert_leave = 0
+        let g:ale_lint_on_enter = 0
+        let g:ale_lint_on_save = 0
+        let g:ale_lint_on_filetype_changed = 0
+
         let g:ale_fixers = {}
         let g:ale_fixers['*'] = ['remove_trailing_lines', 'trim_whitespace']
         let g:ale_fixers.c = ['clang-format']
@@ -750,6 +766,8 @@
         let g:ale_fixers.yaml = ['prettier']
 
         let g:ale_linters = {}
+        " TODO: consider flawfinder
+        let g:ale_linters.c = ['clangtidy']
         let g:ale_linters.elixir = ['credo', 'dialyxir', 'dogma', 'mix']
         let g:ale_linters.html = ['fecs', 'htmlhint', 'stylelint', 'tidy']
         " languagetool is slow and clunky, run it manually outside of vim
@@ -829,87 +847,6 @@
             autocmd!
             autocmd QuickFixCmdPost * call asyncrun#quickfix_toggle(8, 1)
         augroup END
-
-    " }}}
-
-    " coc.nvim {{{
-
-        " Trigger completion with characters ahead and navigate.
-        inoremap <silent><expr> <TAB>
-                    \ coc#pum#visible() ? coc#pum#next(1) :
-                    \ <SID>check_backspace() ? "\<Tab>" :
-                    \ coc#refresh()
-        inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
-
-        function! s:check_backspace() abort
-            let col = col('.') - 1
-            return !col || getline('.')[col - 1]  =~# '\s'
-        endfunction
-
-        if has('nvim')
-            " Force to trigger completion.
-            inoremap <silent><expr> <c-space> coc#refresh()
-        else
-            inoremap <silent><expr> <c-@> coc#refresh()
-        endif
-
-        " Confirm completion, `<C-g>u` means break undo chain at current
-        " position. Coc only does snippet and additional edit on confirm.
-        " TODO: conflict with pear-tree and endwise <CR> mappings?
-        if exists('*complete_info')
-            inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-        else
-            inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-        endif
-
-        " Navigate diagnostics
-        " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-        nmap <silent> [g <Plug>(coc-diagnostic-prev)
-        nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-        " GoTo code navigation.
-        " TODO: don't clobber built-in gd, find another bind
-        nmap <silent> gd <Plug>(coc-definition)
-        nnoremap <silent> <leader>gd gd
-        nmap <silent> gy <Plug>(coc-type-definition)
-        nmap <silent> gi <Plug>(coc-implementation)
-        nmap <silent> gr <Plug>(coc-references)
-
-        " Show documentation in preview window.
-        " TODO: same, don't clobber K
-        " nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-        function! s:show_documentation()
-            if (index(['vim','help'], &filetype) >= 0)
-                execute 'h '.expand('<cword>')
-            else
-                call CocAction('doHover')
-            endif
-        endfunction
-
-        " Highlight the symbol and its references when holding the cursor.
-        if exists('*CocActionAsync')
-            autocmd CursorHold * silent call CocActionAsync('highlight')
-        endif
-
-        nmap <leader>rn <Plug>(coc-rename)
-
-        " TODO: finish config from https://github.com/neoclide/coc.nvim#example-vim-configuration
-
-        " TODO: add coc-snippets back once py2/3 issue is resolved
-        " TODO: https://github.com/elixir-lsp/coc-elixir/issues/46
-            " \ 'coc-elixir',
-            " \ 'coc-java',
-        let g:coc_global_extensions = [
-            \ 'coc-json',
-            \ 'coc-pyright',
-            \ 'coc-rust-analyzer',
-            \ 'coc-lists',
-            \ 'coc-sourcekit',
-            \ 'coc-go',
-        \ ]
-
-        " TODO: color highlighted suggestions like https://i.redd.it/yz5xnpl0d7g51.jpg
 
     " }}}
 

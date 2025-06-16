@@ -59,6 +59,7 @@ brew bundle 2>&1 | tee -a ~/Downloads/brew_bundle.log
 # unset APT_KEYRING
 # bash VMware-Workstation-Full-*.bundle
 # vmware-modconfig --console --install-all
+# TODO: instead of above, had to follow instructions at: https://unix.stackexchange.com/questions/773558/vmware-vmmon-vmnet-17-5-1-and-linux-kernel-6-8-0-wont-compile
 # flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 # sudo add-apt-repository --yes ppa:fish-shell/release-3
 # sudo add-apt-repository --yes ppa:neovim-ppa/unstable
@@ -84,6 +85,10 @@ brew bundle 2>&1 | tee -a ~/Downloads/brew_bundle.log
 # cp /var/lib/snapd/desktop/applications/steam_steam.desktop ~/.local/share/applications/
 # vim ~/.local/share/applications/steam_steam.desktop
 # (edit the first Exec= line to include this before the final substituted var %U: -forcedesktopscaling 2)
+# (Lutris Steam game options: arguments: -forcedesktopscaling 2)
+# (Lutris runner Wine options: Wine version: System, DPI: Enable DPI Scaling)
+# (for MODO only: Wine Enable Virtual Desktop 3456x2160)
+# (TODO: had to remove -cef-disable-gpu-compositing from lutris steam arguments?)
 # cp /var/lib/flatpak/exports/share/applications/org.wezfurlong.wezterm.desktop ~/.local/share/applications/
 # vim ~/.local/share/applications/org.wezfurlong.wezterm.desktop
 # (edit the first Exec= line to include this before the final open-ended list of positional "--command=" args: --filesystem=host --socket=pulseaudio)
@@ -116,6 +121,27 @@ brew bundle 2>&1 | tee -a ~/Downloads/brew_bundle.log
 # ollama run deepseek-r1:7b
 # curl -LsSf https://astral.sh/uv/install.sh | sh
 # TODO: https://cdn.binary.ninja/installers/binaryninja_free_linux.zip
+# (visudo: Defaults timestamp_type=global)
+# TODO: https://my.hex-rays.com/dashboard/download-center/9.1/ida-pro
+# TODO: copy idapro_*.hexlic to ~/.idapro
+# vim ~/.local/share/applications/ida-pro-9.1.desktop
+# /opt/ida-pro-9.1/idapyswitch
+# TODO: https://www.newosxbook.com/tools/jtool2.html
+# mkdir -p ~/.idapro/plugins
+# bash ~/tmp/repos/github.com/blacktop/symbolicator/plugins/ida/install.sh
+# TODO: manually build/install apfs-fuse from https://github.com/sgan81/apfs-fuse
+# TODO: download latest deb (ipsw, NOT ipswd) from https://github.com/blacktop/ipsw/releases and install, do NOT use snap since sandboxing will cause it to be unable to use apfs-fuse
+# dpkg -i ipsw*.deb
+
+# [Desktop Entry]
+# Type=Application
+# Version=0.9.4
+# Name=IDA Professional 9.1
+# Comment=
+# Icon=/opt/ida-pro-9.1/appico.png
+# Exec=/opt/ida-pro-9.1/ida
+# Terminal=false
+# Path=/opt/ida-pro-9.1
 
 # TODO: brew services
 # TODO: according to https://www.naut.ca/blog/2020/08/26/ubuntu-vm-on-macos-with-libvirt-qemu/ may need to configure /opt/homebrew/etc/libvirt/qemu.conf with:
@@ -142,6 +168,7 @@ echo set --global --export GOOGLEAI_API_KEY $(op item get "Google Gemini Dev ENV
 
 # TODO: deno?
 mkdir -p ~/.config/fish/completions && ln -s ~/.asdf/completions/asdf.fish ~/.config/fish/completions
+# TODO: consider moving from community rust plugin to https://github.com/code-lever/asdf-rust
 echo erlang elixir rust python ruby nodejs opam lua golang java maven direnv | xargs -n1 asdf plugin-add
 
 export GNUPGHOME="${ASDF_DIR:="$HOME/.asdf"}/keyrings/nodejs"
@@ -183,7 +210,9 @@ asdf global direnv latest
 asdf reshim
 # TODO: cli "tools" shouldn't be installed every time on every language version, only once like how pipx does for python, what to do for the other languages?
 
-echo apkleaks black 'prospector[with_everything]' pyre-check youtube-dl proselint aws-shell doc2dash poetry restructuredtext_lint rstcheck httpie restview grip rst2rst yamllint 'ansible-lint[community]' flawfinder fb-idb mypy termdown openai yt-dlp rshell | xargs -n1 pipx install
+rustup component add rust-analyzer
+
+echo apkleaks black 'prospector[with_everything]' pyre-check youtube-dl proselint aws-shell doc2dash poetry restructuredtext_lint rstcheck httpie restview grip rst2rst yamllint 'ansible-lint[community]' flawfinder fb-idb mypy termdown openai yt-dlp rshell k2l | xargs -n1 pipx install
 pipx install ansible --include-deps
 pipx inject ansible paramiko
 pipx install virtualfish --include-deps
@@ -249,6 +278,10 @@ vcsh run doom-emacs "${HOME}/.emacs.d/bin/doom sync --yes"
 # tar -xf /tmp/FiraMono.tar.xz -C "${HOME}/.local/share/fonts"
 # rm -f /tmp/FiraMono.tar.xz
 # fc-cache -fr
+
+# TODO: chatterino options, external tools, streamlink, preferred quality SOURCE, additional options:
+# --twitch-low-latency "--twitch-api-header=Authorization=OAuth PASTEME"
+# (aquire the PASTEME auth token via logged-in web browser dev tools: document.cookie.split("; ").find(item=>item.startsWith("auth-token="))?.split("=")[1] ; after `allow paste`)
 
 # TODO: if this is a fresh install, restore ~/{Downloads,Private,tmp} from backup
 # TODO: if this is a fresh install, restore ~/{.tmuxinator} from backup

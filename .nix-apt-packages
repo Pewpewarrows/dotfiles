@@ -26,6 +26,9 @@ zlib1g-dev
 
 bat
 binwalk
+clang-format
+clang-tidy
+clangd
 docker
 docker-compose
 espeak
@@ -42,6 +45,7 @@ git-credential-oauth
 git-lfs
 gpg
 grc
+hashid
 idevicerestore
 imagemagick
 libimobiledevice-utils
@@ -59,9 +63,21 @@ ranger
 ripgrep
 rolldice
 sox
+streamlink
 thefuck
 tig
 tmux
 tmuxinator
 vcsh
 virt-manager
+
+# for building/using apfs-fuse (MUST BE fuse3 NOT PLAIN fuse)
+fuse3
+libfuse3-dev
+bzip2
+libbz2-dev
+cmake
+g++
+git
+libattr1-dev
+zlib1g-dev

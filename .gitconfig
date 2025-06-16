@@ -29,6 +29,7 @@
 [credential]
     # TODO: better OS detection
     # helper = osxkeychain
+    helper = cache --timeout 21600
     helper = "!f() { if [ \"$(uname -s)\" = Linux ]; then git credential-oauth \"$@\"; else git credential-osxkeychain \"$@\"; fi; };f"
     # helper = "!f() { if [ \"$(uname -s)\" = Linux ]; then git credential-cache --timeout 3600 \"$@\"; else git credential-osxkeychain \"$@\"; fi; };f"
 
@@ -80,6 +81,7 @@
     # push --tags
     # TODO: shortcut for "co develop, pullr, co feature/<foo>, rebase develop", but replaces last step with "merge develop" if branch has ever been pushed
     # TODO: shortcut for "stash, co develop, pullr", then: "co feature/<foo>, stash pop"
+    mt = mergetool
 
     undo = reset --soft HEAD~1 --
 

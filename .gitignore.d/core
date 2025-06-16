@@ -70,8 +70,10 @@
 !/.config/neofetch/config.conf
 !/.config/nvim
 /.config/nvim/*
-!/.config/nvim/coc-settings.json
 !/.config/nvim/init.vim
+!/.config/nvim/lua
+/.config/nvim/lua/*
+!/.config/nvim/lua/config.lua
 !/.config/ranger
 /.config/ranger/*
 !/.config/ranger/commands.py
