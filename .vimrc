@@ -1079,73 +1079,7 @@
 
     " gp {{{
 
-        lua << EOF
-        local gp_conf = {
-            providers = {
-                ollama = {
-                    endpoint = "http://localhost:11434/v1/chat/completions",
-                },
-                openai = {
-                    disable = true,
-                    endpoint = 'https://api.openai.com/v1/chat/completions',
-                    -- secret = {'op', 'item', 'get', 'OpenAI Dev ENV Key (phoenix)', '--vault', 'Private', '--field', 'api key', '--reveal',},
-                    secret = os.getenv('OPENAI_API_KEY'),
-                },
-                anthropic = {
-                    disable = true,
-                    endpoint = 'https://api.anthropic.com/v1/messages',
-                    secret = os.getenv('ANTHROPIC_API_KEY'),
-                },
-                copilot = {
-                    disable = true,
-                    endpoint = "https://api.githubcopilot.com/chat/completions",
-                    secret = {
-                        "bash",
-                        "-c",
-                        "cat ~/.config/github-copilot/hosts.json | sed -e 's/.*oauth_token...//;s/\".*//'",
-                    },
-                },
-                googleai = {
-                    disable = true,
-                    endpoint = "https://generativelanguage.googleapis.com/v1beta/models/{{model}}:streamGenerateContent?key={{secret}}",
-                    secret = os.getenv("GOOGLEAI_API_KEY"),
-                },
-            },
-            agents = {
-                {name = "ChatOllamaLlama3.1-8B", disable = true},
-                {name = "CodeOllamaLlama3.1-8B", disable = true},
-                {
-                    provider = "ollama",
-                    name = "ChatOllamaDeepseekR1",
-                    chat = true,
-                    command = false,
-                    model = {
-                        model = "deepseek-r1:7b",
-                        num_ctx = 8192,
-                    },
-                    -- TODO: where to globally define this?
-                    system_prompt = "You are a general AI assistant.",
-                },
-                {
-                    provider = "ollama",
-                    name = "CodeOllamaDeepseekR1",
-                    chat = false,
-                    command = true,
-                    model = {
-                        -- TODO: check if a deepseek-coder-v3 arrives using r1
-                        model = "deepseek-r1:7b",
-                        -- temperature = 1.9,
-                        -- top_p = 1,
-                        num_ctx = 8192,
-                    },
-                    -- TODO: where to globally define this?
-                    system_prompt = require("gp.defaults").code_system_prompt,
-                },
-            },
-        }
-
-        require("gp").setup(gp_conf)
-EOF
+        " See ~/.config/nvim/lua/config.lua for main settings
 
         nnoremap <silent> <C-g>c :GpChatNew<CR>
         nnoremap <silent> <C-g>t :GpChatToggle<CR>

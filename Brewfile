@@ -8,6 +8,7 @@ brew 'vcsh'
 
 # Development Tools
 brew 'ant'
+# WARNING: DO NOT install asdf here, managed via mr dotfiles instead
 brew 'bat'
 brew 'binutils'
 brew 'checkbashisms'
@@ -21,14 +22,15 @@ brew 'dtc'  # for https://github.com/cfig/Android_boot_image_editor until made i
 # TODO: consider lsd instead of eza for backwards-compatible ticks
 brew 'eza'
 brew 'git'
+brew 'git-credential-oauth'
 brew 'git-flow'  # TODO: vs git-flow-avh
 brew 'git-lfs'
 brew 'gradle'
 brew 'hadolint'
 brew 'hg'
 brew 'hugo'
+brew 'ipsw'
 # brew 'ideviceinstaller', args: ['HEAD']  # TODO: this doesn't have an apple silicon bottle yet
-brew 'jadx'
 brew 'libimobiledevice', args: ['HEAD']
 brew 'libplist'
 # TODO: also find a virt-manager to install as alternative to UTM, see: https://www.arthurkoziel.com/running-virt-manager-and-libvirt-on-macos/
@@ -65,7 +67,9 @@ brew 'brew-cask-completion'
 brew 'cheat'
 brew 'diff-so-fancy'
 brew 'entr'
-brew 'fasd'
+# TODO: fasd is officially archived, find replacement: fork? z+f?
+# tap 'wyne/tap'
+# brew 'fasd'
 brew 'fd'
 brew 'ffmpeg'
 brew 'fish'
@@ -104,6 +108,7 @@ brew 'urlview'
 brew 'wakeonlan'
 brew 'weechat'
 brew 'wget'
+brew 'wireguard-tools'
 brew 'xz'
 
 # Writing
@@ -231,6 +236,7 @@ cask 'inkscape'
 cask 'krita'
 cask 'licecap'
 cask 'loading'
+cask 'logi-options-plus'
 cask 'microsoft-office'
 cask 'microsoft-remote-desktop'
 cask 'microsoft-teams'
@@ -264,6 +270,16 @@ cask 'vnc-viewer'
 cask 'whatsapp'
 cask 'zoom'
 
+# Alternatives instead of macOS built-ins Monaco and SF Mono
+# cask 'font-fira-mono'
+# cask 'font-fira-code-nerd-font'
+cask 'font-fira-mono-nerd-font'
+# cask 'font-hack-nerd-font'
+# cask 'font-sourcecodepro-nerd-font'
+# Unavailable
+# - office code pro
+# - proggy vector
+
 # Development
 cask 'android-studio'
 cask 'balsamiq-wireframes'
@@ -279,34 +295,24 @@ cask 'github'
 cask 'hex-fiend'
 # cask 'hopper-disassembler'  # TODO: no longer exists?
 cask 'insomnia'
-cask 'kitty'
+# TODO: disarm
+cask 'jtool2'
 cask 'macfuse'
 cask 'mactex'
 cask 'metasploit'
 cask 'oclint'
+cask 'ollama'
 cask 'vagrant'
 # TODO: the oracle kernel extensions aren't working on apple silicon yet
 # cask 'virtualbox'
 # cask 'virtualbox-extension-pack'
 cask 'visual-studio-code'
 cask 'vmware-fusion'
+cask 'wezterm'
+# TODO: https://my.hex-rays.com/dashboard/download-center/9.1/ida-pro
 
 tap 'railwaycat/homebrew-emacsmacport'
 cask 'emacs-mac'
-
-tap 'homebrew/cask-fonts'
-# Alternatives instead of macOS built-ins Monaco and SF Mono
-# cask 'font-fira-mono'
-# cask 'font-fira-code-nerd-font'
-cask 'font-fira-mono-nerd-font'
-# cask 'font-hack-nerd-font'
-# cask 'font-sourcecodepro-nerd-font'
-# Unavailable
-# - office code pro
-# - proggy vector
-
-tap 'homebrew/cask-drivers'
-cask 'logi-options-plus'
 
 # For consideration
 # TODO: Postgres.app has an internal check that its real directory is
