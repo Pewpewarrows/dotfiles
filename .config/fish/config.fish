@@ -172,17 +172,16 @@ type -q starship; and starship init fish | source
 
 # asdf
 
-# TODO: these are macOS/homebrew specific
-# while running (brew --prefix asdf) would be cleaner, it adds a huge amount of
-# time to this test, so hardcode the path
-# TODO: may want to go back to brew prefix after this is only ran while interactive?
-test -d /opt/homebrew/opt/asdf; and source /opt/homebrew/opt/asdf/asdf.fish
-test -e ~/.asdf/asdf.fish; and source ~/.asdf/asdf.fish
+# TODO: this is only run while interactive? shim for other scenarios too?
+set -gx ASDF_DATA_DIR "$HOME/.asdf"
+test -d "$ASDF_DATA_DIR"; and set -ga fish_user_paths "$ASDF_DATA_DIR/shims"
 # TODO: still need this?
 # test -e /usr/local/share/fish/vendor_completions.d/asdf.fish; and source /usr/local/share/fish/vendor_completions.d/asdf.fish
 test -e ~/.asdf/plugins/java/set-java-home.fish; and source ~/.asdf/plugins/java/set-java-home.fish
 test -e ~/.asdf/plugins/golang/set-env.fish; and source ~/.asdf/plugins/golang/set-env.fish
 set -gx ASDF_GOLANG_MOD_VERSION_ENABLED true
+# "global" ruby tools via --user-install
+test -d "$HOME/.local/share/gem/ruby"; and set -ga fish_user_paths "$HOME/.local/share/gem/ruby/"*"/bin"
 
 # cheat
 

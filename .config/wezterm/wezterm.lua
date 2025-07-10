@@ -13,10 +13,11 @@ config.hide_tab_bar_if_only_one_tab = true
 config.window_background_opacity = 0.95
 
 -- Spawn a fish shell in login mode
-config.default_prog = { '/usr/bin/fish', '-l' }
+-- TODO: detect OS and adjust accordingly, /usr/bin/fish on linux
+config.default_prog = { '/opt/homebrew/bin/fish', '-l' }
 
 config.font = wezterm.font 'FiraMono Nerd Font'
-config.font_size = 11
+config.font_size = 13
 
 config.audible_bell = 'Disabled'
 

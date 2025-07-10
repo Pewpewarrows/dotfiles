@@ -8,7 +8,7 @@ brew 'vcsh'
 
 # Development Tools
 brew 'ant'
-# WARNING: DO NOT install asdf here, managed via mr dotfiles instead
+brew 'asdf'
 brew 'bat'
 brew 'binutils'
 brew 'checkbashisms'
@@ -128,6 +128,9 @@ brew 'simg2img'
 # curl -s -o ext4fuse.rb https://gist.githubusercontent.com/n-stone/413e407c8fd73683e7e926e10e27dd4e/raw/12b463eb0be3421bdda5db8ef967bfafbaa915c5/ext4fuse.rb
 # brew install --formula --build-from-source ./ext4fuse.rb
 # rm ./ext4fuse.rb
+
+# For building ruby via asdf on arm macOS
+brew 'libyaml'
 
 # For consideration
 # brew 'ghi'

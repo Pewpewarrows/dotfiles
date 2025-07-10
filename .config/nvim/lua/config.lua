@@ -4,6 +4,7 @@ vim.lsp.config("*", {
 
 require("mason").setup()
 require("mason-lspconfig").setup {
+    -- TODO: only ensure_installed if node is runnable command?
     ensure_installed = {
         "lua_ls",
         "vimls",
@@ -45,6 +46,7 @@ require("blink.cmp").setup {
 }
 
 require("mason-null-ls").setup {
+    -- TODO: only ensure_installed if node is runnable command?
     ensure_installed = {
         "cspell",
         "gdtoolkit",

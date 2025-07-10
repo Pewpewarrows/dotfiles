@@ -33,7 +33,9 @@ mas install 497799835 # Xcode
 sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
 # TODO: use a script like this instead:
 # https://github.com/rtrouton/rtrouton_scripts/blob/main/rtrouton_scripts/install_rosetta_on_apple_silicon/install_rosetta_on_apple_silicon.sh
-# /usr/sbin/softwareupdate --install-rosetta --agree-to-license
+/usr/sbin/softwareupdate --install-rosetta --agree-to-license
+# in order to do the above offline, run `sw_vers -buildVersion`, take output
+# and search in this xml file from an online machine: https://swscan.apple.com/content/catalogs/others/index-rosettaupdateauto-1.sucatalog.gz
 # brew bundle 2>&1 | tee -a ~/Downloads/brew_bundle.log
 
 sudo xcodebuild -license
@@ -177,7 +179,7 @@ echo set --global --export GOOGLEAI_API_KEY $(op item get "Google Gemini Dev ENV
 # TODO: deno?
 mkdir -p ~/.config/fish/completions && ln -s ~/.asdf/completions/asdf.fish ~/.config/fish/completions
 # TODO: consider moving from community rust plugin to https://github.com/code-lever/asdf-rust
-echo erlang elixir rust python ruby nodejs opam lua golang java maven direnv | xargs -n1 asdf plugin-add
+echo erlang elixir rust python ruby nodejs opam lua golang java maven direnv | xargs -n1 asdf plugin add
 
 export GNUPGHOME="${ASDF_DIR:="$HOME/.asdf"}/keyrings/nodejs"
 mkdir -p "${GNUPGHOME}"
@@ -198,35 +200,42 @@ asdf install elixir latest
 asdf install rust latest
 asdf install python latest
 asdf install python "${py2}"
-asdf install ruby latest
+# TODO: configue opts on macOS only
+env RUBY_CONFIGURE_OPTS="--with-libyaml-dir=$(brew --prefix libyaml)" asdf install ruby latest
 asdf install nodejs latest
 asdf install golang latest
 asdf install java "${temurin}"
 asdf install maven latest
 asdf install direnv latest
-asdf global elixir latest
-asdf global rust latest
-# asdf python allows for both py3 and py2 as a global default, will use py3 first then fallback to py2
-asdf global python "${py3}" "${py2}"
-asdf global ruby latest
+asdf set elixir latest
+asdf set rust latest
+# asdf python allows for both py3 and py2 as a set default, will use py3 first then fallback to py2
+asdf set python "${py3}" "${py2}"
+asdf set ruby latest
 # TODO: nomad-cli, nokogiri failed to install native extensions on apple silicon
-asdf global nodejs latest
-asdf global golang latest
-asdf global java "${temurin}"
-asdf global maven latest
-asdf global direnv latest
+asdf set nodejs latest
+asdf set golang latest
+asdf set java "${temurin}"
+asdf set maven latest
+asdf set direnv latest
 asdf reshim
 # TODO: cli "tools" shouldn't be installed every time on every language version, only once like how pipx does for python, what to do for the other languages?
 
+# ruby global tools
+# TODO: decide whether bundler should be in .default-gems or a user-install
+gem install --user-install brakeman cocoapods mdl nomad-cli pry reek rubocop solargraph t tmuxinator
+
 rustup component add rust-analyzer
 
-echo apkleaks black 'prospector[with_everything]' pyre-check youtube-dl proselint aws-shell doc2dash poetry restructuredtext_lint rstcheck httpie restview grip rst2rst yamllint 'ansible-lint[community]' flawfinder fb-idb mypy termdown openai yt-dlp rshell k2l | xargs -n1 pipx install
+echo apkleaks black 'prospector[with_everything]' pyre-check youtube-dl proselint aws-shell doc2dash poetry restructuredtext_lint rstcheck httpie restview grip rst2rst yamllint 'ansible-lint[community]' flawfinder fb-idb mypy termdown openai yt-dlp rshell | xargs -n1 pipx install
 pipx install ansible --include-deps
 pipx inject ansible paramiko
 pipx install virtualfish --include-deps
 env "${fish_cmd}" -c "vf install"
 # TODO: move all tools above from pipx to uv, then remove pipx itself
+# TODO: --native-tls ?
 uv tool install --force --python python3.12 aider-chat@latest
+uv tool install --force frida-tools k2l
 
 # TODO: manage these via asdf?
 # opam init
@@ -244,9 +253,10 @@ uv tool install --force --python python3.12 aider-chat@latest
 
 # TODO: until apt fzf becomes more up-to-date, use golang to install
 # this isn't placed in .default-golang-pkgs since it should only be temporary
-go install github.com/junegunn/fzf@latest
+# TODO: linux only
+# go install github.com/junegunn/fzf@latest
 # same goes for cheat
-go install github.com/cheat/cheat/cmd/cheat@latest
+# go install github.com/cheat/cheat/cmd/cheat@latest
 asdf reshim
 
 # TODO: attempt to fetch or push to a private github repo, then enter username and personal access token as the password
@@ -328,6 +338,10 @@ sudo dscacheutil -flushcache
 # Login Items & Extensions
 # Share Menu
 # check: Add to Dropover, Add to Things, Telegram, Tweetbot, Twitter
+# Language & Region
+# add any currently learning
+# Advanced
+# First day of week: Monday
 
 # Accessibility
 # pointer control: mouse & trackpad: trackpad options: enable dragging with three finger drag
@@ -358,6 +372,7 @@ sudo dscacheutil -flushcache
 # prefer tabs: always
 # close windows when quitting an app: uncheck
 # tiled windows have margins: uncheck
+# displays have separate spaces: uncheck
 # Mission Control
 #   uncheck Automatically rearrange Spaces
 # Hot Corners:
@@ -379,11 +394,6 @@ sudo dscacheutil -flushcache
 # Sound
 # sound effects: play feedback when volume is changed
 
-# Language & Region
-# add any currently learning
-# Advanced
-# First day of week: Monday
-
 # Lock Screen
 # Start Screen Saver after 5 minutes
 # Require password 5 seconds after sleep or screen saver begins
@@ -402,7 +412,9 @@ sudo dscacheutil -flushcache
 # Key Repeat: Fast (furthest to right)
 # Delay Until Repeat: Short (furthest to right)
 # Text: uncheck all of: Correct spelling automatically, Captialize words automatically, Use smart quotes and dashes
+# Shortcuts -> Mission Control -> Mission Control -> check Switch to Desktop 1+ (as ctrl-1+)
 
 # Trackpad
 # point and click: tap to click
 # more gestures: swipe between pages, app expose
+# mission control: swipe up with four fingers
