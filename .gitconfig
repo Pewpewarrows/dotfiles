@@ -106,6 +106,13 @@
 
     serve = daemon --reuseaddr --base-path=. --export-all --verbose
 
+    su = submodule update
+    sur = submodule update --recursive
+    sui = submodule update --init
+    suir = submodule update --init --recursive
+    sd = submodule deinit
+    sr = submodule foreach --recursive --quiet 'cd $toplevel && git submodule update $sm_path'
+
 [github]
     user = Pewpewarrows
 

@@ -233,7 +233,7 @@ set -gx OLLAMA_API_BASE http://localhost:11434
 
 # op
 
-type -q op; and source ~/.config/op/plugins.sh
+test -e ~/.config/op/plugins.sh; and source ~/.config/op/plugins.sh
 
 # thefuck
 

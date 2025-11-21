@@ -116,6 +116,10 @@
 /.gitignore.d/*
 !/.gitignore.d/core
 
+!/.gnupg
+/.gnupg/*
+!/.gnupg/gpg-agent.conf
+
 !/.hgrc
 
 !/.inputrc

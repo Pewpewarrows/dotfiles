@@ -242,7 +242,7 @@ uv tool install --force frida-tools k2l
 # opam install flowtype
 
 # TODO: this must run after Android Studio is launched and has installed its sdk
-# "${HOME}/Library/Android/sdk/tools/bin/sdkmanager" --update
+"${HOME}/Library/Android/sdk/tools/bin/sdkmanager" --update
 
 # TODO: after installing the NDK via sdkmanager, until v24 releases must edit
 # the ndk-build script to support Rosetta x86 on Apple Silicon as seen on:
@@ -310,7 +310,7 @@ vcsh run doom-emacs "${HOME}/.emacs.d/bin/doom sync --yes"
 
 # enable touch id in terminal
 sed "s/^#auth/auth/" /etc/pam.d/sudo_local.template | sudo tee /etc/pam.d/sudo_local
-# TODO: replacement for?: auth optional /opt/homebrew/lib/pam/pam_reattach.so
+# TODO: replacement for?: auth optional /opt/homebrew/lib/pam/pam_reattach.so ignore_ssh
 
 gh auth login
 gh extension install github/gh-copilot
