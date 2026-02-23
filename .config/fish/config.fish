@@ -191,11 +191,6 @@ set -gx CHEAT_USE_FZF true
 
 type -q direnv; and direnv hook fish | source
 
-# fasd
-
-abbr --add v "f -e vim"
-abbr --add o "f -e open"
-
 # fzf
 
 # see "$XDG_CONFIG_HOME/fish/fish_variables" for most fzf options
@@ -244,6 +239,14 @@ type -q thefuck; and thefuck --alias | source
 # remember to do "vf new --python (asdf which python) <env-name>" to play nice with asdf
 # alternatively, "vf new --python (asdf which python <version>) <env-name>"
 # also, "pipx install --python (asdf which python <version>) <package>"
+
+# zoxide
+
+type -q zoxide; and zoxide init fish | source
+
+# TODO: migrate these from fasd
+# abbr --add v "f -e vim"
+# abbr --add o "f -e open"
 
 # Local Configuration
 

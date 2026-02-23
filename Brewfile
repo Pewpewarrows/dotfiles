@@ -72,9 +72,6 @@ brew 'brew-cask-completion'
 brew 'cheat'
 brew 'diff-so-fancy'
 brew 'entr'
-# TODO: fasd is officially archived, find replacement: fork? z+f?
-# tap 'wyne/tap'
-# brew 'fasd'
 brew 'fd'
 brew 'ffmpeg'
 brew 'fish'
@@ -116,6 +113,8 @@ brew 'weechat'
 brew 'wget'
 brew 'wireguard-tools'
 brew 'xz'
+# TODO: find a 'fasd' replacement for files, f?
+brew 'zoxide'
 
 # Writing
 # brew 'languagetool'  # TODO: this doesn't have an apple silicon bottle yet
