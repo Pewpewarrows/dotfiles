@@ -213,6 +213,7 @@ cask 'adobe-acrobat-reader'
 cask 'alfred'
 cask 'alt-tab'
 cask 'anki'
+cask 'anythingllm'
 cask 'appcleaner'
 cask 'audacity'
 cask 'balenaetcher'
@@ -226,7 +227,6 @@ cask 'cheatsheet'
 cask 'cron'
 cask 'darktable'
 cask 'discord'
-cask 'dozer'
 cask 'dropbox'
 cask 'element'
 cask 'figma'
@@ -267,6 +267,7 @@ cask 'stay'
 cask 'streamlink-twitch-gui'
 cask 'sublime-text'
 cask 'telegram'
+cask 'thaw'
 cask 'the-unarchiver'
 cask 'thingsmacsandboxhelper'
 cask 'tor-browser'
@@ -367,6 +368,7 @@ mas 'Dropover', id: 1355679052
 mas 'GarageBand', id: 682658836
 mas 'Keynote', id: 409183694
 mas 'Pages', id: 409201541
+mas 'Tailscale', id: 1475387142
 mas 'Things', id: 904280696
 mas 'Twitter', id: 1482454543
 mas 'VMware Remote Console', id: 1230249825
