@@ -175,6 +175,7 @@ env "${fish_cmd}" -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fi
 # TODO: see sanity check changes in ~/.config/fish/conf.d/virtualfish-loader.fish
 echo set --global --export OPENAI_API_KEY $(op item get "OpenAI Dev ENV Key (phoenix)" --vault "Private" --field "api key" --reveal) >> "${HOME}/.config/fish/local.fish"
 echo set --global --export GOOGLEAI_API_KEY $(op item get "Google Gemini Dev ENV Key (phoenix)" --vault "Private" --field "api key" --reveal) >> "${HOME}/.config/fish/local.fish"
+# TODO: export OLLAMA_API_BASE into local.fish, find url via tailscale
 
 # TODO: deno?
 mkdir -p ~/.config/fish/completions && ln -s ~/.asdf/completions/asdf.fish ~/.config/fish/completions

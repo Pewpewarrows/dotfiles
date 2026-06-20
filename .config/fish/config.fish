@@ -182,6 +182,8 @@ test -e ~/.asdf/plugins/golang/set-env.fish; and source ~/.asdf/plugins/golang/s
 set -gx ASDF_GOLANG_MOD_VERSION_ENABLED true
 # "global" ruby tools via --user-install
 test -d "$HOME/.local/share/gem/ruby"; and set -ga fish_user_paths "$HOME/.local/share/gem/ruby/"*"/bin"
+# TODO: some asdf ruby setups install to above path and some to below?
+test -d "$HOME/.gem/ruby"; and set -ga fish_user_paths "$HOME/.gem/ruby/"*"/bin"
 
 # cheat
 

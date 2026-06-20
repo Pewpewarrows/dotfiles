@@ -81,18 +81,18 @@ null_ls.setup {
 require("gp").setup {
     providers = {
         ollama = {
-            endpoint = "http://localhost:11434/v1/chat/completions",
+            endpoint = (os.getenv("OLLAMA_API_BASE") or "http://localhost:11434") .. "/v1/chat/completions",
         },
         openai = {
             disable = true,
-            endpoint = 'https://api.openai.com/v1/chat/completions',
-            -- secret = {'op', 'item', 'get', 'OpenAI Dev ENV Key (phoenix)', '--vault', 'Private', '--field', 'api key', '--reveal',},
-            secret = os.getenv('OPENAI_API_KEY'),
+            endpoint = "https://api.openai.com/v1/chat/completions",
+            -- secret = {"op", "item", "get", "OpenAI Dev ENV Key (phoenix)", "--vault", "Private", "--field", "api key", "--reveal",},
+            secret = os.getenv("OPENAI_API_KEY"),
         },
         anthropic = {
             disable = true,
-            endpoint = 'https://api.anthropic.com/v1/messages',
-            secret = os.getenv('ANTHROPIC_API_KEY'),
+            endpoint = "https://api.anthropic.com/v1/messages",
+            secret = os.getenv("ANTHROPIC_API_KEY"),
         },
         copilot = {
             disable = true,
@@ -114,27 +114,27 @@ require("gp").setup {
         {name = "CodeOllamaLlama3.1-8B", disable = true},
         {
             provider = "ollama",
-            name = "ChatOllamaDeepseekR1",
+            name = "ChatOllamaQwen3.5-9B",
             chat = true,
-            command = false,
+            command = true,
             model = {
-                model = "deepseek-r1:7b",
-                num_ctx = 8192,
+                model = "qwen3.5:9b",
+                -- num_ctx = 8192,
             },
             -- TODO: where to globally define this?
             system_prompt = "You are a general AI assistant.",
         },
         {
+            disable = true,
             provider = "ollama",
-            name = "CodeOllamaDeepseekR1",
-            chat = false,
+            name = "ChatOllamaQwen3.5-27B",
+            chat = true,
             command = true,
             model = {
-                -- TODO: check if a deepseek-coder-v3 arrives using r1
-                model = "deepseek-r1:7b",
+                model = "qwen3.5:27b",
                 -- temperature = 1.9,
                 -- top_p = 1,
-                num_ctx = 8192,
+                -- num_ctx = 8192,
             },
             -- TODO: where to globally define this?
             system_prompt = require("gp.defaults").code_system_prompt,

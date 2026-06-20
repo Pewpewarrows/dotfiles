@@ -1,6 +1,7 @@
 gitignore: false
 architect: true
-model: ollama_chat/deepseek-r1:7b
-editor-model: claude-3-7-sonnet-20250219
+model: ollama_chat/qwen3.5:27b
+# editor-model: claude-3-7-sonnet-20250219
+editor-model: ollama_chat/qwen3.5:27b
 cache-prompts: true
 # vim: true
